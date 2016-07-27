@@ -27,3 +27,11 @@
 .form-horizontal{
     width: 30%;
 }
+footer {
+    padding: 30px 5px 5px 5px;
+    color: #999999;
+    text-align: center;
+    display: inline-block;
+    bottom: 0;
+    position: absolute;
+}

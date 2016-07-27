@@ -7,5 +7,5 @@
         <link href="res/css/bootstrap.min.css" rel="stylesheet">
         <link href="res/css/tempfiles.css" rel="stylesheet">
         <script src="res/js/bootstrap.min.js"></script>
-        <title><?php include_once __DIR__.'/config.php'; echo $conf['title'];?></title>
+        <title><?php include_once __DIR__.'/../config.php'; echo $conf['title'];?></title>
     </head>
