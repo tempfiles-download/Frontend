@@ -3,6 +3,7 @@ CREATE TABLE `files`(
   `iv` VARCHAR(16) NOT NULL,
   `metadata` TEXT NOT NULL,
   `content` MEDIUMBLOB NOT NULL,
+  `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY(`id`),
   UNIQUE KEY `id`(`id`)
 ) ENGINE = InnoDB DEFAULT CHARSET = latin1;
