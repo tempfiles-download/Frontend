@@ -1,0 +1,29 @@
+.upload_failed {
+    width: 75%;
+}
+.upload_file {
+    float:left;
+    width: 50%
+}
+.download_file {
+    float:right;
+    width: 50%
+}
+.main_container {
+    padding-top: 50px;
+}
+.navbar {
+    background-color: #777;
+    color: #eee;
+}
+.logo {
+    color: #eee;
+    font-size:300%;
+}
+.description {
+    padding: 40px 15px;
+    text-align: center;
+}
+.form-horizontal{
+    width: 30%;
+}

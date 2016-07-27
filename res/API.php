@@ -1,103 +1,5 @@
 <?php
 
-class Login {
-
-    public static function register($username, $password, $yubikey) {
-        if (Login::userExists($username) == false) {
-            $hash = password_hash($password, PASSWORD_BCRYPT, Login::generateHashCost());
-            include __DIR__ . '/config.php';
-            $con = mysqli_connect($conf['mysql-url'], $conf['mysql-user'], $conf['mysql-password'], $conf['mysql-db']) or die("Connection problem.");
-            $query = $con->prepare("INSERT INTO `" . $conf['login-table'] . "` (`username`, `password`, `yubikey`) VALUES (?, ?, ?);");
-            $query->bind_param("sss", $username, $hash, $yubikey);
-            $query->execute();
-            return 1;
-        }
-        return 0;
-    }
-
-    public static function getPassword($username, $password) {
-        include __DIR__ . '/config.php';
-        $con = mysqli_connect($conf['mysql-url'], $conf['mysql-user'], $conf['mysql-password'], $conf['mysql-db']) or die("Connection problem.");
-        $query = $con->prepare("SELECT * FROM `" . $conf['login-table'] . "` WHERE username = ?");
-        $query->bind_param("s", $username);
-        $query->execute();
-        $query->bind_result($dbuser, $dbpassword, $dbyubikey);
-        if ($query->fetch()) {
-            if (password_verify($password, $dbpassword)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public static function verifyYubikey($username, $otp) {
-        include __DIR__ . '/config.php';
-        $con = mysqli_connect($conf['mysql-url'], $conf['mysql-user'], $conf['mysql-password'], $conf['mysql-db']) or die("Connection problem.");
-        $query = $con->prepare("SELECT `yubikey` FROM `" . $conf['login-table'] . "` WHERE username = ?");
-        $query->bind_param("s", $username);
-        $query->execute();
-        $query->bind_result($dbyubikey);
-        if ($query->fetch()) {
-            if (substr($otp, 0, 12) == $dbyubikey) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public static function doLogin($username, $password) {
-        if (Login::userExists($username)) {
-            if (Login::getPassword($username, $password)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public static function userExists($username) {
-        include __DIR__ . '/config.php';
-        $con = mysqli_connect($conf['mysql-url'], $conf['mysql-user'], $conf['mysql-password'], $conf['mysql-db']) or die("Connection problem.");
-        $query = $con->prepare("SELECT COUNT(*) AS num FROM `" . $conf['login-table'] . "` WHERE `username` = ?");
-        $query->bind_param("s", $username);
-        $query->execute();
-        $result = $query->get_result();
-        while ($row = $result->fetch_array(MYSQLI_NUM)) {
-            foreach ($row as $r) {
-                if ($r > 0) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    public static function generateHashCost() {
-        $timeTarget = 0.05;
-        $cost = 8;
-        do {
-            $cost++;
-            $start = microtime(true);
-            password_hash("test", PASSWORD_BCRYPT, ["cost" => $cost]);
-            $end = microtime(true);
-        } while (($end - $start) < $timeTarget);
-        return $cost;
-    }
-
-    public static function updatePassword($username, $oldpassword, $password) {
-        if (Login::getPassword($username, $oldpassword)) {
-            $hash = password_hash($password, PASSWORD_BCRYPT, Login::generateHashCost($password));
-            include_once __DIR__ . '/config.php';
-            $con = mysqli_connect($conf['mysql-url'], $conf['mysql-user'], $conf['mysql-password'], $conf['mysql-db']) or die("Connection problem.");
-            $query = $con->prepare("UPDATE `" . $conf['login-table'] . "` SET `password`=? WHERE `username`=?;");
-            $query->bind_param("ss", $hash, $username);
-            $query->execute();
-            return true;
-        }
-        return false;
-    }
-
-}
-
 class Encryption {
 
     public static function decrypt($data, $password, $iv) {
@@ -156,10 +58,18 @@ class data_storage {
     }
 
     public static function checkUpload() {
-        if (isset($_POST['upload-submit'])) {
-            $file = $_FILES["uploadedFile"];
-            $fileContent = file_get_contents($file['tmp_name']);
-            return data_storage::uploadFile($fileContent, $file["name"], $file["size"], $file["type"], $_POST['upload-password']);
+        if (isset($_POST["upload-submit"])) {
+            if (isset($_FILES["uploadedFile"])) {
+                if (isset($_POST['upload-password']) && $_POST['upload-password'] != NULL) {
+                    $file = $_FILES["uploadedFile"];
+                    $fileContent = file_get_contents($file['tmp_name']);
+                    return array(true, data_storage::uploadFile($fileContent, $file["name"], $file["size"], $file["type"], $_POST['upload-password']));
+                } else {
+                    return array(false, "Password not set.");
+                }
+            } else {
+                return array(false, "File not found.");
+            }
         }
     }
 
