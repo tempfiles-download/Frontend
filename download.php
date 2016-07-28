@@ -8,9 +8,8 @@ function getVar($name) {
 }
 
 function getFormat($type, $format) {
-    error_log($format . " | " . $type);
-    if (strpos($type, $format) !== false){
-     return true;   
+    if (strpos($type, $format) !== false) {
+        return true;
     }
 }
 
