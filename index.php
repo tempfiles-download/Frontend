@@ -7,7 +7,7 @@ $id = data_storage::checkUpload();
 ?>
 
 <body>
-    <?php include __DIR__ . '/res/content/navbar.php'; ?>
+    <?php include $content_dir . '/content/navbar.php'; ?>
 
     <div class="container main_container">
 
