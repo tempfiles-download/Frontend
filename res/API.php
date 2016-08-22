@@ -22,10 +22,11 @@ class data_storage {
         $query = $con->prepare("SELECT `iv`, `metadata`, `content` FROM `" . $conf['mysql-table'] . "` WHERE `id` = ?");
         $query->bind_param("s", $id);
         $query->execute();
-        $query->bind_result($iv, $enc_filedata, $enc_content);
+        $query->bind_result($iv_encoded, $enc_filedata, $enc_content);
         $query->fetch();
-        $filedata = Encryption::decrypt($enc_filedata, $password, $iv);
-        $filecontent = Encryption::decrypt($enc_content, $password, $iv);
+        $iv = explode(",", base64_decode($iv_encoded));
+        $filedata = Encryption::decrypt(base64_decode($enc_filedata), $password, $iv[0]);
+        $filecontent = Encryption::decrypt(base64_decode($enc_content), $password, $iv[1]);
         return [
             $filedata, $filecontent
         ];
@@ -34,17 +35,20 @@ class data_storage {
     public static function uploadFile($content, $filename, $filesize, $filetype, $password) {
         include __DIR__ . '/config.php';
         $id = strtoupper(uniqid("d"));
-        $iv = openssl_random_pseudo_bytes(16);
-        $enc_filedata = Encryption::encrypt(implode(" ", array($filename, $filesize, $filetype)), $password, $iv);
-        $enc_content = Encryption::encrypt($content, $password, $iv);
+        $iv = array(openssl_random_pseudo_bytes(16), openssl_random_pseudo_bytes(16));
+        $enc_filedata = base64_encode(Encryption::encrypt(implode(" ", array($filename, $filesize, $filetype)), $password, $iv[0]));
+        $enc_content = base64_encode(Encryption::encrypt($content, $password, $iv[1]));
+        $exportable_iv = base64_encode(implode(",", $iv));
         $NULL = NULL;
+
         $con = mysqli_connect($conf['mysql-url'], $conf['mysql-user'], $conf['mysql-password'], $conf['mysql-db']) or die("Connection problem.");
         $query = $con->prepare("INSERT INTO `" . $conf['mysql-table'] . "` (id, iv, metadata, content) VALUES (?, ?, ?, ?)");
         if (false === $query) {
             error_log('prepare() failed: ' . htmlspecialchars($con->error));
             return false;
         }
-        $bp = $query->bind_param("sssb", $id, $iv, $enc_filedata, $NULL);
+
+        $bp = $query->bind_param("sssb", $id, $exportable_iv, $enc_filedata, $NULL);
         $query->send_long_data(3, $enc_content);
         if (false === $bp) {
             error_log('bind_param() failed: ' . htmlspecialchars($query->error));
