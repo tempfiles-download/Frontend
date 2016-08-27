@@ -1,6 +1,5 @@
 CREATE TABLE `files`(
   `id` VARCHAR(14) NOT NULL,
-  `iv` VARCHAR(16) NOT NULL,
   `metadata` TEXT NOT NULL,
   `content` MEDIUMBLOB NOT NULL,
   `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
