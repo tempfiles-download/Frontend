@@ -15,10 +15,10 @@ function getFormat($type, $format) {
 
 include __DIR__ . '/res/API.php';
 $e = data_storage::getFile(getVar("f"), getVar("p")); # Returns [0] = File Meta Data, [1] = File Content.
-$metadata = explode(" ", $e[0]); # Returns [0] = File Name, [1] = File Length, [2] = File Type.
-$file_type = $metadata[2];
 if ($e[0] != NULL) {
-    if (!getVar("plain")) {
+    $metadata = explode(" ", $e[0]); # Returns [0] = File Name, [1] = File Length, [2] = File Type.
+    $file_type = $metadata[2];
+    if (!isset($_GET["raw"])) {
         if (getFormat($file_type, "image")) {
             echo '<img src="data:' . $file_type . ';base64,' . base64_encode($e[1]) . '"/>';
             exit;
@@ -41,5 +41,11 @@ if ($e[0] != NULL) {
     exit;
 } else {
     header($_SERVER["SERVER_PROTOCOL"] . " 404 File Not Found");
+    if (!getVar("plain")) {
+        $_POST['css'] = "res/css/download_404.css";
+        include __DIR__ . '/res/content/header.php';
+        include __DIR__ . '/res/content/navbar.php';
+        include __DIR__ . '/res/content/download_404.php';
+    }
     exit;
 }
