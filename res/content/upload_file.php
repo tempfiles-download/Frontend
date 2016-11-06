@@ -7,7 +7,7 @@
             <div class="form-group has-success">
                 <label class="control-label col-sm-2" for="id">Link</label>
                 <div class="col-sm-10">
-                    <input class="form-control" type="text" value="<?php echo "https://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]download.php?f=" . $id[1] . "&p=" . $_POST['upload-password']; ?>" readonly="" id="url"/>
+                    <input class="form-control" type="text" value="<?php echo "https://tempfiles.carlgo11.com/download/" . $id[1] . "/?p=" . $_POST['upload-password']; ?>" readonly="" id="url"/>
                 </div>
             </div>
             <div class="form-group has-success">
@@ -22,7 +22,7 @@
         if (isset($id) && !$id[0]) {
             ?><div class="upload_failed"><div class="alert alert-danger"><h3>Upload Failed</h3><p>Error: <?php echo $id[1]; ?></p></div></div><?php } ?>
         <form class="form-horizontal" action="#" enctype="multipart/form-data" method="POST" accept-charset="UTF-8">
-            <div class='form-group'><input type="file" name="uploadedFile" id="uploadedFile" required=""/></div>
+            <div class='form-group'><input type="file" name="upload-file" id="file" required=""/></div>
             <div class='form-group'><input class="form-control" type="password" name="upload-password" id="upload-password" required=""  placeholder="Password"/></div>
             <button class="btn btn-lg btn-success" type="submit" name="upload-submit" id="upload-submit" style="padding: 10px">Upload File</button>
         </form>
