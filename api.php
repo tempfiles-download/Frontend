@@ -19,7 +19,7 @@ if (count($url)) {
         $id = data_storage::getID($file, $password);
         if (is_bool($id[0]) && $id[0]) {
           $completeURL = 'https://tempfiles.carlgo11.com/download/' . $id[1] . '/?p=' . Misc::getVar('password');
-          $success = true;
+          $output['success'] = true;
           $output['url'] = $completeURL;
           sendOutput($output);
         } else {
