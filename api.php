@@ -3,15 +3,13 @@
 header('Content-Type: application/json');
 include_once './res/API.php';
 
-function output($success, $output) {
-  $d = [];
-  $d['success'] = $success;
-  $d[$output[0]] = $output[1];
-  return json_encode($d, JSON_PRETTY_PRINT);
+function sendOutput($output) {
+  return print(json_encode($output, JSON_PRETTY_PRINT));
 }
 
 $url = explode('/', strtolower($_SERVER['REQUEST_URI']));
 $success = false;
+$output = array('success' => $success);
 if (count($url)) {
   if ($url[2] == 'upload') {
     if ($_FILES['file'] != NULL) {
@@ -20,19 +18,27 @@ if (count($url)) {
         $password = Misc::getVar('password');
         $id = data_storage::getID($file, $password);
         if (is_bool($id[0]) && $id[0]) {
-          $url = 'https://tempfiles.carlgo11.com/download/' . $id[1] . '/?p=' . Misc::getVar('password');
+          $completeURL = 'https://tempfiles.carlgo11.com/download/' . $id[1] . '/?p=' . Misc::getVar('password');
           $success = true;
-          print(output($success, ['url', $url]));
+          $output['url'] = $completeURL;
+          sendOutput($output);
         } else {
-          print(output($success, ['error', $id[1]]));
+          $output['error'] = $id[1];
+          sendOutput($output);
         }
       } else {
-        print(output($success, ['error', 'No password.']));
+        $output['error'] = 'No password.';
+        sendOutput($output);
       }
     } else {
-      print(output($success, ['error', 'No file.']));
+      $output['error'] = 'No file.';
+      sendOutput($output);
     }
+  } else {
+    $output['error'] = 'Incorrectly formatted URL.';
+    sendOutput($output);
   }
 } else {
-  print(output($success, ['error', 'Incorrectly formatted URL.']));
+  $output['error'] = 'Incorrectly formatted URL.';
+  sendOutput($output);
 }
