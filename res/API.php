@@ -35,6 +35,7 @@ class data_storage {
   public static function uploadFile($content, $filename, $filesize, $filetype, $password) {
     include __DIR__ . '/config.php';
     $id = strtoupper(uniqid("d"));
+    $iv = array(mb_strcut(base64_encode(openssl_random_pseudo_bytes(16)), 0, 16), mb_strcut(base64_encode(openssl_random_pseudo_bytes(16)), 0, 16));
     $enc_filedata = base64_encode(Encryption::encrypt(implode(" ", array($filename, $filesize, $filetype)), $password, $iv[0]));
     $enc_content = base64_encode(Encryption::encrypt($content, $password, $iv[1]));
     $exportable_iv = base64_encode(implode(",", $iv));
