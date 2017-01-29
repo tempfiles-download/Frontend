@@ -25,8 +25,8 @@ class data_storage {
     $query->bind_result($iv_encoded, $enc_filedata, $enc_content);
     $query->fetch();
     $iv = explode(",", base64_decode($iv_encoded));
-    $filedata = Encryption::decrypt(base64_decode($enc_filedata), $password, $iv[0]);
-    $filecontent = Encryption::decrypt(base64_decode($enc_content), $password, $iv[1]);
+    $filedata = Encryption::decrypt(base64_decode($enc_filedata), $password, base64_decode($iv[0]));
+    $filecontent = Encryption::decrypt(base64_decode($enc_content), $password, base64_decode($iv[1]));
     return [
         $filedata, $filecontent
     ];
@@ -35,7 +35,7 @@ class data_storage {
   public static function uploadFile($content, $filename, $filesize, $filetype, $password) {
     include __DIR__ . '/config.php';
     $id = strtoupper(uniqid("d"));
-    $iv = array(openssl_random_pseudo_bytes(16), openssl_random_pseudo_bytes(16));
+    $iv = array(base64_encode(openssl_random_pseudo_bytes(16)), base64_encode(openssl_random_pseudo_bytes(16)));
     $enc_filedata = base64_encode(Encryption::encrypt(implode(" ", array($filename, $filesize, $filetype)), $password, $iv[0]));
     $enc_content = base64_encode(Encryption::encrypt($content, $password, $iv[1]));
     $exportable_iv = base64_encode(implode(",", $iv));
