@@ -6,6 +6,15 @@ function getFormat($type, $format) {
   }
 }
 
+function compareViews($maxviews, $currentviews, $id) {
+  if (($currentviews + 1) >= $maxviews) {
+    return data_storage::deleteFile($id);
+  } else {
+    return data_storage::setViews(intval($maxviews), ($currentviews + 1), $id);
+  }
+  return false;
+}
+
 include __DIR__ . '/res/API.php';
 
 /** Backwards compatibility.
@@ -21,8 +30,10 @@ if (Misc::getVar('f') != false && Misc::getVar('p') != false) {
 
 
   $url = explode('/', strtolower($_SERVER['REQUEST_URI']));
-  $e = data_storage::getFile($url[2], Misc::getVar("p")); # Returns [0] = File Meta Data, [1] = File Content.
+  $e = data_storage::getFile($url[3], Misc::getVar("p")); # Returns [0] = File Meta Data, [1] = File Content.
+
   if ($e[0] != NULL) {
+
     $metadata = explode(" ", $e[0]); # Returns [0] = File Name, [1] = File Length, [2] = File Type.
     $file_type = $metadata[2];
     header('Content-Description: File Transfer');
@@ -33,6 +44,10 @@ if (Misc::getVar('f') != false && Misc::getVar('p') != false) {
     header('Pragma: public');
     header('Content-Length: ' . $metadata[1]);
     echo($e[1]);
+    $viewsArray = $e[2];
+    if (is_array($viewsArray)) {
+      compareViews($viewsArray[0], $viewsArray[1], $url[3]);
+    }
     exit;
   } else {
     header($_SERVER["SERVER_PROTOCOL"] . " 404 File Not Found");

@@ -16,23 +16,50 @@ class Encryption {
 
 class data_storage {
 
+  public static function setViews($maxViews, $newViews, $id) {
+    $views = base64_encode($maxViews . "," . $newViews);
+    include __DIR__ . '/config.php';
+    $con = mysqli_connect($conf['mysql-url'], $conf['mysql-user'], $conf['mysql-password'], $conf['mysql-db']) or die("Connection problem.");
+    $query = $con->prepare("UPDATE `" . $conf['mysql-table'] . "` SET `maxviews` = ? WHERE `id` = ?");
+    $bp = $query->bind_param("ss", $views, $id);
+    if (false === $bp) {
+      error_log('bind_param() failed: ' . htmlspecialchars($query->error));
+      return false;
+    }
+    return $query->execute();
+  }
+
+  public static function deleteFile($id) {
+    include __DIR__ . '/config.php';
+    $con = mysqli_connect($conf['mysql-url'], $conf['mysql-user'], $conf['mysql-password'], $conf['mysql-db']) or die("Connection problem.");
+    $query = $con->prepare("DELETE FROM `" . $conf['mysql-table'] . "` WHERE `id` = ?");
+    $query->bind_param("s", $id);
+    return $query->execute();
+  }
+
   public static function getFile($id, $password) {
     include __DIR__ . '/config.php';
     $con = mysqli_connect($conf['mysql-url'], $conf['mysql-user'], $conf['mysql-password'], $conf['mysql-db']) or die("Connection problem.");
-    $query = $con->prepare("SELECT `iv`, `metadata`, `content` FROM `" . $conf['mysql-table'] . "` WHERE `id` = ?");
+    $query = $con->prepare("SELECT `iv`, `metadata`, `content`, `maxviews` FROM `" . $conf['mysql-table'] . "` WHERE `id` = ?");
     $query->bind_param("s", $id);
     $query->execute();
-    $query->bind_result($iv_encoded, $enc_filedata, $enc_content);
+    $query->store_result();
+    $query->bind_result($iv_encoded, $enc_filedata, $enc_content, $enc_maxviews);
     $query->fetch();
     $iv = explode(",", base64_decode($iv_encoded));
+    if ($enc_maxviews != NULL) {
+      $maxviews = explode(",", base64_decode($enc_maxviews));
+    } else {
+      $maxviews = $enc_maxviews;
+    }
     $filedata = Encryption::decrypt(base64_decode($enc_filedata), $password, $iv[0]);
     $filecontent = Encryption::decrypt(base64_decode($enc_content), $password, $iv[1]);
     return [
-        $filedata, $filecontent
+        $filedata, $filecontent, $maxviews
     ];
   }
 
-  public static function uploadFile($content, $filename, $filesize, $filetype, $password) {
+  public static function uploadFile($content, $filename, $filesize, $filetype, $password, $maxviews) {
     include __DIR__ . '/config.php';
     $id = strtoupper(uniqid("d"));
     $iv = array(mb_strcut(base64_encode(openssl_random_pseudo_bytes(16)), 0, 16), mb_strcut(base64_encode(openssl_random_pseudo_bytes(16)), 0, 16));
@@ -40,15 +67,20 @@ class data_storage {
     $enc_content = base64_encode(Encryption::encrypt($content, $password, $iv[1]));
     $exportable_iv = base64_encode(implode(",", $iv));
     $NULL = NULL;
+    if ($maxviews != NULL) {
+      $enc_maxviews = base64_encode('[0,' . $maxviews . ']');
+    } else {
+      $enc_maxviews = NULL;
+    }
 
     $con = mysqli_connect($conf['mysql-url'], $conf['mysql-user'], $conf['mysql-password'], $conf['mysql-db']) or die("Connection problem.");
-    $query = $con->prepare("INSERT INTO `" . $conf['mysql-table'] . "` (id, iv, metadata, content) VALUES (?, ?, ?, ?)");
+    $query = $con->prepare("INSERT INTO `" . $conf['mysql-table'] . "` (id, iv, metadata, content, maxviews) VALUES (?, ?, ?, ?, ?)");
     if (false === $query) {
       error_log('prepare() failed: ' . htmlspecialchars($con->error));
       return false;
     }
 
-    $bp = $query->bind_param("sssb", $id, $exportable_iv, $enc_filedata, $NULL);
+    $bp = $query->bind_param("sssbs", $id, $exportable_iv, $enc_filedata, $NULL, $enc_maxviews);
     $query->send_long_data(3, $enc_content);
     if (false === $bp) {
       error_log('bind_param() failed: ' . htmlspecialchars($query->error));
@@ -63,15 +95,19 @@ class data_storage {
     return $id;
   }
 
-  public static function getID($file, $password) {
+  public static function getID($file, $password, $maxviews = NULL) {
     if ($file != NULL) {
       if ($password != NULL) {
-        $fileContent = file_get_contents($file['tmp_name']);
-        $id = data_storage::uploadFile($fileContent, $file["name"], $file["size"], $file["type"], $password);
-        if ($id != false) {
-          return array(true, $id);
+        if (is_int($maxviews) || $maxviews == NULL) {
+          $fileContent = file_get_contents($file['tmp_name']);
+          $id = data_storage::uploadFile($fileContent, $file["name"], $file["size"], $file["type"], $password, $maxviews);
+          if ($id != false) {
+            return array(true, $id);
+          } else {
+            return array(false, "Connection to our database failed.");
+          }
         } else {
-          return array(false, "Connection to our database failed.");
+          return array(false, "'maxviews' is not an integer.");
         }
       } else {
         return array(false, "Password not set.");
