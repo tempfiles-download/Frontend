@@ -58,7 +58,7 @@ class data_storage {
       return [
           $filedata, $filecontent, $maxviews
       ];
-    }else{
+    } else {
       return NULL;
     }
   }
@@ -102,7 +102,7 @@ class data_storage {
   public static function getID($file, $password, $maxviews = NULL) {
     if ($file != NULL) {
       if ($password != NULL) {
-        if (is_int($maxviews) || $maxviews == NULL) {
+        if (is_numeric($maxviews) || $maxviews == NULL) {
           $fileContent = file_get_contents($file['tmp_name']);
           $id = data_storage::uploadFile($fileContent, $file["name"], $file["size"], $file["type"], $password, $maxviews);
           if ($id != false) {
@@ -111,7 +111,7 @@ class data_storage {
             return array(false, "Connection to our database failed.");
           }
         } else {
-          return array(false, "'maxviews' is not an integer.");
+          return array(false, "'maxviews' is not a number.");
         }
       } else {
         return array(false, "Password not set.");
