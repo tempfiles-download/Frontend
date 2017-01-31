@@ -30,7 +30,7 @@ if (Misc::getVar('f') != false && Misc::getVar('p') != false) {
 
 
   $url = explode('/', strtolower($_SERVER['REQUEST_URI']));
-  $e = data_storage::getFile($url[3], Misc::getVar("p")); # Returns [0] = File Meta Data, [1] = File Content.
+  $e = data_storage::getFile($url[2], Misc::getVar("p")); # Returns [0] = File Meta Data, [1] = File Content.
 
   if ($e[0] != NULL) {
 
@@ -46,7 +46,7 @@ if (Misc::getVar('f') != false && Misc::getVar('p') != false) {
     echo($e[1]);
     $viewsArray = $e[2];
     if (is_array($viewsArray)) {
-      compareViews($viewsArray[0], $viewsArray[1], $url[3]);
+      compareViews($viewsArray[0], $viewsArray[1], $url[2]);
     }
     exit;
   } else {
