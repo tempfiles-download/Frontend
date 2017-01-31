@@ -1,11 +1,9 @@
 <?php
 $content_dir = __DIR__ . '/res';
-include $content_dir . '/API.php';
-include_once $content_dir . '/content/header.php';
-if(Misc::getVar('upload-password') != NULL){
-$id = data_storage::getID($_FILES['upload-file'], Misc::getVar('upload-password'));
-}else{
-  error_log("No Password");
+include 'res/init.php';
+include_once 'res/content/header.php';
+if (Misc::getVar('upload-password') != NULL) {
+  $id = data_storage::getID($_FILES['upload-file'], Misc::getVar('upload-password'));
 }
 ?>
 

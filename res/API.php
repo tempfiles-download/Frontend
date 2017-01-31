@@ -3,12 +3,12 @@
 class Encryption {
 
   public static function decrypt($data, $password, $iv) {
-    include __DIR__ . '/config.php';
+    global $conf;
     return openssl_decrypt($data, $conf['Encryption-Method'], $password, OPENSSL_RAW_DATA, $iv);
   }
 
   public static function encrypt($data, $password, $iv) {
-    include __DIR__ . '/config.php';
+    global $conf;
     return openssl_encrypt($data, $conf['Encryption-Method'], $password, OPENSSL_RAW_DATA, $iv);
   }
 
@@ -17,9 +17,9 @@ class Encryption {
 class data_storage {
 
   public static function setViews($maxViews, $newViews, $id) {
+    global $conf;
+    global $con;
     $views = base64_encode($newViews . "," . $maxViews);
-    include __DIR__ . '/config.php';
-    $con = mysqli_connect($conf['mysql-url'], $conf['mysql-user'], $conf['mysql-password'], $conf['mysql-db']) or die("Connection problem.");
     $query = $con->prepare("UPDATE `" . $conf['mysql-table'] . "` SET `maxviews` = ? WHERE `id` = ?");
     $bp = $query->bind_param("ss", $views, $id);
     if (false === $bp) {
@@ -30,16 +30,16 @@ class data_storage {
   }
 
   public static function deleteFile($id) {
-    include __DIR__ . '/config.php';
-    $con = mysqli_connect($conf['mysql-url'], $conf['mysql-user'], $conf['mysql-password'], $conf['mysql-db']) or die("Connection problem.");
+    global $conf;
+    global $con;
     $query = $con->prepare("DELETE FROM `" . $conf['mysql-table'] . "` WHERE `id` = ?");
     $query->bind_param("s", $id);
     return $query->execute();
   }
 
   public static function getFile($id, $password) {
-    include __DIR__ . '/config.php';
-    $con = mysqli_connect($conf['mysql-url'], $conf['mysql-user'], $conf['mysql-password'], $conf['mysql-db']) or die("Connection problem.");
+    global $conf;
+    global $con;
     $query = $con->prepare("SELECT `iv`, `metadata`, `content`, `maxviews` FROM `" . $conf['mysql-table'] . "` WHERE `id` = ?");
     $query->bind_param("s", $id);
     $query->execute();
@@ -64,7 +64,8 @@ class data_storage {
   }
 
   public static function uploadFile($content, $filename, $filesize, $filetype, $password, $maxviews) {
-    include __DIR__ . '/config.php';
+    global $conf;
+    global $con;
     $id = strtoupper(uniqid("d"));
     $iv = array(mb_strcut(base64_encode(openssl_random_pseudo_bytes(16)), 0, 16), mb_strcut(base64_encode(openssl_random_pseudo_bytes(16)), 0, 16));
     $enc_filedata = base64_encode(Encryption::encrypt(implode(" ", array($filename, $filesize, $filetype)), $password, $iv[0]));
@@ -77,7 +78,6 @@ class data_storage {
       $enc_maxviews = NULL;
     }
 
-    $con = mysqli_connect($conf['mysql-url'], $conf['mysql-user'], $conf['mysql-password'], $conf['mysql-db']) or die("Connection problem.");
     $query = $con->prepare("INSERT INTO `" . $conf['mysql-table'] . "` (id, iv, metadata, content, maxviews) VALUES (?, ?, ?, ?, ?)");
     if (false === $query) {
       error_log('prepare() failed: ' . htmlspecialchars($con->error));

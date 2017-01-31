@@ -1,5 +1,7 @@
 <?php
 
+include __DIR__ . '/res/init.php';
+
 function getFormat($type, $format) {
   if (strpos($type, $format) !== false) {
     return true;
@@ -15,8 +17,6 @@ function compareViews($currentviews, $maxviews, $id) {
   }
   return false;
 }
-
-include __DIR__ . '/res/API.php';
 
 /** Backwards compatibility.
  * If the client uses the old link method it will be redirected to the new one. 
@@ -52,11 +52,11 @@ if (Misc::getVar('f') != false && Misc::getVar('p') != false) {
     exit;
   } else {
     header($_SERVER["SERVER_PROTOCOL"] . " 404 File Not Found");
-    if (Misc::getVar("raw") != NULL) {
-      $_POST['css'] = "res/css/download_404.css";
-      include '/res/content/header.php';
-      include '/res/content/navbar.php';
-      include '/res/content/download_404.php';
+    if (Misc::getVar("raw") == NULL) {
+      $_POST['css'] = "/res/css/download_404.css";
+      include 'res/content/header.php';
+      include 'res/content/navbar.php';
+      include 'res/content/download_404.php';
     }
     exit;
   }

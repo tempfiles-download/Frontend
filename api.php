@@ -1,7 +1,7 @@
 <?php
 
 header('Content-Type: application/json; charset=utf-8');
-include_once './res/API.php';
+include __DIR__.'/res/init.php';
 
 function sendOutput($output) {
   return print(json_encode($output, JSON_PRETTY_PRINT));

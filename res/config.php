@@ -1,9 +1,11 @@
 <?php
 
-$conf['mysql-url'] = "localhost";
-$conf['mysql-user'] = "tempfile";
-$conf['mysql-password'] = "1U7XYXXynxfF4jNC";
-$conf['mysql-db'] = "tempfile";
-$conf['mysql-table'] = "files";
-$conf['title'] = "TempFiles";
-$conf['Encryption-Method'] = "AES-256-CBC";
+return array(
+    'mysql-url' => 'localhost',
+    'mysql-user' => 'tempfiles',
+    'mysql-password' => 'password',
+    'mysql-db' => 'tempfiles',
+    'mysql-table' => 'files',
+    'title' => 'TempFiles',
+    'Encryption-Method' => 'AES-256-CBC'
+);
