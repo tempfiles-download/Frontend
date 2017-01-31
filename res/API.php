@@ -17,7 +17,7 @@ class Encryption {
 class data_storage {
 
   public static function setViews($maxViews, $newViews, $id) {
-    $views = base64_encode($maxViews . "," . $newViews);
+    $views = base64_encode($newViews . "," . $maxViews);
     include __DIR__ . '/config.php';
     $con = mysqli_connect($conf['mysql-url'], $conf['mysql-user'], $conf['mysql-password'], $conf['mysql-db']) or die("Connection problem.");
     $query = $con->prepare("UPDATE `" . $conf['mysql-table'] . "` SET `maxviews` = ? WHERE `id` = ?");
@@ -52,11 +52,15 @@ class data_storage {
     } else {
       $maxviews = $enc_maxviews;
     }
-    $filedata = Encryption::decrypt(base64_decode($enc_filedata), $password, $iv[0]);
-    $filecontent = Encryption::decrypt(base64_decode($enc_content), $password, $iv[1]);
-    return [
-        $filedata, $filecontent, $maxviews
-    ];
+    if ($enc_content != NULL) {
+      $filedata = Encryption::decrypt(base64_decode($enc_filedata), $password, $iv[0]);
+      $filecontent = Encryption::decrypt(base64_decode($enc_content), $password, $iv[1]);
+      return [
+          $filedata, $filecontent, $maxviews
+      ];
+    }else{
+      return NULL;
+    }
   }
 
   public static function uploadFile($content, $filename, $filesize, $filetype, $password, $maxviews) {
