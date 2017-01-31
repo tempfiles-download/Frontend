@@ -19,7 +19,7 @@ if (count($url)) {
       } else {
         $password = Misc::generatePassword();
       }
-      $id = data_storage::getID($file, $password);
+      $id = data_storage::getID($file, $password, Misc::getVar('maxviews'));
       if (is_bool($id[0]) && $id[0]) {
         $completeURL = 'https://tempfiles.carlgo11.com/download/' . $id[1] . '/?p=' . $password;
         $output['success'] = true;
