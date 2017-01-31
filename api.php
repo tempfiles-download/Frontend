@@ -16,18 +16,17 @@ if (count($url)) {
       $file = $_FILES['file'];
       if (Misc::getVar('password') != NULL) {
         $password = Misc::getVar('password');
-        $id = data_storage::getID($file, $password);
-        if (is_bool($id[0]) && $id[0]) {
-          $completeURL = 'https://tempfiles.carlgo11.com/download/' . $id[1] . '/?p=' . Misc::getVar('password');
-          $output['success'] = true;
-          $output['url'] = $completeURL;
-          sendOutput($output);
-        } else {
-          $output['error'] = $id[1];
-          sendOutput($output);
-        }
       } else {
-        $output['error'] = 'No password.';
+        $password = Misc::generatePassword();
+      }
+      $id = data_storage::getID($file, $password);
+      if (is_bool($id[0]) && $id[0]) {
+        $completeURL = 'https://tempfiles.carlgo11.com/download/' . $id[1] . '/?p=' . $password;
+        $output['success'] = true;
+        $output['url'] = $completeURL;
+        sendOutput($output);
+      } else {
+        $output['error'] = $id[1];
         sendOutput($output);
       }
     } else {
