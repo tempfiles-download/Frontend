@@ -101,7 +101,7 @@ class Misc {
 
   public static function generatePassword() {
     $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-    $length = Math . rand(3, 10);
+    $length = rand(3, 10);
     return substr(str_shuffle($chars), 0, $length);
   }
 
