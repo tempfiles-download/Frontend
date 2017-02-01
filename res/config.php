@@ -1,6 +1,8 @@
 <?php
 
 return array(
+    # 2097152 Bytes = 2MB
+    'max-file-size' => 2097152,
     'mysql-url' => 'localhost',
     'mysql-user' => 'tempfiles',
     'mysql-password' => 'password',

@@ -100,21 +100,26 @@ class data_storage {
   }
 
   public static function getID($file, $password, $maxviews = NULL) {
+    global $conf;
     if ($file != NULL) {
-      if ($password != NULL) {
-        if (is_numeric($maxviews) || $maxviews == NULL) {
-          $fileContent = file_get_contents($file['tmp_name']);
-          $id = data_storage::uploadFile($fileContent, $file["name"], $file["size"], $file["type"], $password, $maxviews);
-          if ($id != false) {
-            return array(true, $id);
+      if ($file['size'] <= $conf['max-file-size']) {
+        if ($password != NULL) {
+          if (is_numeric($maxviews) || $maxviews == NULL) {
+            $fileContent = file_get_contents($file['tmp_name']);
+            $id = data_storage::uploadFile($fileContent, $file["name"], $file["size"], $file["type"], $password, $maxviews);
+            if ($id != FALSE) {
+              return array(true, $id);
+            } else {
+              return array(false, "Connection to our database failed.");
+            }
           } else {
-            return array(false, "Connection to our database failed.");
+            return array(false, "'maxviews' is not a number.");
           }
         } else {
-          return array(false, "'maxviews' is not a number.");
+          return array(false, "Password not set.");
         }
       } else {
-        return array(false, "Password not set.");
+        return array(false, "File size too large. Maximum allowed 2MB (currently " . $file['size'] . ")");
       }
     } else {
       return array(false, "File not found.");
