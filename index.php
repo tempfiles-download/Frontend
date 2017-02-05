@@ -16,11 +16,13 @@ if (Misc::getVar('upload-password') != NULL) {
       <h1>Temp File Storage</h1>
       <p class="lead">Store files to share with your friends and family for <strong>24 hours</strong>.</p>
     </div>
+    
+    <center>
+      <?php include $content_dir . '/content/upload_file.php'; ?>
 
-    <?php include $content_dir . '/content/upload_file.php'; ?>
-
-    <?php include $content_dir . '/content/download_file.php'; ?>
-
+      <?php include $content_dir . '/content/download_file.php'; ?>
+    </center>
+    
   </div><!-- /.container -->
 
 </body>
