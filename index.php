@@ -22,6 +22,7 @@ if (Misc::getVar('upload-password') != NULL) {
 
       <?php include $content_dir . '/content/download_file.php'; ?>
     </center>
+    
   </div><!-- /.container -->
 
 </body>
