@@ -12,8 +12,23 @@ $success = false;
 $output = array('success' => $success);
 if (count($url)) {
   if ($url[3] == 'upload') {
-    if ($_FILES['file'] != NULL) {
-      $file = $_FILES['file'];
+    upload();
+  } elseif ($url[3] == 'delete') {
+    delete();
+  } else {
+    $output['error'] = 'Incorrectly formatted URL.';
+    sendOutput($output);
+  }
+} else {
+  $output['error'] = 'Incorrectly formatted URL.';
+  sendOutput($output);
+}
+
+function upload() {
+  if ($_FILES['file'] != NULL) {
+    $file = $_FILES['file'];
+    $maxsize = $config['max-file-size'];
+    if ($file['size'] >= $maxsize) {
       $maxviews = Misc::getVar('maxviews');
       if (Misc::getVar('password') != NULL) {
         $password = Misc::getVar('password');
@@ -40,14 +55,14 @@ if (count($url)) {
         sendOutput($output);
       }
     } else {
-      $output['error'] = 'No file.';
-      sendOutput($output);
+      $output['error'] = 'File size exceeded the limit of ' . $config['max-file-size'] . " bytes.";
     }
   } else {
-    $output['error'] = 'Incorrectly formatted URL.';
+    $output['error'] = 'No file supplied.';
     sendOutput($output);
   }
-} else {
-  $output['error'] = 'Incorrectly formatted URL.';
-  sendOutput($output);
+}
+
+function delete() {
+  
 }
