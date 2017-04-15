@@ -1,37 +1,51 @@
+html {
+  height: 100%;
+  box-sizing: border-box;
+}
+
+body {
+  position: relative;
+  margin: 0;
+  padding-bottom: 6rem;
+  min-height: 100%;
+}
 .upload_failed {
-    width: 75%;
+  width: 75%;
 }
-.upload_file {
-    float:left;
-    width: 50%
-}
-.download_file {
-    float:right;
-    width: 50%
-}
+
 .main_container {
-    padding-top: 50px;
+  padding-top: 50px;
 }
 .navbar {
-    background-color: #777;
-    color: #eee;
+  background-color: #777;
+  color: #eee;
 }
 .logo {
-    color: #eee;
-    font-size:300%;
+  color: #eee;
+  font-size:300%;
 }
 .description {
-    padding: 40px 15px;
-    text-align: center;
+  padding: 40px 15px;
+  text-align: center;
 }
 .form-horizontal {
-    width: 30%;
+  width: 30%;
 }
+.center {
+  margin: auto;
+  text-align: center
+}
+
+.upload-form {
+  margin-top: 40px;
+}
+
 footer {
-    padding: 30px 5px 5px 5px;
-    color: #999999;
-    text-align: center;
-    display: inline-block;
-    bottom: 0;
-    position: absolute;
+  padding: 1rem;
+  color: #999999;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  position: absolute;
+  text-align: center;
 }
