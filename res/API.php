@@ -102,7 +102,8 @@ class data_storage {
   public static function getID($file, $password, $maxviews = NULL) {
     global $conf;
     if ($file != NULL) {
-      if ($file['size'] <= $conf['max-file-size']) {
+      $maxsize = Misc::convertToBytes($config['max-file-size']);
+      if ($file['size'] >= $maxsize) {
         if ($password != NULL) {
           if (is_numeric($maxviews) || $maxviews == NULL) {
             $fileContent = file_get_contents($file['tmp_name']);
@@ -119,7 +120,7 @@ class data_storage {
           return array(false, "Password not set.");
         }
       } else {
-        return array(false, "File size too large. Maximum allowed 2MB (currently " . $file['size'] . ")");
+        return array(false, "File size too large. Maximum allowed " . $config['max-file-size'] . " (currently " . $file['size'] . ")");
       }
     } else {
       return array(false, "File not found.");
@@ -148,6 +149,25 @@ class Misc {
     $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
     $length = rand(3, 10);
     return substr(str_shuffle($chars), 0, $length);
+  }
+
+  //Credit to 'John V.' (http://stackoverflow.com/a/11807179)
+  public static function convertToBytes($from) {
+    $number = substr($from, 0, -2);
+    switch (strtoupper(substr($from, -2))) {
+      case "KB":
+        return $number * 1024;
+      case "MB":
+        return $number * pow(1024, 2);
+      case "GB":
+        return $number * pow(1024, 3);
+      case "TB":
+        return $number * pow(1024, 4);
+      case "PB":
+        return $number * pow(1024, 5);
+      default:
+        return $from;
+    }
   }
 
 }
