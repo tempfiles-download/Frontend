@@ -11,9 +11,9 @@ $url = explode('/', strtolower($_SERVER['REQUEST_URI']));
 $success = false;
 $output = array('success' => $success);
 if (count($url)) {
-  if ($url[3] == 'upload') {
+  if ($url[2] == 'upload') {
     upload();
-  } elseif ($url[3] == 'delete') {
+  } elseif ($url[2] == 'delete') {
     delete();
   } else {
     $output['error'] = 'Incorrectly formatted URL.';
