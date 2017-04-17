@@ -7,7 +7,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="./" style="color: #eee;">TempFiles</a><span class="glyphicon glyphicon-floppy-save logo" aria-hidden="true"></span>
+      <a class="navbar-brand" href="/">TempFiles</a><a href="/"><span class="glyphicon glyphicon-floppy-save logo" aria-hidden="true"></span></a>
     </div>
     <div id="navbar" class="collapse navbar-collapse">
     </div><!--/.nav-collapse -->

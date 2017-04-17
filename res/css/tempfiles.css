@@ -40,6 +40,14 @@ body {
   margin-top: 40px;
 }
 
+.upload-btn {
+  padding: 10px;
+}
+
+.navbar-brand {
+  color: #eee;
+}
+
 footer {
   padding: 1rem;
   color: #999999;
