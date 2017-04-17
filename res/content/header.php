@@ -12,5 +12,5 @@
     }
     ?>
     <script src="res/js/bootstrap.min.js"></script>
-    <title><?php echo $GLOBALS['conf']['title']; ?></title>
+    <title>TempFiles</title>
   </head>
