@@ -42,7 +42,7 @@ if (Misc::getVar('upload-password') != NULL) {
           if (isset($id) && !$id[0]) {
             ?><div class="upload_failed"><div class="alert alert-danger"><h3>Upload Failed</h3><p>Error: <?php echo $id[1]; ?></p></div></div><?php } ?>
         </div>
-        <form class="form-horizontal center upload-form" action="#" enctype="multipart/form-data" method="POST" accept-charset="UTF-8">
+        <form class="form-horizontal center upload-form" action="" enctype="multipart/form-data" method="POST" accept-charset="UTF-8">
           <div class='form-group'><input type="file" name="upload-file" id="file" required=""/></div>
           <div class='form-group'><input class="form-control" type="password" name="upload-password" id="upload-password" required=""  placeholder="Password"/></div>
           <div class='form-group center'><button class="btn btn-lg btn-success upload-btn" type="submit" name="upload-submit" id="upload-submit">Upload File</button></div>
