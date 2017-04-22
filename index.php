@@ -1,6 +1,6 @@
 <?php
 $content_dir = __DIR__ . '/res';
-include 'res/init.php';
+include_once 'res/init.php';
 include_once 'res/content/header.php';
 if (Misc::getVar('upload-password') != NULL) {
   $id = data_storage::getID($_FILES['upload-file'], Misc::getVar('upload-password'));
