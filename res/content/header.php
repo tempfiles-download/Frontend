@@ -11,6 +11,7 @@
       echo "<link href=\"" . $_POST['css'] . "\" rel=\"stylesheet\">\n";
     }
     ?>
+    <script src="res/js/jquery.js"></script>
     <script src="res/js/bootstrap.min.js"></script>
     <title>TempFiles</title>
   </head>
