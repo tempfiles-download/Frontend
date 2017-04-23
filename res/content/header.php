@@ -14,6 +14,6 @@
     ?>
     <script src="res/js/jquery.js"></script>
     <script src="res/js/bootstrap.min.js"></script>
-    <script src="res/js/night-mode.min.js"></script>
+    <script src="res/js/night-mode.js"></script>
     <title>TempFiles</title>
   </head>
