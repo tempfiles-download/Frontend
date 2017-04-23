@@ -37,7 +37,7 @@ function upload() {
       }
       $id = data_storage::getID($file, $password, $maxviews);
       if (is_bool($id[0]) && $id[0]) {
-        $completeURL = 'https://tempfiles.carlgo11.com/download/' . $id[1] . '/?p=' . urlencode($password);
+        $completeURL = 'https://tempfiles.carlgo11.com/d/' . $id[1] . '/?p=' . urlencode($password);
         $output['success'] = true;
         $output['url'] = $completeURL;
         if (Misc::getVar('password') == NULL) {
