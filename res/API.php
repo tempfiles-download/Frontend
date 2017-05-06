@@ -102,8 +102,8 @@ class data_storage {
   public static function getID($file, $password, $maxviews = NULL) {
     global $conf;
     if ($file != NULL) {
-      $maxsize = Misc::convertToBytes($config['max-file-size']);
-      if ($file['size'] >= $maxsize) {
+      $maxsize = Misc::convertToBytes($conf['max-file-size']);
+      if ($file['size'] <= $maxsize) {
         if ($password != NULL) {
           if (is_numeric($maxviews) || $maxviews == NULL) {
             $fileContent = file_get_contents($file['tmp_name']);
@@ -120,7 +120,7 @@ class data_storage {
           return array(false, "Password not set.");
         }
       } else {
-        return array(false, "File size too large. Maximum allowed " . $config['max-file-size'] . " (currently " . $file['size'] . ")");
+        return array(false, "File size too large. Maximum allowed " . $conf['max-file-size'] . " (currently " . $file['size'] . ")");
       }
     } else {
       return array(false, "File not found.");
