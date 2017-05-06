@@ -3,7 +3,7 @@
 __<span style="color:red">This is a draft and not intended to be used in production!</span>__
 ### Requirements
 
-To install TempFiles you first need to install a webserver php and mysql.  
+To install TempFiles you first need to install a webserver, php and mysql.  
 In this installation I will use nginx as the webserver. Nginx also requires php-fpm.  
 If you don't use Nginx then you don't have to install php-fpm.  
 ### Installation
@@ -90,7 +90,7 @@ systemctl restart nginx
 ```
 
 If everything have worked so far you should now see the text "Connection to our database failed." if you go to your website.  
-![connection to our database failed](https://cloud.githubusercontent.com/assets/3535780/25774909/f334fc7c-3298-11e7-8f6c-419c4371ef47.png)
+![connection to our database failed](https://cloud.githubusercontent.com/assets/3535780/25776184/01e58466-32b8-11e7-9802-72cce094ea44.png)
 <br>
 
 Works? Great!  
