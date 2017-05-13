@@ -29,7 +29,7 @@ if (Misc::getVar('f') != false && Misc::getVar('p') != false) {
   $url = explode('/', strtolower($_SERVER['REQUEST_URI']));
   $e = data_storage::getFile($url[2], Misc::getVar("p")); # Returns [0] = File Meta Data, [1] = File Content.
 
-  if ($e[0] != NULL && sizeof($e[0]) == 3) {
+  if ($e[0] != NULL) {
     $metadata = explode(" ", $e[0]); # Returns [0] = File Name, [1] = File Length, [2] = File Type.
     header('Content-Description: File Transfer');
     header('Content-Disposition: inline; filename="' . $metadata[0] . '"');

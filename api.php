@@ -27,7 +27,7 @@ if (count($url)) {
 function upload() {
   if ($_FILES['file'] != NULL) {
     $file = $_FILES['file'];
-    $maxsize = Misc::convertToBytes($config['max-file-size']);
+    $maxsize = Misc::convertToBytes($conf['max-file-size']);
     if ($file['size'] >= $maxsize) {
       $maxviews = Misc::getVar('maxviews');
       if (Misc::getVar('password') != NULL) {
@@ -55,7 +55,7 @@ function upload() {
         sendOutput($output);
       }
     } else {
-      $output['error'] = 'File size exceeded the limit of ' . $config['max-file-size'] . ".";
+      $output['error'] = 'File size exceeded the limit of ' . $conf['max-file-size'] . ".";
     }
   } else {
     $output['error'] = 'No file supplied.';
