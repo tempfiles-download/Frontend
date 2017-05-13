@@ -67,8 +67,9 @@ class data_storage {
     global $conf;
     global $con;
     $id = strtoupper(uniqid("d"));
+    $filedata = base64_encode($filename)." ".base64_encode($filesize)." ".base64_encode($filetype);
     $iv = array(mb_strcut(base64_encode(openssl_random_pseudo_bytes(16)), 0, 16), mb_strcut(base64_encode(openssl_random_pseudo_bytes(16)), 0, 16));
-    $enc_filedata = base64_encode(Encryption::encrypt(implode(" ", array($filename, $filesize, $filetype)), $password, $iv[0]));
+    $enc_filedata = base64_encode(Encryption::encrypt($filedata, $password, $iv[0]));
     $enc_content = base64_encode(Encryption::encrypt($content, $password, $iv[1]));
     $exportable_iv = base64_encode(implode(",", $iv));
     $NULL = NULL;
