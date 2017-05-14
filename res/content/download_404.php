@@ -17,7 +17,6 @@
     <script src="/res/js/night-mode.js"></script>
     <title>TempFiles</title>
   </head>
-
   <body>
     <div class="container">
 
@@ -31,6 +30,7 @@
         <input type="password" id="p" name="p" class="form-control" placeholder="Password" required>
         <button class="btn btn-lg btn-success btn-block" type="submit">Download</button>
       </form>
+
     </div>
   </body>
 </html>

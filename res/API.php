@@ -55,9 +55,7 @@ class data_storage {
     if ($enc_content != NULL) {
       $filedata = Encryption::decrypt(base64_decode($enc_filedata), $password, $iv[0]);
       $filecontent = Encryption::decrypt(base64_decode($enc_content), $password, $iv[1]);
-      return [
-          $filedata, $filecontent, $maxviews
-      ];
+      return [$filedata, $filecontent, $maxviews];
     } else {
       return NULL;
     }
@@ -67,7 +65,7 @@ class data_storage {
     global $conf;
     global $con;
     $id = strtoupper(uniqid("d"));
-    $filedata = base64_encode($filename)." ".base64_encode($filesize)." ".base64_encode($filetype);
+    $filedata = base64_encode($filename) . " " . base64_encode($filesize) . " " . base64_encode($filetype);
     $iv = array(mb_strcut(base64_encode(openssl_random_pseudo_bytes(16)), 0, 16), mb_strcut(base64_encode(openssl_random_pseudo_bytes(16)), 0, 16));
     $enc_filedata = base64_encode(Encryption::encrypt($filedata, $password, $iv[0]));
     $enc_content = base64_encode(Encryption::encrypt($content, $password, $iv[1]));
