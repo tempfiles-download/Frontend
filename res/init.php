@@ -16,4 +16,4 @@ if (file_exists(__DIR__ . '/API.php')) {
   include(__DIR__ . '/API.php');
 }
 
-$con = mysqli_connect($conf['mysql-url'], $conf['mysql-user'], $conf['mysql-password'], $conf['mysql-db']) or mySQLError();
+$mysql_connection = mysqli_connect($conf['mysql-url'], $conf['mysql-user'], $conf['mysql-password'], $conf['mysql-db']) or mySQLError();
