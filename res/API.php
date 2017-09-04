@@ -20,7 +20,7 @@ class Encryption {
   public static function encryptFileDetails($filename, $filesize, $filetype, $password, $iv) {
     global $conf;
     $filedata = base64_encode($filename) . " " . base64_encode($filesize) . " " . base64_encode($filetype);
-    $enc_data = openssl_encrypt($data, $conf['Encryption-Method'], $password, OPENSSL_RAW_DATA, $iv[0]);
+    $enc_data = openssl_encrypt($filedata, $conf['Encryption-Method'], $password, OPENSSL_RAW_DATA, $iv[0]);
     return base64_encode($enc_data);
   }
 
@@ -34,7 +34,7 @@ class Encryption {
    */
   public static function encryptFileContent($content, $password, $iv) {
     global $conf;
-    $enc_content = openssl_encrypt($data, $conf['Encryption-Method'], $password, OPENSSL_RAW_DATA, $iv[1]);
+    $enc_content = openssl_encrypt($content, $conf['Encryption-Method'], $password, OPENSSL_RAW_DATA, $iv[1]);
     return base64_encode($enc_content);
   }
 
@@ -43,7 +43,7 @@ class Encryption {
    * 
    * IV contains of random data from a "random" source. In this case the source is openssl.
    * 
-   * @return type Returns an IV string encoded with base64.
+   * @return string Returns an IV string encoded with base64.
    */
   public static function getIV() {
     return mb_strcut(base64_encode(openssl_random_pseudo_bytes(16)), 0, 16);
@@ -131,7 +131,7 @@ class data_storage {
    * @global array $conf Configuration variables.
    * @global object $mysql_connection MySQL connetion.
    * @param string $enc_content Encoded and encrypted file content.
-   * @param stromg $enc_filedata Encoded and encrypted file data.
+   * @param string $enc_filedata Encoded and encrypted file data.
    * @param int $maxviews The max amount of views for a file.
    * @return string Returns the ID of the uploaded file if the upload was sucessful. Returns 0 otherwise.
    */
@@ -145,7 +145,6 @@ class data_storage {
     } else {
       $enc_maxviews = NULL;
     }
-
     $query = $mysql_connection->prepare("INSERT INTO `" . $conf['mysql-table'] . "` (id, metadata, content, maxviews) VALUES (?, ?, ?, ?)");
     $query->bind_param("ssbs", $id, $enc_filedata, $NULL, $enc_maxviews);
     $query->send_long_data(2, $enc_content);
@@ -155,14 +154,13 @@ class data_storage {
   }
 
   /**
-   * 
    * @param string $file
    * @param string $metadata
-   * @param string $maxviews
    * @param string $password
+   * @param string $maxviews
    * @return boolean
    */
-  public static function getID($file, $metadata, $maxviews = NULL, $password) {
+  public static function getID($file, $password, $maxviews = NULL) {
     $iv = array(Encryption::getIV(), Encryption::getIV());
     $enc_filecontent = Encryption::encryptFileContent($file, $password, $iv[0]);
     $enc_filedata = Encryption::encryptFileDetails($file['name'], $file['size'], $file['type'], $password, $iv[1]);
@@ -185,6 +183,12 @@ class Misc {
       return filter_input(INPUT_POST, $name);
   }
 
+  /**
+   * Generate a password to use for encryption.
+   * 
+   * This function should only be used if a password is not supplied as it's less secure than if the user chooses their own password.
+   * @return string Returns a string of random characters to use as a password.
+   */
   public static function generatePassword() {
     $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
     $length = rand(3, 10);
