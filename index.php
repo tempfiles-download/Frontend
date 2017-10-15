@@ -6,7 +6,10 @@ include_once 'res/content/header.php';
 if(Misc::getVar('enc_file')){
   $id = data_storage::getID($_POST['enc_file'], $_POST['enc_metadata']);
 }
-
+$protocol="http";
+if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') {
+  $protocol="https";
+}
 ?>
 
 <body>
@@ -29,7 +32,7 @@ if(Misc::getVar('enc_file')){
             <div class="form-group has-success">
               <label class="control-label col-sm-2" for="id">Link</label>
               <div class="col-sm-10">
-                <input class="form-control" type="text" value="<?php echo "https://tempfiles.carlgo11.com/download/" . $id[1] . "/?p=" . $_POST['upload-password']; ?>" readonly="" id="url"/>
+                <input class="form-control" type="text" value=<?php echo $protocol . "://" . $_SERVER['HTTP_HOST']."/download/" . $id[1] . "/?p=" . $_POST['upload-password']; ?>" readonly="" id="url"/>
               </div>
             </div>
             <div class="form-group has-success">
@@ -54,7 +57,7 @@ if(Misc::getVar('enc_file')){
           <input type="text" id="enc_file" name="enc_file"/>
           <input type="text" id="enc_metadata" name="enc_metadata"/>
         </form>
-        
+
       <?php } ?>
     </div> <!-- /upload_file -->
 
