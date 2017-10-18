@@ -5,17 +5,15 @@
 const passIn = document.getElementById('upload-password');
 const buttonUpload = document.getElementById('upload-submit');
 const form = document.getElementById('upload-form');
-const passLen = 20;
+const passLen = Math.random() * (32 - 5) + 5;
 
 buttonUpload.onclick = function() {
     
     if(passIn.value == "") {
         passIn.value = randomString(passLen);
         form.submit();
-        //console.log('Submited with a generated password.');
     } else {
         form.submit();
-        //console.log('Submited with a user-input password.');
     }
 
  };
