@@ -1,4 +1,5 @@
 <?php
+
 include __DIR__ . '/res/init.php';
 
 function getFormat($type, $format) {
@@ -17,7 +18,7 @@ function compareViews($currentviews, $maxviews, $id) {
 }
 
 /** Backwards compatibility.
- * If the client uses the old link method it will be redirected to the new one. 
+ * If the client uses the old link method it will be redirected to the new one.
  */
 if (Misc::getVar('f') != false && Misc::getVar('p') != false) {
   $f = Misc::getVar('f');
@@ -27,30 +28,17 @@ if (Misc::getVar('f') != false && Misc::getVar('p') != false) {
 
   $url = explode('/', strtolower($_SERVER['REQUEST_URI']));
   $e = data_storage::getFile($url[2], Misc::getVar("p")); # Returns [0] = File Meta Data, [1] = File Content, [2] = Max views & Current views.
+
   if ($e[0] != NULL) {
-    if (Misc::getVar('headers')) {
-      $metadata = explode(" ", $e[0]); # Returns [0] = File Name, [1] = File Length, [2] = File Type.
-      header('Content-Description: File Transfer');
-      header('Content-Disposition: inline; filename="' . $metadata[0]) . '"';
-      header('Content-Type: ' . $metadata[2]);
-      header('Content-Length: ' . $metadata[1]);
-      header('Expires: 0');
-      header('Cache-Control: must-revalidate');
-      header('Pragma: public');
-      echo($e[1]);
-    } else {
-      ?>
-      <script src="/res/js/jquery.js"></script>
-      <script src="/res/js/aes.js"></script>
-      <script src="/res/js/decrypt.js"></script>
-      <script>dexport(<?php echo "'" . $e[0] . "','" . Misc::getVar('p') . "'" ?>)</script>
-      <form id="headers" action="" method="POST"> 
-        <input id="filename" type="text">
-        <input id="content-length" type="text">
-        <input id="content-type" type="text">
-      </form>
-      <?php
-    }
+    $metadata = explode(" ", base64_decode($e[0])); # Returns [0] = File Name, [1] = File Length, [2] = File Type.
+    header('Content-Description: File Transfer');
+    header('Content-Disposition: inline; filename="' . base64_decode($metadata[0]) . '"');
+    header('Content-Type: ' . base64_decode($metadata[2]));
+    header('Content-Length: ' . base64_decode($metadata[1]));
+    header('Expires: 0');
+    header('Cache-Control: must-revalidate');
+    header('Pragma: public');
+    echo($e[1]);
     $viewsArray = $e[2];
     if (is_array($viewsArray)) {
       compareViews($viewsArray[0], $viewsArray[1], $url[2]);
