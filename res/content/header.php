@@ -16,7 +16,5 @@
     <script src="res/js/jquery.js"></script>
     <script src="res/js/bootstrap.min.js"></script>
     <script src="res/js/night-mode.js"></script>
-    <script src="res/js/aes.js"></script>
-    <script src="res/js/encrypt.js"></script>
     <title>TempFiles</title>
   </head>
