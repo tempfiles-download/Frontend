@@ -8,6 +8,7 @@ function sendOutput($output) {
 }
 
 $url = explode('/', strtolower($_SERVER['REQUEST_URI']));
+
 $success = false;
 $output = array('success' => $success);
 if (count($url)) {
@@ -25,10 +26,11 @@ if (count($url)) {
 }
 
 function upload() {
+  global $conf;
   if ($_FILES['file'] != NULL) {
     $file = $_FILES['file'];
     $maxsize = Misc::convertToBytes($conf['max-file-size']);
-    if ($file['size'] >= $maxsize) {
+    if ($file['size'] <= $maxsize) {
       $maxviews = Misc::getVar('maxviews');
       if (Misc::getVar('password') != NULL) {
         $password = Misc::getVar('password');
@@ -37,7 +39,11 @@ function upload() {
       }
       $id = data_storage::getID($file, $password, $maxviews);
       if (is_bool($id[0]) && $id[0]) {
-        $completeURL = 'https://tempfiles.carlgo11.com/d/' . $id[1] . '/?p=' . urlencode($password);
+        $protocol = "http";
+        if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') {
+          $protocol = "https";
+        }
+        $completeURL = $protocol . "://" . $_SERVER['HTTP_HOST'] . "/download/" . $id[1] . "/?p=" . urlencode($password);
         $output['success'] = true;
         $output['url'] = $completeURL;
         if (Misc::getVar('password') == NULL) {
