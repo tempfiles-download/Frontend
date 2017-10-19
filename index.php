@@ -3,17 +3,18 @@ $content_dir = __DIR__ . '/res';
 include_once 'res/init.php';
 include_once 'res/content/header.php';
 
-if(Misc::getVar('enc_file')){
-  $id = data_storage::getID($_POST['enc_file'], $_POST['enc_metadata']);
+if (Misc::getVar('upload-password') != NULL) {
+  $id = data_storage::getID($_FILES['upload-file'], Misc::getVar('upload-password'));
 }
-$protocol="http";
+
+$protocol = "http";
 if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') {
-  $protocol="https";
+  $protocol = "https";
 }
 ?>
 
 <body>
-  <?php include $content_dir . '/content/navbar.php'; ?>
+ <?php include $content_dir . '/content/navbar.php'; ?>
 
   <div class="container main_container">
 
@@ -25,20 +26,20 @@ if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') {
     <div class="upload_file" id="upload_file">
       <div class="center">
         <h2>Upload File</h2>
-        <?php if (isset($id) && $id[0]) {
+          <?php if (isset($id) && $id[0]) {
           ?>
           <div id="upload_success">
             <h3 class="text-success">Success! <span class=" glyphicon glyphicon-ok"></span></h3>
             <div class="form-group has-success">
               <label class="control-label col-sm-2" for="id">Link</label>
               <div class="col-sm-10">
-                <input class="form-control" type="text" value="<?php echo $protocol . "://" . $_SERVER['HTTP_HOST']."/download/" . $id[1] . "/?p=" . $_POST['upload-password']; ?>" readonly="" id="url"/>
+                <input class="form-control" type="text" value="<?php echo $protocol . "://" . $_SERVER['HTTP_HOST'] . "/download/" . $id[1] . "/?p=" . $_POST['upload-password']; ?>" readonly="" id="url" onClick="this.select();">
               </div>
             </div>
             <div class="form-group has-success">
               <label class="control-label col-sm-2" for="id">ID</label>
               <div class="col-sm-10">
-                <input class="form-control" type="text" value="<?php echo $id[1]; ?>" readonly="" style="width: auto">
+                <input class="form-control" type="text" value="<?php echo $id[1]; ?>" readonly="" style="width: auto" onClick="this.select();">
               </div>
             </div>
           </div>
@@ -47,15 +48,10 @@ if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') {
           if (isset($id) && !$id[0]) {
             ?><div class="upload_failed"><div class="alert alert-danger"><h3>Upload Failed</h3><p>Error: <?php echo $id[1]; ?></p></div></div><?php } ?>
         </div>
-        <!--<form action="." enctype="multipart/form-data" method="POST" accept-charset="UTF-8" class="dropzone"><div class='form-group center'><button class="btn btn-lg btn-success upload-btn" type="submit" name="submit" id="submit">Upload File</button></div></form>-->
-        <form class="form-horizontal center upload-form" id="upload-form">
-          <div class='form-group'><input type="file" name="file" id="file" required=""/></div>
+        <form class="form-horizontal center upload-form" action="" enctype="multipart/form-data" method="POST" accept-charset="UTF-8" id="upload-form">
+          <div class='form-group'><input type="file" name="upload-file" id="file" required=""/></div>
           <div class='form-group'><input class="form-control" type="password" name="upload-password" id="upload-password" placeholder="Password"/></div>
           <div class='form-group center'><button class="btn btn-lg btn-success upload-btn" type="button" name="upload-submit" id="upload-submit">Upload File</button></div>
-        </form>
-        <form action="" enctype="multipart/form-data" method="POST" accept-charset="UTF-8" id="data-form">
-          <input type="text" id="enc_file" name="enc_file"/>
-          <input type="text" id="enc_metadata" name="enc_metadata"/>
         </form>
 
       <?php } ?>
