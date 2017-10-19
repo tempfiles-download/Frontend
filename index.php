@@ -8,13 +8,13 @@ if (Misc::getVar('upload-password') != NULL) {
 }
 
 $protocol = "http";
-if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') {
+if (isset(filter_input(INPUT_SERVER, 'HTTPS')) && filter_input(INPUT_SERVER, 'HTTPS') != 'off') {
   $protocol = "https";
 }
 ?>
 
 <body>
- <?php include $content_dir . '/content/navbar.php'; ?>
+    <?php include $content_dir . '/content/navbar.php'; ?>
 
   <div class="container main_container">
 
@@ -26,14 +26,14 @@ if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') {
     <div class="upload_file" id="upload_file">
       <div class="center">
         <h2>Upload File</h2>
-          <?php if (isset($id) && $id[0]) {
+        <?php if (isset($id) && $id[0]) {
           ?>
           <div id="upload_success">
             <h3 class="text-success">Success! <span class=" glyphicon glyphicon-ok"></span></h3>
             <div class="form-group has-success">
               <label class="control-label col-sm-2" for="id">Link</label>
               <div class="col-sm-10">
-                <input class="form-control" type="text" value="<?php echo $protocol . "://" . $_SERVER['HTTP_HOST'] . "/download/" . $id[1] . "/?p=" . $_POST['upload-password']; ?>" readonly="" id="url" onClick="this.select();">
+                <input class="form-control" type="text" value="<?php echo $protocol . "://" . filter_input(INPUT_SERVER, 'HTTP_HOST') . "/download/" . $id[1] . "/?p=" . filter_input(INPUT_POST, 'upload-password'); ?>" readonly="" id="url" onClick="this.select();">
               </div>
             </div>
             <div class="form-group has-success">

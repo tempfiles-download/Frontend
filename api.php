@@ -7,7 +7,7 @@ function sendOutput($output) {
   return print(json_encode($output, JSON_PRETTY_PRINT));
 }
 
-$url = explode('/', strtolower($_SERVER['REQUEST_URI']));
+$url = explode('/', strtolower(filter_input(INPUT_SERVER, 'REQUEST_URI')));
 
 $success = false;
 $output = array('success' => $success);
@@ -40,10 +40,10 @@ function upload() {
       $id = data_storage::getID($file, $password, $maxviews);
       if (is_bool($id[0]) && $id[0]) {
         $protocol = "http";
-        if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') {
+        if (isset(filter_input(INPUT_SERVER, 'HTTPS')) && filter_input(INPUT_SERVER, 'HTTPS') != 'off') {
           $protocol = "https";
         }
-        $completeURL = $protocol . "://" . $_SERVER['HTTP_HOST'] . "/download/" . $id[1] . "/?p=" . urlencode($password);
+        $completeURL = $protocol . "://" . filter_input(INPUT_SERVER, 'HTTP_HOST') . "/download/" . $id[1] . "/?p=" . urlencode($password);
         $output['success'] = true;
         $output['url'] = $completeURL;
         if (Misc::getVar('password') == NULL) {

@@ -131,6 +131,7 @@ class data_storage {
    * @global array $conf Configuration variables.
    * @global object $mysql_connection MySQL connetion.
    * @param string $enc_content Encoded and encrypted file content.
+   * @param string $iv Encoded IV array.
    * @param string $enc_filedata Encoded and encrypted file data.
    * @param int $maxviews The max amount of views for a file.
    * @return string Returns the ID of the uploaded file if the upload was sucessful. Returns 0 otherwise.
