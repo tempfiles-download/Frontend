@@ -1,27 +1,21 @@
 /*
  *  Autogenerate a password if the user does not input anything.
  */
+var passLen = Math.random() * (32 - 5) + 5;
 
-const passIn = document.getElementById('upload-password');
-const buttonUpload = document.getElementById('upload-submit');
-const form = document.getElementById('upload-form');
-const passLen = Math.random() * (32 - 5) + 5;
-
-buttonUpload.onclick = function() {
-    
-    if(passIn.value == "") {
-        passIn.value = randomString(passLen);
-        form.submit();
+$('#upload-submit').click(function () {
+    if (!$('upload-password').val()) {
+        $('#upload-password').val(randomString(passLen));
+        $("#upload-form").submit();
     } else {
-        form.submit();
+        $("#upload-form").submit();
     }
+});
 
- };
-
-randomString = function(length) {
-    let text = "";
-    const possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    for(var i = 0; i < length; i++) {
+function randomString(length) {
+    var text = "";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    for (var i = 0; i < length; i++) {
         text += possible.charAt(Math.floor(Math.random() * possible.length));
     }
     return text;
