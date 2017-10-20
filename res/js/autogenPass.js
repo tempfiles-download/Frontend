@@ -4,7 +4,7 @@
 var passLen = Math.random() * (32 - 5) + 5;
 
 $('#upload-submit').click(function () {
-    if (!$('upload-password').val()) {
+    if (!$('#upload-password').val()) {
         $('#upload-password').val(randomString(passLen));
         $("#upload-form").submit();
     } else {
