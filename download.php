@@ -48,9 +48,10 @@ if (Misc::getVar('f') != false && Misc::getVar('p') != false) {
     }
     exit;
   } else {
+    $css = filter_input(INPUT_POST, 'css');
     header(filter_input(INPUT_SERVER, 'SERVER_PROTOCOL') . " 404 File Not Found");
     if (Misc::getVar("raw") == NULL) {
-      filter_input(INPUT_POST, 'css') = "/res/css/download_404.css";
+      $css = "/res/css/download_404.css";
       include 'res/content/header.php';
       include 'res/content/navbar.php';
       include 'res/content/download_404.php';

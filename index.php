@@ -8,7 +8,8 @@ if (Misc::getVar('upload-password') != NULL) {
 }
 
 $protocol = "http";
-if (isset(filter_input(INPUT_SERVER, 'HTTPS')) && filter_input(INPUT_SERVER, 'HTTPS') != 'off') {
+$https = filter_input(INPUT_SERVER, 'HTTPS');
+if (isset($https) && $https !== 'off') {
   $protocol = "https";
 }
 ?>

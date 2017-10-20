@@ -9,7 +9,8 @@
     <link href="res/css/tempfiles-dark.min.css" rel="alternate stylesheet" title="dark">
     <link rel="stylesheet" href="https://rawgit.com/enyo/dropzone/master/dist/dropzone.css">
     <?php
-    if (isset(filter_input(INPUT_POST, 'css'))) {
+    $https = filter_input(INPUT_POST, 'css');
+    if (isset($https)) {
       echo "<link href=\"" . filter_input(INPUT_POST, 'css') . "\" rel=\"stylesheet\">\n";
     }
     ?>
