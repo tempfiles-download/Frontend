@@ -10,6 +10,9 @@ function getFormat($type, $format) {
 
 function compareViews($currentviews, $maxviews, $id) {
   if (($currentviews + 1) >= $maxviews) {
+    $er = ($currentviews + 1) >= $maxviews;
+    error_log($currentviews."\t".$maxviews); 
+    error_log($er);
     return data_storage::deleteFile($id);
   } else {
     return data_storage::setViews(intval($maxviews), ($currentviews + 1), $id);

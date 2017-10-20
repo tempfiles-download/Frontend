@@ -69,7 +69,7 @@ class data_storage {
   public static function setViews($maxViews, $newViews, $id) {
     global $conf;
     global $mysql_connection;
-    $views = base64_encode($newViews . "," . $maxViews);
+    $views = base64_encode($maxViews . "," . $newViews);
     $query = $mysql_connection->prepare("UPDATE `" . $conf['mysql-table'] . "` SET `maxviews` = ? WHERE `id` = ?");
     $bp = $query->bind_param("ss", $views, $id);
     if (false === $bp) {
@@ -148,7 +148,7 @@ class data_storage {
     }
     $query = $mysql_connection->prepare("INSERT INTO `" . $conf['mysql-table'] . "` (id, iv, metadata, content, maxviews) VALUES (?, ?, ?, ?, ?)");
     if (false === $query) {
-      error_log('prepare() failed: ' . htmlspecialchars($con->error));
+      error_log('prepare() failed: ' . htmlspecialchars($mysql_connection->error));
       return false;
     }
     $bp = $query->bind_param("sssbs", $id, $iv, $enc_filedata, $NULL, $enc_maxviews);
