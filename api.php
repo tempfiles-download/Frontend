@@ -1,4 +1,5 @@
 <?php
+
 set_error_handler('exceptions_error_handler');
 
 function exceptions_error_handler($severity, $message, $filename, $lineno) {
@@ -18,7 +19,8 @@ function sendOutput($output) {
     return print(json_encode($output, JSON_PRETTY_PRINT));
 }
 
-$url = explode('/', strtolower($_SERVER['REQUEST_URI']));
+$url = explode('/', strtolower(filter_input(INPUT_SERVER, 'REQUEST_URI')));
+
 $success = false;
 $output = array('success' => $success);
 if (count($url)) {
@@ -49,7 +51,12 @@ function upload($conf) {
             $deletionpass = Misc::generatePassword(12, 32);
             $id = DataStorage::getID($file, $password, $maxviews, $deletionpass);
             if (is_bool($id[0]) && $id[0]) {
-                $completeURL = 'https://tempfiles.carlgo11.com/d/' . $id[1] . '/?p=' . urlencode($password);
+                $protocol = "http";
+                $https = filter_input(INPUT_SERVER, 'HTTPS');
+                if (isset($https) && $https !== 'off') {
+                    $protocol = "https";
+                }
+                $completeURL = $protocol . "://" . filter_input(INPUT_SERVER, 'HTTP_HOST') . "/download/" . $id[1] . "/?p=" . urlencode($password);
                 $output['success'] = true;
                 $output['url'] = $completeURL;
                 $output['deletepassword'] = $deletionpass;
