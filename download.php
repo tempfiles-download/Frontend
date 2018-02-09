@@ -1,69 +1,59 @@
 <?php
+
 include __DIR__ . '/res/init.php';
 
 function getFormat($type, $format) {
-  if (strpos($type, $format) !== false) {
-    return true;
-  }
+    if (strpos($type, $format) !== false) {
+        return true;
+    }
 }
 
 function compareViews($currentviews, $maxviews, $id) {
-  if (($currentviews + 1) >= $maxviews) {
-    return data_storage::deleteFile($id);
-  } else {
-    return data_storage::setViews(intval($maxviews), ($currentviews + 1), $id);
-  }
-  return false;
+    if (($currentviews + 1) >= $maxviews) {
+        return DataStorage::deleteFile($id);
+    } else {
+        return DataStorage::setViews(intval($maxviews), ($currentviews + 1), $id);
+    }
+    return false;
 }
 
 /** Backwards compatibility.
  * If the client uses the old link method it will be redirected to the new one. 
  */
 if (Misc::getVar('f') != false && Misc::getVar('p') != false) {
-  $f = Misc::getVar('f');
-  $p = Misc::getVar('p');
-  header('Location: https://tempfiles.carlgo11.com/download/' . $f . '/?p=' . $p);
+    $f = Misc::getVar('f');
+    $p = Misc::getVar('p');
+    header('Location: https://tempfiles.carlgo11.com/download/' . $f . '/?p=' . $p);
 } else {
 
-  $url = explode('/', strtolower($_SERVER['REQUEST_URI']));
-  $e = data_storage::getFile($url[2], Misc::getVar("p")); # Returns [0] = File Meta Data, [1] = File Content, [2] = Max views & Current views.
-  if ($e[0] != NULL) {
-    if (Misc::getVar('headers')) {
-      $metadata = explode(" ", $e[0]); # Returns [0] = File Name, [1] = File Length, [2] = File Type.
-      header('Content-Description: File Transfer');
-      header('Content-Disposition: inline; filename="' . $metadata[0]) . '"';
-      header('Content-Type: ' . $metadata[2]);
-      header('Content-Length: ' . $metadata[1]);
-      header('Expires: 0');
-      header('Cache-Control: must-revalidate');
-      header('Pragma: public');
-      echo($e[1]);
+
+    $url = explode('/', strtolower($_SERVER['REQUEST_URI']));
+    $e = DataStorage::getFile($url[2], Misc::getVar("p")); # Returns [0] = File Meta Data, [1] = File Content.
+    if ($e[0] != NULL) {
+
+        $metadata = explode(" ", $e[0]); # Returns [0] = File Name, [1] = File Length, [2] = File Type, [3] = Deletion Password.
+        $file_type = $metadata[2];
+        header('Content-Description: File Transfer');
+        header('Content-Type: ' . $file_type);
+        header('Content-Disposition: inline; filename="' . $metadata[0] . '"');
+        header('Expires: 0');
+        header('Cache-Control: must-revalidate');
+        header('Pragma: public');
+        header('Content-Length: ' . $metadata[1]);
+        echo($e[1]);
+        $viewsArray = $e[2];
+        if (is_array($viewsArray)) {
+            compareViews($viewsArray[0], $viewsArray[1], $url[2]);
+        }
+        exit;
     } else {
-      ?>
-      <script src="/res/js/jquery.js"></script>
-      <script src="/res/js/aes.js"></script>
-      <script src="/res/js/decrypt.js"></script>
-      <script>dexport(<?php echo "'" . $e[0] . "','" . Misc::getVar('p') . "'" ?>)</script>
-      <form id="headers" action="" method="POST"> 
-        <input id="filename" type="text">
-        <input id="content-length" type="text">
-        <input id="content-type" type="text">
-      </form>
-      <?php
+        header($_SERVER["SERVER_PROTOCOL"] . " 404 File Not Found");
+        if (Misc::getVar("raw") == NULL) {
+            $_POST['css'] = "/res/css/download_404.css";
+            include 'res/content/header.php';
+            include 'res/content/navbar.php';
+            include 'res/content/download_404.php';
+        }
+        exit;
     }
-    $viewsArray = $e[2];
-    if (is_array($viewsArray)) {
-      compareViews($viewsArray[0], $viewsArray[1], $url[2]);
-    }
-    exit;
-  } else {
-    header($_SERVER["SERVER_PROTOCOL"] . " 404 File Not Found");
-    if (Misc::getVar("raw") == NULL) {
-      $_POST['css'] = "/res/css/download_404.css";
-      include 'res/content/header.php';
-      include 'res/content/navbar.php';
-      include 'res/content/download_404.php';
-    }
-    exit;
-  }
 }
