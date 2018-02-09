@@ -1,0 +1,11 @@
+﻿{
+  "Name": "https://tempfiles.carlgo11.com/API",
+  "RequestType": "POST",
+  "RequestURL": "https://tempfiles.carlgo11.com/api/upload",
+  "FileFormName": "file",
+  "Arguments": {
+    "password": "%guid"
+  },
+  "ResponseType": "Text",
+  "URL": "$json:url$"
+}
