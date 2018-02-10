@@ -1,11 +1,9 @@
-﻿{
-  "Name": "https://tempfiles.carlgo11.com/API",
+{
+  "Name": "https://tempfiles.carlgo11.com/",
+  "DestinationType": "ImageUploader, TextUploader, FileUploader",
   "RequestType": "POST",
   "RequestURL": "https://tempfiles.carlgo11.com/api/upload",
   "FileFormName": "file",
-  "Arguments": {
-    "password": "%guid"
-  },
-  "ResponseType": "Text",
-  "URL": "$json:url$"
+  "URL": "$json:url$",
+  "DeletionURL": "https://tempfiles.carlgo11.com/api/delete/?delete=$json:deletepassword$&id=$json:id$&p=$json:password$"
 }
