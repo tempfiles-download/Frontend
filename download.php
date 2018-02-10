@@ -30,14 +30,13 @@ if (Misc::getVar('f') != false && Misc::getVar('p') != false) {
     $e = DataStorage::getFile($url[2], Misc::getVar("p")); # Returns [0] = File Meta Data, [1] = File Content.
     if ($e[0] != NULL) {
         $metadata = explode(" ", $e[0]); # Returns [0] = File Name, [1] = File Length, [2] = File Type, [3] = Deletion Password.
-        $file_type = $metadata[2];
         header('Content-Description: File Transfer');
-        header('Content-Type: ' . $file_type);
-        header('Content-Disposition: inline; filename="' . $metadata[0] . '"');
+        header('Content-Type: ' . base64_decode($metadata[2]));
+        header('Content-Disposition: inline; filename="' . base64_decode($metadata[0]) . '"');
         header('Expires: 0');
         header('Cache-Control: must-revalidate');
         header('Pragma: public');
-        header('Content-Length: ' . $metadata[1]);
+        header('Content-Length: ' . base64_decode($metadata[1]));
         echo($e[1]);
         $viewsArray = $e[2];
         if (is_array($viewsArray)) {
