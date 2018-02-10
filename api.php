@@ -62,11 +62,11 @@ function upload($conf) {
                 $output['id'] = $id[1];
                 $output['deletepassword'] = $deletionpass;
                 if (Misc::getVar('password') == NULL) {
-                    $output['passowrd-mode'] = 'Server generated.';
+                    $output['password-mode'] = 'Server generated.';
                 } else {
-                    $output['passowrd-mode'] = 'User generated.';
+                    $output['password-mode'] = 'User generated.';
                 }
-                $output['passowrd'] = $password;
+                $output['password'] = $password;
                 if ($maxviews != NULL) {
                     $output['maxviews'] = (int) $maxviews;
                 }
