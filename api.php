@@ -59,7 +59,7 @@ function upload($conf) {
                 $completeURL = $protocol . "://" . filter_input(INPUT_SERVER, 'HTTP_HOST') . "/download/" . $id[1] . "/?p=" . urlencode($password);
                 $output['success'] = true;
                 $output['url'] = $completeURL;
-                $output['id'] = $id;
+                $output['id'] = $id[1];
                 $output['deletepassword'] = $deletionpass;
                 if (Misc::getVar('password') == NULL) {
                     $output['passowrd-mode'] = 'Server generated.';
