@@ -44,8 +44,9 @@ if (Misc::getVar('f') != false && Misc::getVar('p') != false) {
             compareViews($viewsArray[0], $viewsArray[1], $url[2]);
         }
         exit;
+        
     } else {
-
+        
         $css = filter_input(INPUT_POST, 'css');
         header(filter_input(INPUT_SERVER, 'SERVER_PROTOCOL') . " 404 File Not Found");
         if (Misc::getVar("raw") == NULL) {

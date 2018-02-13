@@ -4,7 +4,7 @@ include_once 'res/init.php';
 include_once 'res/content/header.php';
 
 if (Misc::getVar('upload-password') != NULL) {
-    $deletionpass = Misc::generatePassword(8,20);
+    $deletionpass = Misc::generatePassword(8, 20);
     $id = DataStorage::getID($_FILES['upload-file'], Misc::getVar('upload-password'), NULL, $deletionpass);
 }
 
