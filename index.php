@@ -35,7 +35,7 @@ if (isset($https) && $https !== 'off') {
                         <div class="form-group has-success">
                             <label class="control-label col-sm-2" for="id">Link</label>
                             <div class="col-sm-10">
-                                <input class="form-control" type="text" value="<?php echo $protocol . "://" . filter_input(INPUT_SERVER, 'HTTP_HOST') . "/download/" . $id[1] . "/?p=" . filter_input(INPUT_POST, 'upload-password'); ?>" readonly="" id="url" onClick="this.select();">
+                                <input class="form-control" type="text" value="<?php echo $protocol . "://" . filter_input(INPUT_SERVER, 'HTTP_HOST') . "/d/" . $id[1] . "/?p=" . filter_input(INPUT_POST, 'upload-password'); ?>" readonly="" id="url" onClick="this.select();">
                             </div>
                         </div>
                         <div class="form-group has-success">
