@@ -2,6 +2,11 @@
 
 class Misc {
 
+    /**
+     * Get a parameter from either $_GET or $_POST. 
+     * @param type $name Name of the parameter.
+     * @return type Returns parameter data if the parameter exists.
+     */
     public static function getVar($name) {
         if (filter_input(INPUT_GET, $name) != NULL)
             return filter_input(INPUT_GET, $name);

@@ -9,7 +9,7 @@ class DataStorage {
      * Set the current views and max views for a specified file.
      * When the current views are equal or exceeds max views the file will be deleted and the user will get a 404 error.
      * @global array $conf Configuration variables.
-     * @global object $mysql_connection MySQL connetion.
+     * @global object $mysql_connection MySQL connection.
      * @param string $maxViews The new maximum amount of views to set on a file.
      * @param string $newViews The new current views to set on a file.
      * @param string $id The ID for the file.
@@ -80,7 +80,7 @@ class DataStorage {
     /**
      * Upload a file to the database.
      * @global array $conf Configuration variables.
-     * @global object $mysql_connection MySQL connetion.
+     * @global object $mysql_connection MySQL connection.
      * @param string $enc_content Encoded and encrypted file content.
      * @param string $enc_filedata Encoded and encrypted file data.
      * @param int $maxviews The max amount of views for a file.

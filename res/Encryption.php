@@ -2,6 +2,14 @@
 
 class Encryption {
 
+    /**
+     * Decrypts data.
+     * @global array $conf Configuration variables.
+     * @param string $data Data to decrypt.
+     * @param string $password Password used to decrypt.
+     * @param string $iv IV for decryption.
+     * @return string Decrypted data.
+     */
     public static function decrypt($data, $password, $iv) {
         global $conf;
         return openssl_decrypt($data, $conf['Encryption-Method'], $password, OPENSSL_RAW_DATA, $iv);
@@ -10,11 +18,11 @@ class Encryption {
     /**
      * Encrypts and encodes the metadata (details) of a file.
      * @global array $conf Configuration variables.
-     * @param string $filename 
-     * @param string $filesize
-     * @param string $filetype
-     * @param string $password
-     * @param string $iv
+     * @param string $filename File name.
+     * @param string $filesize File Size.
+     * @param string $filetype File type.
+     * @param string $password Password used to encrypt the data.
+     * @param string $iv IV used to encrypt the data.
      * @return string Returns encoded and encrypted file metadata.
      */
     public static function encryptFileDetails($file, $deletionpass, $password, $iv) {
@@ -29,9 +37,9 @@ class Encryption {
     /**
      * Encrypts and encodes the content (data) of a file.
      * @global array $conf Configuration variables.
-     * @param string $content
-     * @param string $password
-     * @param string $iv
+     * @param string $content Data to encrypt.
+     * @param string $password Password used to encrypt data.
+     * @param string $iv IV used to encrypt data.
      * @return string Returns encoded and encrypted file content.
      */
     public static function encryptFileContent($content, $password, $iv) {
@@ -42,9 +50,7 @@ class Encryption {
 
     /**
      * Create an IV (Initialization Vector) string.
-     * 
      * IV contains of random data from a "random" source. In this case the source is openssl.
-     * 
      * @return string Returns an IV string encoded with base64.
      */
     public static function getIV() {

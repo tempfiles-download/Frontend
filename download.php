@@ -8,6 +8,13 @@ function getFormat($type, $format) {
     }
 }
 
+/**
+ * Compare max views with current views-
+ * @param int $currentviews Current views.
+ * @param int $maxviews Maximum allowed views.
+ * @param string $id ID.
+ * @return boolean Returns true if current views surpass the maximum views. Otherwise returns false.
+ */
 function compareViews($currentviews, $maxviews, $id) {
     if (($currentviews + 1) >= $maxviews) {
         return DataStorage::deleteFile($id);
