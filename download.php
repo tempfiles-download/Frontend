@@ -2,12 +2,6 @@
 
 include __DIR__ . '/res/init.php';
 
-function getFormat($type, $format) {
-    if (strpos($type, $format) !== false) {
-        return true;
-    }
-}
-
 /**
  * Compare max views with current views-
  * @param int $currentviews Current views.
