@@ -8,3 +8,4 @@ if ($conf['display-git-hash']) {
 <footer>
     <p>Made by <a href="https://carlgo11.com/">Carlgo11</a>. <?php if (!empty($hashshort)) { ?> Version: <a href="https://github.com/Carlgo11/tempfiles" title="<?php print($hashlong); ?>"><?php print($hashshort); ?></a><?php } ?></p>
 </footer>
+<script src="res/js/night-mode.js"></script>
