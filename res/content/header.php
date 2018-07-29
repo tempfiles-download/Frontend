@@ -6,7 +6,6 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href="res/css/bootstrap.min.css" rel="stylesheet">
         <link href="res/css/tempfiles.css" rel="stylesheet">
-        <link rel="stylesheet" href="https://rawgit.com/enyo/dropzone/master/dist/dropzone.css">
         <?php
         $https = filter_input(INPUT_POST, 'css');
         if (isset($https)) {
