@@ -56,15 +56,10 @@ This data is stored in plain text as it needs to be readable by the crawler in o
 
 ## Why not use `X`?
 
-* __JavaScript encryption__: I chose not to use this because (1) I don't know that much JavaScript and (2) Tor browsers generally don't support JavaScript.  
-I may rethink this at a later time as it would mean client side encryption.
-
 * __Public key encryption__: While this is a nice way of encrypting things I couldn't find an easy implementation of public key encryption that at the same time was easy to use for the users.
 
 ## Current Weaknesses
 
 1. __Lack of client side encryption:__ Files uploaded to TempFiles is currently sent in an unencrypted form over TLS _(Yes this is encryption but it's decrypted as the packages arrive at the web server)_ to the server. This means that the users don't have any way to make sure the host really encrypts their data.  
-
-2. __Larger files can't be uploaded:__ Because of the limitations of MySQL, PHP and web browsers (Without JS) it's very hard to send large files over the internet. The current limit on files is 2MB.  
 
 3. __Lack of _better_ encryption algorithms:__ While AES 256 still is more than good enough for most activities, sometimes people seek safer encryption algorithms. While this will be fixed in the future, current users can choose to encrypt their files before sending them to TempFiles if they seek stronger encryption algorithms.
