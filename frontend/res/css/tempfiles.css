@@ -33,6 +33,14 @@ body.dark {
   width: 50px;
 }
 
+#id {
+  width: auto;
+}
+
+#deletionpass {
+  width: auto;
+}
+
 .description {
   padding: 40px 15px;
   text-align: center;

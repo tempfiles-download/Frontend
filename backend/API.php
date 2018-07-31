@@ -38,7 +38,7 @@ if (count($url)) {
 }
 
 function upload($conf) {
-    if ($_FILES['file'] != NULL) {
+    if (isset($_FILES['file']) && $_FILES['file'] != NULL) {
         $file = $_FILES['file'];
         $maxsize = Misc::convertToBytes($conf['max-file-size']);
         if ($file['size'] <= $maxsize) {

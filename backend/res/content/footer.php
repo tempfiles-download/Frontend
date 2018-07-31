@@ -1,6 +1,5 @@
 <?php
 if ($conf['display-git-hash']) {
-//  $hash = shell_exec('git rev-parse --short HEAD');
     $hashlong = file_get_contents('.git/refs/heads/master');
     $hashshort = substr($hashlong, 0, 7);
 }

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="res/css/bootstrap.min.css" rel="stylesheet">
+  <link href="res/css/tempfiles.css" rel="stylesheet">
+  <script src="res/js/jquery.js"></script>
+  <script src="res/js/bootstrap.min.js"></script>
+  <title>TempFiles</title>
+</head>
+
+<body>
+  <nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="/"><img src="res/img/logo_light.svg" id="logo"></a><a class="navbar-brand nocolor" href="/">TempFiles</a>
+      </div>
+      <div id="navbar" class="collapse navbar-collapse">
+      </div><!--/nav-collapse -->
+    </div>
+  </nav> <!-- /navbar -->
+  <div class="container main_container">
+
+    <div class="description">
+        <h1>Temp File Storage</h1>
+        <p class="lead">Store files to share with your friends and family for <strong>24 hours</strong>.</p>
+    </div> <!-- /description -->
+
+    <div class="upload_file" id="upload_file">
+        <div class="center">
+            <h2>Upload File</h2>
+
+                <div id="upload_success" hidden="">
+                    <h3 class="text-success">Success! <span class=" glyphicon glyphicon-ok"></span></h3>
+                    <div class="form-group has-success">
+                        <label class="control-label col-sm-2" for="url">Link</label>
+                        <div class="col-sm-10">
+                            <input class="form-control select" type="text" readonly="" id="url">
+                        </div>
+                    </div>
+                    <div class="form-group has-success">
+                        <label class="control-label col-sm-2" for="id">ID</label>
+                        <div class="col-sm-10">
+                            <input class="form-control select" type="text" id="id">
+                        </div>
+                    </div>
+                    <div class="form-group has-success">
+                        <label class="control-label col-sm-2" for="deletionpass">Deletion Password</label>
+                        <div class="col-sm-10">
+                            <input class="form-control select" type="text" readonly="" id="deletionpass">
+                        </div>
+                    </div>
+                </div> <!-- /upload_success -->
+
+              <div class="upload_failed" id="error" hidden="">
+                <div class="alert alert-danger">
+                  <h3>Upload Failed</h3>
+                  <p id="error-msg"></p>
+                </div>
+              </div> <!-- /upload_failed -->
+
+            </div> <!-- /center -->
+
+            <form class="form-horizontal center upload-form" enctype="multipart/form-data" method="POST" accept-charset="UTF-8" name="upload-form" id="upload-form">
+                <div class='form-group'><input type="file" id="file" name="file" required=""/></div>
+                <div class='form-group'><input class="form-control" type="password" name="upload-password" id="upload-password" placeholder="Password"/></div>
+
+                <div class='form-group center'><button class="btn btn-lg btn-success upload-btn" type="button" name="upload-submit" id="upload-submit">Upload File</button></div>
+            </form> <!-- upload_form -->
+
+    </div> <!-- /upload_file -->
+
+</div> <!-- /container -->
+
+  <footer>
+    <p>Made by <a href="https://carlgo11.com/">Carlgo11</a>.
+      <!-- <?php if (!empty($hashshort)) { ?> Version: <a href="https://github.com/Carlgo11/tempfiles" title="<?php print($hashlong); ?>"><?php print($hashshort); ?></a><?php } ?>--></p>
+  </footer> <!-- /footer -->
+  <script src="res/js/night-mode.js"></script>
+  <script src="res/js/include-html.js"></script>
+</body>
+
+</html>
