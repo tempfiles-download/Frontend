@@ -14,6 +14,9 @@ $(document).ready(function(e) {
     this.select();
   });
 
+  var longhash = '787993d810bee13ba29d72a98aaf3b84d20c25d3'
+  var shorthash = longhash.slice(0,7);
+  $('#version').text(shorthash);
   function upload_file() {
     var form_data = new FormData();
     if ($('#file').val() != "") {

@@ -1,3 +1,5 @@
+---
+---
 //$("#navbar-container").load("/res/content/navbar.html");
 $(document).ready(function(e) {
   $('#upload-submit').click(function() {
@@ -14,6 +16,9 @@ $(document).ready(function(e) {
     this.select();
   });
 
+  var longhash = '{{ site.github.build_revision }}'
+  var shorthash = longhash.slice(0,7);
+  $('#version').text(shorthash);
   function upload_file() {
     var form_data = new FormData();
     if ($('#file').val() != "") {

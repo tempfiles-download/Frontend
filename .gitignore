@@ -17,5 +17,15 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-#NetBeans folder
-/nbproject/
+
+# Jekyll
+_site/
+Gemfile.lock
+.sass-cache
+.jekyll-metadata
+
+#Misc
+tmp/
+*.DS_Store
+*.swp
+.idea/
