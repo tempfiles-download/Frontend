@@ -17,8 +17,11 @@ $(document).ready(function(e) {
   });
 
   var longhash = '{{ site.github.build_revision }}'
-  var shorthash = longhash.slice(0,7);
-  $('#version').text(shorthash);
+  if (longhash.length > 0) {
+    var shorthash = longhash.slice(0, 7);
+    $('#version').text(shorthash);
+  }
+
   function upload_file() {
     var form_data = new FormData();
     if ($('#file').val() != "") {
