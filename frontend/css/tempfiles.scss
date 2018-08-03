@@ -69,10 +69,6 @@ body.dark {
   text-align: center;
 }
 
-.form-horizontal {
-  width: 30%;
-}
-
 .center {
   margin: auto;
   text-align: center;
@@ -80,6 +76,7 @@ body.dark {
 
 .upload-form {
   margin-top: 40px;
+  float: none;
 }
 
 .upload-btn {
