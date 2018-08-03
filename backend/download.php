@@ -24,7 +24,7 @@ function compareViews($currentviews, $maxviews, $id) {
 if (Misc::getVar('f') != false && Misc::getVar('p') != false) {
     $f = Misc::getVar('f');
     $p = Misc::getVar('p');
-    header('Location: https://tempfiles.carlgo11.com/download/' . $f . '/?p=' . $p);
+    header('Location: /download/' . $f . '/?p=' . $p);
 } else {
 
     $url = explode('/', strtolower(filter_input(INPUT_SERVER, 'REQUEST_URI')));
@@ -44,16 +44,13 @@ if (Misc::getVar('f') != false && Misc::getVar('p') != false) {
             compareViews($viewsArray[0], $viewsArray[1], $url[2]);
         }
         exit;
-        
+
     } else {
-        
+
         $css = filter_input(INPUT_POST, 'css');
         header(filter_input(INPUT_SERVER, 'SERVER_PROTOCOL') . " 404 File Not Found");
         if (Misc::getVar("raw") == NULL) {
-            $css = "/res/css/download_404.css";
-            include 'res/content/header.php';
-            include 'res/content/navbar.php';
-            include 'res/content/download_404.php';
+            header('Location: /download-404');
         }
         exit;
     }
