@@ -28,6 +28,8 @@ if (count($url)) {
         upload($conf);
     } elseif ($url[2] == 'delete') {
         delete();
+      }elseif ($url[2] == 'download'){
+        download();
     } else {
         $output['error'] = 'Incorrectly formatted URL.';
         sendOutput($output);
@@ -106,4 +108,42 @@ function delete() {
         $output['password'] = $delpass[3];
     }
     sendOutput($output);
+}
+
+function download(){
+      $e = DataStorage::getFile(Misc::getVar("id"), Misc::getVar("p")); # Returns [0] = File Meta Data, [1] = File Content.
+      if ($e[0] != NULL) { //successful decryption
+        $metadata = explode(" ", $e[0]); # Returns [0] = File Name, [1] = File Length, [2] = File Type, [3] = Deletion Password.
+        $output['success'] = true;
+        $output['data'] = base64_encode($e[1]);
+        $output['type'] = base64_decode($metadata[2]);
+        $output['filename'] = base64_decode($metadata[0]);
+        $output['length'] = base64_decode($metadata[1]);
+        $viewsArray = $e[1];
+        if (is_array($viewsArray)) {
+            compareViews($viewsArray[0], $viewsArray[1], $url[2]);
+            $output['currentviews']=$viewsArray[0];
+            $output['maxviews']=$viewsArray[1];
+        }
+    }else{
+      $output['error']="Decryption failed. Is the ID or password wrong?";
+    }
+    sendOutput($output);
+    exit();
+}
+
+/**
+ * Compare max views with current views-
+ * @param int $currentviews Current views.
+ * @param int $maxviews Maximum allowed views.
+ * @param string $id ID.
+ * @return boolean Returns true if current views surpass the maximum views. Otherwise returns false.
+ */
+function compareViews($currentviews, $maxviews, $id) {
+    if (($currentviews + 1) >= $maxviews) {
+        return DataStorage::deleteFile($id);
+    } else {
+        return DataStorage::setViews(intval($maxviews), ($currentviews + 1), $id);
+    }
+    return false;
 }
