@@ -2,14 +2,14 @@
 layout: default
 ---
 
-    <div class="description">
+    <div class="description noselect">
         <h1>Temp File Storage</h1>
         <p class="lead">Store files to share with your friends and family for <strong>24 hours</strong>.</p>
     </div> <!-- /description -->
 
     <div class="upload_file" id="upload_file">
         <div class="center">
-            <h2>Upload File</h2>
+            <h2 class="noselect">Upload File</h2>
 
                 <div id="upload_success" hidden="">
                     <h3 class="text-success">Success! <span class=" glyphicon glyphicon-ok"></span></h3>
@@ -44,7 +44,7 @@ layout: default
 
             <form class="form-horizontal center upload-form col-lg-4 col-md-6 col-sm-9 col-xs-11" enctype="multipart/form-data" method="POST" accept-charset="UTF-8" name="upload-form" id="upload-form">
                 <div class='form-group'><input type="file" id="file" name="file" required=""/></div>
-                <div class='form-group'><input class="form-control" type="password" name="upload-password" id="upload-password" placeholder="Password"/></div>
+                <div class='form-group'><input type="password" name="upload-password" id="upload-password" placeholder="Password" data-lpignore="true" autocomplete="off"/></div>
 
                 <div class='form-group center'><button class="btn btn-lg btn-success upload-btn" type="button" name="upload-submit" id="upload-submit">Upload File</button></div>
             </form> <!-- upload_form -->

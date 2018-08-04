@@ -1,6 +1,6 @@
 ---
 ---
-html {
+ html {
   height: 100%;
   box-sizing: border-box;
 }
@@ -13,8 +13,8 @@ body {
 }
 
 body.dark {
-  background-color: #1B1B1B;
-  color: #eee;
+  background-color: #101010;
+  color: #ddd;
 }
 
 .upload_failed {
@@ -26,7 +26,7 @@ body.dark {
 }
 
 .navbar {
-  background-color: #777;
+  background-color: #222222;
   color: #eee;
 }
 
@@ -60,6 +60,20 @@ body.dark {
   transform: translate(-50%, -50%);
 }
 
+#upload-password {
+  color: #C5C5C5;
+  background-color: #222222;
+  width: 100%;
+  height: 42px;
+  border: medium none;
+  font-size: 16px;
+  padding: 5px 9px 0;
+}
+
+#upload-submit {
+  border-radius: 0;
+}
+
 .d-failed-input {
   margin-bottom: 5px;
 }
@@ -81,6 +95,7 @@ body.dark {
 
 .upload-btn {
   padding: 10px;
+  margin-top: 10px;
 }
 
 .navbar-brand {
@@ -99,4 +114,13 @@ footer {
 
 .nocolor {
   color: inherit;
+}
+
+.noselect {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
