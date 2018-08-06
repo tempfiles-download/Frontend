@@ -1,7 +1,6 @@
 ---
 layout: default
 ---
-
     <div class="description noselect">
         <h1 id="description-head">Temp File Storage</h1>
         <p class="lead">Store files to share with your friends and family for <strong>24 hours</strong>.</p>
@@ -9,6 +8,14 @@ layout: default
 
     <div class="upload_file" id="upload_file">
         <div class="center">
+          
+          <div class="upload_failed" id="error" hidden="">
+            <div class="alert alert-danger">
+              <h3>Upload Failed</h3>
+              <p id="error-msg"></p>
+            </div>
+          </div> <!-- /upload_failed -->
+
             <h2 class="noselect">Upload File</h2>
 
                 <div id="upload_success" hidden="">
@@ -32,13 +39,6 @@ layout: default
                         </div>
                     </div>
                 </div> <!-- /upload_success -->
-
-              <div class="upload_failed" id="error" hidden="">
-                <div class="alert alert-danger">
-                  <h3>Upload Failed</h3>
-                  <p id="error-msg"></p>
-                </div>
-              </div> <!-- /upload_failed -->
 
             </div> <!-- /center -->
 
