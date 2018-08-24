@@ -10,6 +10,7 @@ body {
   margin: 0;
   padding-bottom: 6rem;
   min-height: 100%;
+  font-family: "Helvetica Neue", Arial, sans-serif;
 }
 
 body.dark {
@@ -20,9 +21,9 @@ body.dark {
 .upload_failed {
   width: 50%;
   text-align: center;
-  margin:0px auto;
-  left:0;
-  right:0;
+  margin: 0 auto;
+  left: 0;
+  right: 0;
 }
 
 .main_container {
@@ -33,6 +34,9 @@ body.dark {
   background-color: #eee;
   color: #222;
   border: 0;
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+  webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+  font-size: 14px;
 }
 
 .navbar.dark {
@@ -71,8 +75,9 @@ body.dark {
 }
 
 #description-head {
-  margin-top: 0px;
+  margin-top: 0;
 }
+
 #upload-password.dark {
   color: #C5C5C5;
   background-color: #222222;
@@ -89,6 +94,30 @@ body.dark {
   color: #444;
 }
 
+#settings-button {
+  background-color: inherit;
+  border: 0;
+  float: left;
+  width: 100%;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+#advanced-settings {
+  display: none;
+  margin-bottom: 20px;
+  text-align: left;
+  height: 68px;
+}
+
+#max-views {
+width: 55px;
+color: #222;
+text-align: center;
+margin-left: 5px;
+margin-right: 10px;
+}
+
 .btn {
   border-radius: 0;
 }
@@ -98,7 +127,7 @@ body.dark {
 }
 
 .description {
-  padding-top: 0px;
+  padding-top: 0;
   padding-bottom: 40px;
   text-align: center;
 }

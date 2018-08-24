@@ -15,6 +15,12 @@ $(document).ready(function(e) {
     this.select();
   });
 
+  $('#settings-button').click(function(e){
+    e.preventDefault();
+    $('#advanced-settings').slideToggle();
+    return false;
+  });
+
   var longhash = '{{ site.github.build_revision }}'
   if (longhash.length > 0) {
     var shorthash = longhash.slice(0, 7);
@@ -27,6 +33,9 @@ $(document).ready(function(e) {
       form_data.append('file', $('input[type=file]')[0].files[0]); //$file
     }
     form_data.append('password', $('#upload-password').val());
+    if($('#max-views').val() != "0"){
+      form_data.append('maxviews', $('#max-views').val());
+    }
     $.ajax({
       type: "POST",
       url: '/api/upload',
