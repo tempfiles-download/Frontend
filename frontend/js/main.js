@@ -15,9 +15,11 @@ $(document).ready(function(e) {
     this.select();
   });
 
-  $('#settings-button').click(function(e){
+  $('#settings-button').click(function(e) {
     e.preventDefault();
-    $('#advanced-settings').slideToggle();
+    $('#advanced-settings').slideToggle(function() {
+    $('#settings-btn-icon').toggleClass('glyphicon-chevron-down glyphicon-chevron-up');
+  });
     return false;
   });
 
@@ -29,15 +31,15 @@ $(document).ready(function(e) {
 
   function upload_file() {
     var form_data = new FormData();
-    if ($('#file').val() != "") {
+    if ($('#file').val() != '') {
       form_data.append('file', $('input[type=file]')[0].files[0]); //$file
     }
     form_data.append('password', $('#upload-password').val());
-    if($('#max-views').val() != "0"){
+    if($('#max-views').val() != '0'){
       form_data.append('maxviews', $('#max-views').val());
     }
     $.ajax({
-      type: "POST",
+      type: 'POST',
       url: '/api/upload',
       dataType: false,
       processData: false,
@@ -54,7 +56,7 @@ $(document).ready(function(e) {
           $('#deletionpass').val(data['deletepassword']);
         } else { //invalid login.
           console.log(data);
-          $('#error').fadeIn("slow");
+          $('#error').fadeIn('slow');
           $('#error-msg').text('Error: ' + data['error']);
         }
       }
