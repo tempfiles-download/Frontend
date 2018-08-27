@@ -17,9 +17,8 @@ $(document).ready(function(e) {
 
   $('#settings-button').click(function(e) {
     e.preventDefault();
-    $('#advanced-settings').slideToggle(function() {
+    $('#advanced-settings').slideToggle("fast");
     $('#settings-btn-icon').toggleClass('glyphicon-chevron-down glyphicon-chevron-up');
-  });
     return false;
   });
 
@@ -35,7 +34,7 @@ $(document).ready(function(e) {
       form_data.append('file', $('input[type=file]')[0].files[0]); //$file
     }
     form_data.append('password', $('#upload-password').val());
-    if($('#max-views').val() != '0'){
+    if ($('#max-views').val() != '0') {
       form_data.append('maxviews', $('#max-views').val());
     }
     $.ajax({
