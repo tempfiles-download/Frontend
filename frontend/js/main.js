@@ -1,6 +1,19 @@
 ---
 ---
+
+ondragover = ondragenter = function(e) {
+  e.stopPropagation();
+  e.preventDefault();
+};
+
+ondrop = function(e) {
+  e.stopPropagation();
+  e.preventDefault()
+  file.files = e.dataTransfer.files;
+}
+
 $(document).ready(function(e) {
+
   $('#upload-submit').click(function() {
     upload_file();
     return false;
