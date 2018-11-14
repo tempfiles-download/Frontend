@@ -19,9 +19,9 @@ All metadata is also encrypted and stored there until someone requests to downlo
 
 The metadata is stored seperately to the file content in an array. The array looks like this:
 
-File Name | File Size | File Type
- -------- | --------- | ---------
-meme.gif | 18 Kb | Image/Gif
+File Name | File Size | File Type | Deletion Password
+ -------- | --------- | --------- | -----------------
+meme.gif | 18 Kb | Image/Gif | jpNUeOBfvFRCr9zowyPhbX
 
 The file is also given a unique ID using the uniqid() function of PHP.  
 All Unique IDs start with a `D`. This is to make it easier to debug when something doesn't work.  
