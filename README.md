@@ -17,7 +17,7 @@ Now with updated encryption methods and storage principles.
 When a file is uploaded to TempFiles it is sent over HTTPS(TLS) to the server where it is encrypted using `AES 256 CBC` and then stored as a blob on MySQL.  
 All metadata is also encrypted and stored there until someone requests to download it.  
 
-The metadata is stored seperately to the file content in an array. The array looks like this:
+The metadata is stored separately to the file content in an array. The array looks like this:
 
 File Name | File Size | File Type | Deletion Password
  -------- | --------- | --------- | -----------------

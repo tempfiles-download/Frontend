@@ -35,7 +35,6 @@ if (Misc::getVar('f') != false && Misc::getVar('p') != false) {
         header('Content-Type: ' . base64_decode($metadata[2]));
         header('Content-Disposition: inline; filename="' . base64_decode($metadata[0]) . '"');
         header('Expires: 0');
-        header('Cache-Control: must-revalidate');
         header('Pragma: public');
         header('Content-Length: ' . base64_decode($metadata[1]));
         echo($e[1]);
@@ -44,9 +43,7 @@ if (Misc::getVar('f') != false && Misc::getVar('p') != false) {
             compareViews($viewsArray[0], $viewsArray[1], $url[2]);
         }
         exit;
-
     } else {
-
         $css = filter_input(INPUT_POST, 'css');
         header(filter_input(INPUT_SERVER, 'SERVER_PROTOCOL') . " 404 File Not Found");
         if (Misc::getVar("raw") == NULL) {
