@@ -46,6 +46,19 @@ class DataStorage {
     }
 
     /**
+    * Delete all files older than 1 day.
+    * @return boolean Returns true if the query was sucessful, otherwise false.
+    */
+    public static function deleteOldFiles(){
+      global $conf;
+      global $mysql_connection;
+      $query = $mysql_connection->prepare("DELETE FROM `files` WHERE `time` < DATE_SUB(NOW(), INTERVAL 1 DAY)");
+      $result = $query->execute();
+      $query->close();
+      return($result);
+    }
+
+    /**
      * Get the metadata and content of a file.
      * @global array $conf Configuration variables.
      * @global object $mysql_connection MySQL connetion.

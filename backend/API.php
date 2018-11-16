@@ -30,6 +30,8 @@ if (count($url)) {
         delete();
       }elseif ($url[2] == 'download'){
         download();
+      }elseif($url[2] == 'cleanup'){
+        cleanup();
     } else {
         $output['error'] = 'Incorrectly formatted URL.';
         sendOutput($output);
@@ -130,6 +132,11 @@ function download(){
     }
     sendOutput($output);
     exit();
+}
+
+function cleanup(){
+  $output['success'] = filter_var(DataStorage::deleteOldFiles(), FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
+  sendOutput($output);
 }
 
 /**
