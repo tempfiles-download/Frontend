@@ -78,16 +78,27 @@ body.dark {
   margin-top: 0;
 }
 
+#upload-password.dark:hover {
+  box-shadow: none;
+}
+
 #upload-password.dark {
   color: #C5C5C5;
   background-color: #222222;
   box-shadow: none;
+  border: medium none;
+}
+
+#upload-password:hover {
+  box-shadow: 0 3px 8px 0 rgba(0,0,0,0.2), 0 0 0 1px rgba(0,0,0,0.08);
 }
 
 #upload-password {
   width: 100%;
   height: 42px;
-  border: medium none;
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,0.16), 0 0 0 1px rgba(0,0,0,0.08);
+  border-radius: 2px;
+  border: none;
   font-size: 16px;
   padding: 5px 9px 0;
   color: #444;

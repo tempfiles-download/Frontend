@@ -8,7 +8,7 @@
 
 return array(
     # Allowed formats <n>MB, <n>GB, <n>TB, <n>PB.
-    'max-file-size' => '2MB',
+    'max-file-size' => '12MB',
     #'mysql-url' => 'localhost',
     'mysql-url' => getenv('ag44jc7aqs2rsup2bb6cx7utc'),
     #'mysql-user => 'tempfiles',
