@@ -10,7 +10,7 @@ class Encryption {
      * @param string $iv IV for decryption.
      * @return string Decrypted data.
      */
-    public static function decrypt($data, $password, $iv) {
+    public static function decrypt(string $data, string $password, string $iv) {
         global $conf;
         return openssl_decrypt($data, $conf['Encryption-Method'], $password, OPENSSL_RAW_DATA, $iv);
     }

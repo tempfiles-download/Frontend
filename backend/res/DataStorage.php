@@ -15,7 +15,7 @@ class DataStorage {
      * @param string $id The ID for the file.
      * @return boolean Returns true if the change was successful. Returns false otherwise.
      */
-    public static function setViews($maxViews, $newViews, $id) {
+    public static function setViews(string $maxViews, string $newViews, string $id) {
         global $conf;
         global $mysql_connection;
         $views = base64_encode($newViews . "," . $maxViews);
@@ -35,7 +35,7 @@ class DataStorage {
      * @param string $id The ID for the file.
      * @return boolean Returns true if the deletion was sucessful. Returns false otherwise.
      */
-    public static function deleteFile($id) {
+    public static function deleteFile(string $id) {
         global $conf;
         global $mysql_connection;
         $query = $mysql_connection->prepare("DELETE FROM `" . $conf['mysql-table'] . "` WHERE `id` = ?");
@@ -66,7 +66,7 @@ class DataStorage {
      * @param string $password Description
      * @return mixed Returns array of filedata, filecontent & maxviews if fetching of the specified file was sucessful. Returns NULL otherwise.
      */
-    public static function getFile($id, $password) {
+    public static function getFile(string $id, string $password) {
         global $conf;
         global $mysql_connection;
         $query = $mysql_connection->prepare("SELECT `iv`, `metadata`, `content`, `maxviews` FROM `" . $conf['mysql-table'] . "` WHERE `id` = ?");
@@ -94,39 +94,54 @@ class DataStorage {
      * Upload a file to the database.
      * @global array $conf Configuration variables.
      * @global object $mysql_connection MySQL connection.
-     * @param string $enc_content Encoded and encrypted file content.
-     * @param string $enc_filedata Encoded and encrypted file data.
-     * @param int $maxviews The max amount of views for a file.
+     * @param string $content File content.
+     * @param string $password Password to encrypt the file content and metadata with.
      * @return string Returns the ID of the uploaded file if the upload was sucessful. Returns 0 otherwise.
      */
-    public static function uploadFile($enc_content, $iv, $enc_filedata, $maxviews) {
+    public static function uploadFile(File $file, string $password) {
         global $conf;
         global $mysql_connection;
-        $id = strtoupper(uniqid("d"));
-        $NULL = NULL;
+        $iv = ['content' => Encryption::getIV(), 'metadata' => Encryption::getIV()];
+
+        $maxviews = $file->getMaxViews();
+        $enc_filecontent = Encryption::encryptFileContent($file->getContent(), $password, $iv['content']);
+        $enc_filemetadata = Encryption::encryptFileDetails($file->getMetaData(), $file->getDeletionPassword(), $password, $iv['metadata']);
+        $enc_iv = base64_encode($iv['content'] . "," . $iv['metadata']);
+
         if ($maxviews != NULL) {
             $enc_maxviews = base64_encode('[0,' . $maxviews . ']');
         } else {
             $enc_maxviews = NULL;
         }
+
+        try {
         $query = $mysql_connection->prepare("INSERT INTO `" . $conf['mysql-table'] . "` (id, iv, metadata, content, maxviews) VALUES (?, ?, ?, ?, ?)");
         if (false === $query) {
-            error_log('prepare() failed: ' . htmlspecialchars($mysql_connection->error));
-            return false;
+            throw new Exception('prepare() failed: ' . htmlspecialchars($mysql_connection->error));
         }
-        $bp = $query->bind_param("sssbs", $id, $iv, $enc_filedata, $NULL, $enc_maxviews);
-        $query->send_long_data(3, $enc_content);
+
+        $bp = $query->bind_param("sssbs", $file, $enc_iv, $enc_filemetadata, $NULL, $enc_maxviews);
+
+        //send content blob to query
+        $query->send_long_data(3, $enc_filecontent);
         if (false === $bp) {
-            error_log('bind_param() failed: ' . htmlspecialchars($query->error));
-            return false;
+            throw new Exception('bind_param() failed: ' . htmlspecialchars($query->error));
         }
+
         $bp = $query->execute();
         if (false === $bp) {
-            error_log('execute() failed: ' . htmlspecialchars($query->error));
-            return false;
+            throw new Exception('execute() failed: ' . htmlspecialchars($query->error));
         }
+
         $query->close();
-        return $id;
+        return true;
+
+      } catch (Exception $e){
+        error_log($e);
+        return false;
+      }
+
+        $query->close();
     }
 
     /**
@@ -136,36 +151,27 @@ class DataStorage {
      * @param string $deletionpass
      * @return boolean
      */
-    public static function getID($file, $password, $maxviews = NULL, $deletionpass = NULL) {
+    public static function getID($fileContent, string $password, $file) {
         global $conf;
-        if ($file != NULL) {
-            $maxsize = Misc::convertToBytes($conf['max-file-size']);
-            if ($file['size'] <= $maxsize) {
+        try {
+            if ($file->getMetaData('size') <= Misc::convertToBytes($conf['max-file-size'])) {
                 if ($password != NULL) {
-                    if (is_numeric($maxviews) || $maxviews == NULL) {
-                        $iv = array(Encryption::getIV(), Encryption::getIV());
-                        $fileContent = file_get_contents($file['tmp_name']);
-                        $enc_filecontent = Encryption::encryptFileContent($fileContent, $password, $iv[0]);
-                        $enc_filedata = Encryption::encryptFileDetails($file, $deletionpass, $password, $iv[1]);
-                        $enc_iv = base64_encode($iv[0] . "," . $iv[1]);
-                        $id = DataStorage::uploadFile($enc_filecontent, $enc_iv, $enc_filedata, $maxviews);
-                        if ($id != FALSE) {
-                            return array(true, $id);
+                        $file->setContent(file_get_contents($fileContent['tmp_name']));
+                        if($upload = DataStorage::uploadFile($file, $password)){
+                            return true;
                         } else {
-                            return array(false, "Connection to our database failed.");
+                            //throw new Exception("Connection to our database failed.");
                         }
-                    } else {
-                        return array(false, "'maxviews' is not a number.");
-                    }
                 } else {
-                    return array(false, "Password not set.");
+                    throw new Exception("Password not set.");
                 }
             } else {
-                return array(false, "File size too large. Maximum allowed " . $conf['max-file-size'] . " (currently " . $file['size'] . ")");
+                    throw new Exception("File size too large. Maximum allowed " . $conf['max-file-size'] . " (currently " . $file->getMetaData('size') . ")");
             }
-        } else {
-            return array(false, "File not found.");
-        }
+      } catch(Exception $e){
+        error_log($e);
+        return($e->getMessage());
+      }
     }
 
 }

@@ -42,44 +42,49 @@ if (count($url)) {
 }
 
 function upload($conf) {
+  require_once __DIR__.'/res/File.php';
     if (isset($_FILES['file']) && $_FILES['file'] != NULL) {
         $file = $_FILES['file'];
-        $maxsize = Misc::convertToBytes($conf['max-file-size']);
-        if ($file['size'] <= $maxsize) {
-            $maxviews = Misc::getVar('maxviews');
+        $f = new File($file);
+        if(Misc::getVar('maxviews') != NULL ) $f->setMaxViews(Misc::getVar('maxviews'));
             if (Misc::getVar('password') != NULL) {
                 $password = Misc::getVar('password');
             } else {
                 $password = Misc::generatePassword(6, 20);
             }
-            $deletionpass = Misc::generatePassword(12, 32);
-            $id = DataStorage::getID($file, $password, $maxviews, $deletionpass);
-            if (is_bool($id[0]) && $id[0]) {
+            $f->setDeletionPassword(Misc::generatePassword(12, 32));
+
+            $upload = DataStorage::getID($file, $password, $f);
+            if (is_bool($upload) && $upload) {
                 $protocol = "http";
                 $https = filter_input(INPUT_SERVER, 'HTTPS');
                 if (isset($https) && $https !== 'off') {
                     $protocol = "https";
                 }
-                $completeURL = $protocol . "://" . filter_input(INPUT_SERVER, 'HTTP_HOST') . "/download/" . $id[1] . "/?p=" . urlencode($password);
+
+                // Full URI to download the file
+                $completeURL = $protocol . "://" . filter_input(INPUT_SERVER, 'HTTP_HOST') . "/download/" . $f->getID() . "/?p=" . urlencode($password);
+
                 $output['success'] = true;
                 $output['url'] = $completeURL;
-                $output['id'] = $id[1];
-                $output['deletepassword'] = $deletionpass;
+                $output['id'] = $f->getID();
+                $output['deletepassword'] = $f->getDeletionPassword();
+
                 if (Misc::getVar('password') == NULL) {
                     $output['password-mode'] = 'Server generated.';
                 } else {
                     $output['password-mode'] = 'User generated.';
                 }
+
                 $output['password'] = $password;
-                if ($maxviews != NULL) {
+
+                if ($f->getMaxViews() !== NULL) {
                     $output['maxviews'] = (int) $maxviews;
                 }
+
             } else {
-                $output['error'] = $id[1];
+                $output['error'] = $upload;
             }
-        } else {
-            $output['error'] = 'File size exceeded the limit of ' . $conf['max-file-size'] . ".";
-        }
     } else {
         $output['error'] = 'No file supplied.';
     }
