@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * Encryption handling.
+ * @since 2.0
+ */
 class Encryption {
 
     /**

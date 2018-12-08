@@ -3,20 +3,20 @@
 class Misc {
 
     /**
-     * Get a parameter from either $_GET or $_POST. 
-     * @param type $name Name of the parameter.
-     * @return type Returns parameter data if the parameter exists.
+     * Get a parameter from either $_GET or $_POST.
+     * @param string $name Name of the parameter.
+     * @return string Returns parameter data if the parameter exists.
      */
     public static function getVar($name) {
         if (filter_input(INPUT_GET, $name) != NULL)
-            return filter_input(INPUT_GET, $name);
+                return filter_input(INPUT_GET, $name);
         if (filter_input(INPUT_POST, $name) != NULL)
-            return filter_input(INPUT_POST, $name);
+                return filter_input(INPUT_POST, $name);
     }
 
     /**
      * Generate a password to use for encryption.
-     * 
+     *
      * This function should only be used if a password is not supplied as it's less secure than if the user chooses their own password.
      * @return string Returns a string of random characters to use as a password.
      */

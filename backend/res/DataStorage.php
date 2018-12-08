@@ -1,9 +1,10 @@
 <?php
 
+/**
+ * DataStorage handles all MySQL database connecting functions.
+ * @since 2.0
+ */
 class DataStorage {
-    /**
-     * data_storage handles all MySQL database connecting functions.
-     */
 
     /**
      * Set the current views and max views for a specified file.
@@ -12,8 +13,9 @@ class DataStorage {
      * @global object $mysql_connection MySQL connection.
      * @param string $maxViews The new maximum amount of views to set on a file.
      * @param string $newViews The new current views to set on a file.
-     * @param object $id The ID for the file.
+     * @param string $id The ID for the file.
      * @return boolean Returns true if the change was successful. Returns false otherwise.
+     * @
      */
     public static function setViews(string $maxViews, string $newViews, string $id) {
         global $conf;
@@ -30,10 +32,11 @@ class DataStorage {
 
     /**
      * Delete a specific file.
+     * @since 2.0
      * @global array $conf Configuration variables.
-     * @global object $mysql_connection MySQL connetion.
-     * @param object $id The ID for the file.
-     * @return boolean Returns true if the deletion was sucessful. Returns false otherwise.
+     * @global object $mysql_connection MySQL connection.
+     * @param string $id The ID for the file.
+     * @return boolean Returns true if the deletion was successful. Returns false otherwise.
      */
     public static function deleteFile(string $id) {
         global $conf;
@@ -47,7 +50,8 @@ class DataStorage {
 
     /**
      * Delete all files older than 1 day.
-     * @return boolean Returns true if the query was sucessful, otherwise false.
+     * @since 2.1
+     * @return boolean Returns true if the query was successful, otherwise false.
      */
     public static function deleteOldFiles() {
         global $conf;
@@ -60,11 +64,12 @@ class DataStorage {
 
     /**
      * Get the metadata and content of a file.
+     * @since 1.0
      * @global array $conf Configuration variables.
-     * @global object $mysql_connection MySQL connetion.
-     * @param object $id The ID for the file.
+     * @global object $mysql_connection MySQL connection.
+     * @param string $id The ID for the file.
      * @param string $password Description
-     * @return mixed Returns array of filedata, filecontent & maxviews if fetching of the specified file was sucessful. Returns NULL otherwise.
+     * @return mixed Returns array of filedata, filecontent & maxviews if fetching of the specified file was successful, returns NULL otherwise.
      */
     public static function getFile(string $id, string $password) {
         global $conf;
@@ -104,11 +109,12 @@ class DataStorage {
 
     /**
      * Upload a file to the database.
+     * @since 2.2
      * @global array $conf Configuration variables.
      * @global object $mysql_connection MySQL connection.
      * @param object $file File to upload.
      * @param string $password Password to encrypt the file content and metadata with.
-     * @return boolean Returns the ID of the uploaded file if the upload was sucessful. Returns 0 otherwise.
+     * @return boolean Returns the ID of the uploaded file if the upload was successful. Returns 0 otherwise.
      */
     public static function uploadFile(File $file, string $password) {
         global $conf;
@@ -155,11 +161,11 @@ class DataStorage {
     }
 
     /**
-     * @param string $file
-     * @param string $password
-     * @param string $maxviews
-     * @param string $deletionpass
-     * @return boolean
+     * @since 1.0
+     * @param array $fileContent Content of the file.
+     * @param string $password Encryption password of the file.
+     * @param File $file The file to upload.
+     * @return mixed Returns TRUE (boolean) if the action was successfully executed, otherwise an error message (string).
      */
     public static function getID(array $fileContent, string $password, File $file) {
         global $conf;
