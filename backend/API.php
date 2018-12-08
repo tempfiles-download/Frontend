@@ -28,9 +28,9 @@ if (count($url)) {
         upload($conf);
     } elseif ($url[2] == 'delete') {
         delete();
-      }elseif ($url[2] == 'download'){
+    } elseif ($url[2] == 'download') {
         download();
-      }elseif($url[2] == 'cleanup'){
+    } elseif ($url[2] == 'cleanup') {
         cleanup();
     } else {
         $output['error'] = 'Incorrectly formatted URL.';
@@ -42,49 +42,49 @@ if (count($url)) {
 }
 
 function upload($conf) {
-  require_once __DIR__.'/res/File.php';
+    require_once __DIR__ . '/res/File.php';
     if (isset($_FILES['file']) && $_FILES['file'] != NULL) {
         $file = $_FILES['file'];
         $f = new File($file);
-        if(Misc::getVar('maxviews') != NULL ) $f->setMaxViews(Misc::getVar('maxviews'));
-            if (Misc::getVar('password') != NULL) {
-                $password = Misc::getVar('password');
-            } else {
-                $password = Misc::generatePassword(6, 20);
+        if (Misc::getVar('maxviews') != NULL)
+                $f->setMaxViews(Misc::getVar('maxviews'));
+        if (Misc::getVar('password') != NULL) {
+            $password = Misc::getVar('password');
+        } else {
+            $password = Misc::generatePassword(6, 20);
+        }
+        $f->setDeletionPassword(Misc::generatePassword(12, 32));
+
+        $upload = DataStorage::getID($file, $password, $f);
+        if (is_bool($upload) && $upload) {
+            $protocol = "http";
+            $https = filter_input(INPUT_SERVER, 'HTTPS');
+            if (isset($https) && $https !== 'off') {
+                $protocol = "https";
             }
-            $f->setDeletionPassword(Misc::generatePassword(12, 32));
 
-            $upload = DataStorage::getID($file, $password, $f);
-            if (is_bool($upload) && $upload) {
-                $protocol = "http";
-                $https = filter_input(INPUT_SERVER, 'HTTPS');
-                if (isset($https) && $https !== 'off') {
-                    $protocol = "https";
-                }
+            // Full URI to download the file
+            $completeURL = $protocol . "://" . filter_input(INPUT_SERVER, 'HTTP_HOST') . "/download/" . $f->getID() . "/?p=" . urlencode($password);
 
-                // Full URI to download the file
-                $completeURL = $protocol . "://" . filter_input(INPUT_SERVER, 'HTTP_HOST') . "/download/" . $f->getID() . "/?p=" . urlencode($password);
+            $output['success'] = true;
+            $output['url'] = $completeURL;
+            $output['id'] = $f->getID();
+            $output['deletepassword'] = $f->getDeletionPassword();
 
-                $output['success'] = true;
-                $output['url'] = $completeURL;
-                $output['id'] = $f->getID();
-                $output['deletepassword'] = $f->getDeletionPassword();
-
-                if (Misc::getVar('password') == NULL) {
-                    $output['password-mode'] = 'Server generated.';
-                } else {
-                    $output['password-mode'] = 'User generated.';
-                }
-
-                $output['password'] = $password;
-
-                if ($f->getMaxViews() !== NULL) {
-                    $output['maxviews'] = (int) $maxviews;
-                }
-
+            if (Misc::getVar('password') == NULL) {
+                $output['password-mode'] = 'Server generated.';
             } else {
-                $output['error'] = $upload;
+                $output['password-mode'] = 'User generated.';
             }
+
+            $output['password'] = $password;
+
+            if ($f->getMaxViews() !== NULL) {
+                $output['maxviews'] = (int) $maxviews;
+            }
+        } else {
+            $output['error'] = $upload;
+        }
     } else {
         $output['error'] = 'No file supplied.';
     }
@@ -92,7 +92,8 @@ function upload($conf) {
 }
 
 function delete() {
-    $id = Misc::getVar('id');
+    require_once __DIR__ . '/res/ID.php';
+    $id = new ID(Misc::getVar('id'));
     $password = Misc::getVar('p');
     $deletionpass = Misc::getVar('delete');
     try {
@@ -117,9 +118,11 @@ function delete() {
     sendOutput($output);
 }
 
-function download(){
-      $e = DataStorage::getFile(Misc::getVar("id"), Misc::getVar("p")); # Returns [0] = File Meta Data, [1] = File Content.
-      if ($e[0] != NULL) { //successful decryption
+function download() {
+    require_once __DIR__ . '/res/ID.php';
+
+    $e = DataStorage::getFile(new ID(Misc::getVar("id")), Misc::getVar("p")); # Returns [0] = File Meta Data, [1] = File Content.
+    if ($e[0] != NULL) { //successful decryption
         $metadata = explode(" ", $e[0]); # Returns [0] = File Name, [1] = File Length, [2] = File Type, [3] = Deletion Password.
         $output['success'] = true;
         $output['data'] = base64_encode($e[1]);
@@ -129,19 +132,19 @@ function download(){
         $viewsArray = $e[1];
         if (is_array($viewsArray)) {
             compareViews($viewsArray[0], $viewsArray[1], $url[2]);
-            $output['currentviews']=$viewsArray[0];
-            $output['maxviews']=$viewsArray[1];
+            $output['currentviews'] = $viewsArray[0];
+            $output['maxviews'] = $viewsArray[1];
         }
-    }else{
-      $output['error']="Decryption failed. Is the ID or password wrong?";
+    } else {
+        $output['error'] = "Decryption failed. Is the ID or password wrong?";
     }
     sendOutput($output);
     exit();
 }
 
-function cleanup(){
-  $output['success'] = filter_var(DataStorage::deleteOldFiles(), FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
-  sendOutput($output);
+function cleanup() {
+    $output['success'] = filter_var(DataStorage::deleteOldFiles(), FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
+    sendOutput($output);
 }
 
 /**

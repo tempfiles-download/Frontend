@@ -25,7 +25,7 @@ class Encryption {
      * @param string $iv IV used to encrypt the data.
      * @return string Returns encoded and encrypted file metadata.
      */
-    public static function encryptFileDetails($file, $deletionpass, $password, $iv) {
+    public static function encryptFileDetails(array $file, string $deletionpass, $password, $iv) {
         global $conf;
         $dataarray = array(base64_encode($file['name']), base64_encode($file['size']), base64_encode($file['type']), base64_encode($deletionpass));
         $filedata = implode(" ", $dataarray);

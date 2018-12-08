@@ -9,11 +9,13 @@ include __DIR__ . '/res/init.php';
  * @param string $id ID.
  * @return boolean Returns true if current views surpass the maximum views. Otherwise returns false.
  */
-function compareViews($currentviews, $maxviews, $id) {
-    if (($currentviews + 1) >= $maxviews) {
-        return DataStorage::deleteFile($id);
-    } else {
-        return DataStorage::setViews(intval($maxviews), ($currentviews + 1), $id);
+function compareViews($currentviews, $maxviews, string $id) {
+    if (isset($currentviews) && isset($maxviews)) {
+        if (($currentviews + 1) >= $maxviews) {
+            return DataStorage::deleteFile($id);
+        } else {
+            return DataStorage::setViews(intval($maxviews), ($currentviews + 1), $id);
+        }
     }
     return false;
 }
@@ -28,20 +30,19 @@ if (Misc::getVar('f') != false && Misc::getVar('p') != false) {
 } else {
 
     $url = explode('/', strtolower(filter_input(INPUT_SERVER, 'REQUEST_URI')));
-    $e = DataStorage::getFile($url[2], Misc::getVar("p")); # Returns [0] = File Meta Data, [1] = File Content.
-    if ($e[0] != NULL) {
-        $metadata = explode(" ", $e[0]); # Returns [0] = File Name, [1] = File Length, [2] = File Type, [3] = Deletion Password.
+    $id = $url[2];
+    $file = DataStorage::getFile($id, Misc::getVar('p'));
+    if (isset($file)) {
+        $metadata = $file->getMetaData();
         header('Content-Description: File Transfer');
-        header('Content-Type: ' . base64_decode($metadata[2]));
-        header('Content-Disposition: inline; filename="' . base64_decode($metadata[0]) . '"');
+        header('Content-Type: ' . base64_decode($metadata['type']));
+        header('Content-Disposition: inline; filename="' . base64_decode($metadata['name']) . '"');
         header('Expires: 0');
         header('Pragma: public');
-        header('Content-Length: ' . base64_decode($metadata[1]));
-        echo($e[1]);
-        $viewsArray = $e[2];
-        if (is_array($viewsArray)) {
-            compareViews($viewsArray[0], $viewsArray[1], $url[2]);
-        }
+        header('Content-Length: ' . base64_decode($metadata['size']));
+        echo($file->getContent());
+
+        compareViews($file->getCurrentViews(), $file->getMaxViews(), $file->getID());
         exit;
     } else {
         $css = filter_input(INPUT_POST, 'css');
