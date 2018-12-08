@@ -20,36 +20,46 @@ function compareViews($currentviews, $maxviews, string $id) {
     return false;
 }
 
-/** Backwards compatibility.
- * If the client uses the old link method it will be redirected to the new one.
+/** 
+ * Only used to get legacy variables.
+ * If the client uses the old link/variable method it will be redirected to the new one.
+ * @since 1.0
+ * @since 2.2 Moved to own function.
+ * @deprecated 2.0 Use <PROTOCOL>://<DOMAIN>/DOWNLOAD/<ID>/?p=<PASSWORD> instead.
  */
-if (Misc::getVar('f') != false && Misc::getVar('p') != false) {
-    $f = Misc::getVar('f');
-    $p = Misc::getVar('p');
-    header('Location: /download/' . $f . '/?p=' . $p);
-} else {
-
-    $url = explode('/', strtolower(filter_input(INPUT_SERVER, 'REQUEST_URI')));
-    $id = $url[2];
-    $file = DataStorage::getFile($id, Misc::getVar('p'));
-    if (isset($file)) {
-        $metadata = $file->getMetaData();
-        header('Content-Description: File Transfer');
-        header('Content-Type: ' . base64_decode($metadata['type']));
-        header('Content-Disposition: inline; filename="' . base64_decode($metadata['name']) . '"');
-        header('Expires: 0');
-        header('Pragma: public');
-        header('Content-Length: ' . base64_decode($metadata['size']));
-        echo($file->getContent());
-
-        compareViews($file->getCurrentViews(), $file->getMaxViews(), $file->getID());
-        exit;
-    } else {
-        $css = filter_input(INPUT_POST, 'css');
-        header(filter_input(INPUT_SERVER, 'SERVER_PROTOCOL') . " 404 File Not Found");
-        if (Misc::getVar("raw") == NULL) {
-            header('Location: /download-404');
-        }
-        exit;
+function getVariables() {
+    if (Misc::getVar('f') != false && Misc::getVar('p') != false) {
+        $f = Misc::getVar('f');
+        $p = Misc::getVar('p');
+        header('Location: /download/' . $f . '/?p=' . $p);
+        die();
     }
+}
+
+// Backwards compatibility
+getVariables();
+
+
+$url = explode('/', strtolower(filter_input(INPUT_SERVER, 'REQUEST_URI')));
+$id = $url[2];
+$file = DataStorage::getFile($id, Misc::getVar('p'));
+if (isset($file)) {
+    $metadata = $file->getMetaData();
+    header('Content-Description: File Transfer');
+    header('Content-Type: ' . base64_decode($metadata['type']));
+    header('Content-Disposition: inline; filename="' . base64_decode($metadata['name']) . '"');
+    header('Expires: 0');
+    header('Pragma: public');
+    header('Content-Length: ' . base64_decode($metadata['size']));
+    echo($file->getContent());
+
+    compareViews($file->getCurrentViews(), $file->getMaxViews(), $file->getID());
+    exit;
+} else {
+    $css = filter_input(INPUT_POST, 'css');
+    header(filter_input(INPUT_SERVER, 'SERVER_PROTOCOL') . " 404 File Not Found");
+    if (Misc::getVar("raw") == NULL) {
+        header('Location: /download-404');
+    }
+    exit;
 }

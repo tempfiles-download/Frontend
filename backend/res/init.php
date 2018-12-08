@@ -6,19 +6,19 @@ function mySQLError() {
 }
 
 if (file_exists(__DIR__ . '/config.php')) {
-    $conf = include(__DIR__ . '/config.php');
+    $conf = include_once(__DIR__ . '/config.php');
 } else {
     die;
 }
 
 if (file_exists(__DIR__ . '/DataStorage.php')) {
-    include(__DIR__ . '/DataStorage.php');
+    include_once(__DIR__ . '/DataStorage.php');
 }
 if (file_exists(__DIR__ . '/Encryption.php')) {
-    include(__DIR__ . '/Encryption.php');
+    include_once(__DIR__ . '/Encryption.php');
 }
 if (file_exists(__DIR__ . '/Misc.php')) {
-    include(__DIR__ . '/Misc.php');
+    include_once(__DIR__ . '/Misc.php');
 }
 
 //MySQL connection.

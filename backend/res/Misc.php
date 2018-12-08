@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * Miscellaneous functions
+ * @since 2.0
+ */
 class Misc {
 
     /**
@@ -16,7 +20,7 @@ class Misc {
 
     /**
      * Generate a password to use for encryption.
-     *
+     * 
      * This function should only be used if a password is not supplied as it's less secure than if the user chooses their own password.
      * @return string Returns a string of random characters to use as a password.
      */

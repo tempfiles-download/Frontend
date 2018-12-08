@@ -15,7 +15,7 @@ class File {
      * @param array $file $_FILES array if available.
      * @param string $id ID if one is already set.
      */
-    public function __construct(array $file, string $id = NULL) {
+    public function __construct($file, string $id = NULL) {
         if ($id === NULL) {
             $this->generateID();
         } else {

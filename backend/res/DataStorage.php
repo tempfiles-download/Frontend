@@ -9,13 +9,13 @@ class DataStorage {
     /**
      * Set the current views and max views for a specified file.
      * When the current views are equal or exceeds max views the file will be deleted and the user will get a 404 error.
+     * @since 2.0
      * @global array $conf Configuration variables.
      * @global object $mysql_connection MySQL connection.
      * @param string $maxViews The new maximum amount of views to set on a file.
      * @param string $newViews The new current views to set on a file.
      * @param string $id The ID for the file.
-     * @return boolean Returns true if the change was successful. Returns false otherwise.
-     * @
+     * @return boolean Returns TRUE if the change was successful, otherwise FALSE.
      */
     public static function setViews(string $maxViews, string $newViews, string $id) {
         global $conf;
@@ -36,7 +36,7 @@ class DataStorage {
      * @global array $conf Configuration variables.
      * @global object $mysql_connection MySQL connection.
      * @param string $id The ID for the file.
-     * @return boolean Returns true if the deletion was successful. Returns false otherwise.
+     * @return boolean Returns TRUE if the deletion was successful, otherwise FALSE.
      */
     public static function deleteFile(string $id) {
         global $conf;
@@ -64,16 +64,17 @@ class DataStorage {
 
     /**
      * Get the metadata and content of a file.
-     * @since 1.0
+     * @since 2.0
      * @global array $conf Configuration variables.
      * @global object $mysql_connection MySQL connection.
      * @param string $id The ID for the file.
      * @param string $password Description
-     * @return mixed Returns array of filedata, filecontent & maxviews if fetching of the specified file was successful, returns NULL otherwise.
+     * @return mixed Returns the downloaded and decrypted file (object) if successfully downloaded and decrypted, otherwise NULL (boolean).
      */
     public static function getFile(string $id, string $password) {
         global $conf;
         global $mysql_connection;
+        require_once __DIR__ . '/File.php';
 
         $query = $mysql_connection->prepare("SELECT `iv`, `metadata`, `content`, `maxviews` FROM `" . $conf['mysql-table'] . "` WHERE `id` = ?");
         $query->bind_param("s", $id);
@@ -82,39 +83,40 @@ class DataStorage {
         $query->bind_result($iv_encoded, $enc_filedata, $enc_content, $enc_maxviews);
         $query->fetch();
 
-        $iv = explode(",", base64_decode($iv_encoded));
-        require_once __DIR__ . '/File.php';
         $file = new File(NULL, $id);
-        if ($enc_maxviews != NULL)
+        $iv = explode(",", base64_decode($iv_encoded));
 
-        // $views = [currentViews, maxViews];
+        if ($enc_maxviews != NULL)
+        // NOTE: $views = [currentViews, maxViews];
                 $views = explode(",", base64_decode($enc_maxviews));
+
         if (isset($views)) {
             $file->setCurrentViews($views[0]);
             $file->setMaxViews($views[1]);
         }
 
-        if ($enc_content != NULL) {
-
+        if ($enc_content !== NULL) {
             $metadata_string = Encryption::decrypt(base64_decode($enc_filedata), $password, $iv[1]);
+
             $metadata_array = explode(' ', $metadata_string);
             $metadata = ['name' => $metadata_array[0], 'size' => $metadata_array[1], 'type' => $metadata_array[2]];
+            $file->setDeletionPassword(base64_decode($metadata_array[3]));
             $file->setMetaData($metadata);
             $file->setContent(Encryption::decrypt(base64_decode($enc_content), $password, $iv[0]));
             return $file;
         }
-
         return NULL;
     }
 
     /**
      * Upload a file to the database.
-     * @since 2.2
+     * @since 2.0
+     * @since 2.2 Removed $enc_content, $iv, $enc_filedata & $maxviews from input parameters. Changed output from $id (string) to $file (object).
      * @global array $conf Configuration variables.
      * @global object $mysql_connection MySQL connection.
      * @param object $file File to upload.
      * @param string $password Password to encrypt the file content and metadata with.
-     * @return boolean Returns the ID of the uploaded file if the upload was successful. Returns 0 otherwise.
+     * @return boolean Returns TRUE if the action was successfully executed, otherwise FALSE.
      */
     public static function uploadFile(File $file, string $password) {
         global $conf;
@@ -158,38 +160,6 @@ class DataStorage {
         }
 
         $query->close();
-    }
-
-    /**
-     * @since 1.0
-     * @param array $fileContent Content of the file.
-     * @param string $password Encryption password of the file.
-     * @param File $file The file to upload.
-     * @return mixed Returns TRUE (boolean) if the action was successfully executed, otherwise an error message (string).
-     */
-    public static function getID(array $fileContent, string $password, File $file) {
-        global $conf;
-        $metadata = ['size' => $fileContent['size'], 'name' => $fileContent['name'], 'type' => $fileContent['type']];
-        $file->setMetaData($metadata);
-        try {
-            if ($file->getMetaData('size') <= Misc::convertToBytes($conf['max-file-size'])) {
-                if ($password != NULL) {
-                    $file->setContent(file_get_contents($fileContent['tmp_name']));
-                    if ($upload = DataStorage::uploadFile($file, $password)) {
-                        return true;
-                    } else {
-                        //throw new Exception("Connection to our database failed.");
-                    }
-                } else {
-                    throw new Exception("Password not set.");
-                }
-            } else {
-                throw new Exception("File size too large. Maximum allowed " . $conf['max-file-size'] . " (currently " . $file->getMetaData('size') . ")");
-            }
-        } catch (Exception $e) {
-            error_log($e);
-            return($e->getMessage());
-        }
     }
 
 }
