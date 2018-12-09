@@ -29,7 +29,7 @@ else {
 }
 
 checkFile(__DIR__ . '/DataStorage.php');
-checkFile(__DIR__ . './Encryption.php');
+checkFile(__DIR__ . '/Encryption.php');
 checkFile(__DIR__ . '/Misc.php');
 
 //MySQL connection.
