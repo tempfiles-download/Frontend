@@ -55,4 +55,24 @@ class Misc {
         }
     }
 
+    /**
+     * Compare max views with current views.
+     * @since 2.0
+     * @since 2.2 Moved from /download.php to /res/Misc.php.
+     * @param int $currentviews Current views.
+     * @param int $maxviews Maximum allowed views.
+     * @param string $id ID of the file.
+     * @return boolean Returns true if current views surpass the maximum views, otherwise returns false.
+     */
+    public static function compareViews($currentviews, $maxviews, string $id) {
+        if (isset($currentviews) && isset($maxviews)) {
+            if (($currentviews + 1) >= $maxviews) {
+                return DataStorage::deleteFile($id);
+            } else {
+                return DataStorage::setViews(intval($maxviews), ($currentviews + 1), $id);
+            }
+        }
+        return false;
+    }
+
 }

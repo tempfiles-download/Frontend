@@ -1,24 +1,6 @@
 <?php
 
-include __DIR__ . '/res/init.php';
-
-/**
- * Compare max views with current views.
- * @param int $currentviews Current views.
- * @param int $maxviews Maximum allowed views.
- * @param string $id ID.
- * @return boolean Returns true if current views surpass the maximum views. Otherwise returns false.
- */
-function compareViews($currentviews, $maxviews, string $id) {
-    if (isset($currentviews) && isset($maxviews)) {
-        if (($currentviews + 1) >= $maxviews) {
-            return DataStorage::deleteFile($id);
-        } else {
-            return DataStorage::setViews(intval($maxviews), ($currentviews + 1), $id);
-        }
-    }
-    return false;
-}
+include_once __DIR__ . '/res/init.php';
 
 /**
  * Only used to get legacy variables.
@@ -28,9 +10,9 @@ function compareViews($currentviews, $maxviews, string $id) {
  * @deprecated 2.0 Use `<PROTOCOL>://<DOMAIN>/DOWNLOAD/<ID>/?p=<PASSWORD>` instead.
  */
 function getVariables() {
-    if (isset(Misc::getVar('f')) && isset(Misc::getVar('p'))) {
+    if (Misc::getVar('f') !== NULL && Misc::getVar('p') !== NULL) {
         header('Location: /download/' . Misc::getVar('f') . '/?p=' . Misc::getVar('p'));
-        die();
+        exit;
     }
 }
 
@@ -51,13 +33,10 @@ if (isset($file)) {
     header('Content-Length: ' . base64_decode($metadata['size']));
     echo($file->getContent());
 
-    compareViews($file->getCurrentViews(), $file->getMaxViews(), $file->getID());
-    exit;
+    Misc::compareViews($file->getCurrentViews(), $file->getMaxViews(), $file->getID());
 } else {
-    $css = filter_input(INPUT_POST, 'css');
     header(filter_input(INPUT_SERVER, 'SERVER_PROTOCOL') . " 404 File Not Found");
-    if (!isset(Misc::getVar("raw"))) {
-        header('Location: /download-404');
-    }
-    exit;
+    header('Location: /download-404');
 }
+
+exit;
