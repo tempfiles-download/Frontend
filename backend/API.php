@@ -1,6 +1,6 @@
 <?php
 
-include __DIR__ . '/res/init.php';
+include_once __DIR__ . '/res/init.php';
 global $conf;
 
 header('Content-Type: application/json; charset=utf-8');

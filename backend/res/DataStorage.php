@@ -22,8 +22,7 @@ class DataStorage {
         global $mysql_connection;
         $views = base64_encode($newViews . "," . $maxViews);
         $query = $mysql_connection->prepare("UPDATE `" . $conf['mysql-table'] . "` SET `maxviews` = ? WHERE `id` = ?");
-        $bp = $query->bind_param("ss", $views, $id);
-        if (false === $bp) {
+        if (!$query->bind_param("ss", $views, $id)) {
             error_log('bind_param() failed: ' . htmlspecialchars($query->error));
             return false;
         }
@@ -86,7 +85,7 @@ class DataStorage {
         $file = new File(NULL, $id);
         $iv = explode(",", base64_decode($iv_encoded));
 
-        if ($enc_maxviews != NULL)
+        if ($enc_maxviews !== NULL)
         // NOTE: $views = [currentViews, maxViews];
                 $views = explode(",", base64_decode($enc_maxviews));
 
@@ -125,9 +124,10 @@ class DataStorage {
         $maxviews = $file->getMaxViews();
         $enc_filecontent = Encryption::encryptFileContent($file->getContent(), $password, $iv['content']);
         $enc_filemetadata = Encryption::encryptFileDetails($file->getMetaData(), $file->getDeletionPassword(), $password, $iv['metadata']);
-        $enc_iv = base64_encode($iv['content'] . "," . $iv['metadata']);
+        $enc_iv = base64_encode(implode(',', $iv));
+        $null;
 
-        if ($maxviews != NULL) {
+        if ($maxviews !== NULL) {
             $enc_maxviews = base64_encode('[0,' . $maxviews . ']');
         } else {
             $enc_maxviews = NULL;
@@ -135,20 +135,23 @@ class DataStorage {
 
         try {
             $query = $mysql_connection->prepare("INSERT INTO `" . $conf['mysql-table'] . "` (id, iv, metadata, content, maxviews) VALUES (?, ?, ?, ?, ?)");
-            if (false === $query) {
+            if (!$query) {
                 throw new Exception('prepare() failed: ' . htmlspecialchars($mysql_connection->error));
             }
-            $id = $file->getID();
-            $bp = $query->bind_param("sssbs", $id, $enc_iv, $enc_filemetadata, $NULL, $enc_maxviews);
 
-            //send content blob to query
-            $query->send_long_data(3, $enc_filecontent);
-            if (false === $bp) {
+            $id = $file->getID();
+
+            $bp = $query->bind_param("sssbs", $id, $enc_iv, $enc_filemetadata, $null, $enc_maxviews);
+            if (!$bp) {
                 throw new Exception('bind_param() failed: ' . htmlspecialchars($query->error));
             }
 
-            $bp = $query->execute();
-            if (false === $bp) {
+            //send content blob to query
+            if (!$query->send_long_data(3, $enc_filecontent)) {
+                throw new Exception('bind_param() failed: ' . htmlspecialchars($query->error));
+            }
+
+            if (!$query->execute()) {
                 throw new Exception('execute() failed: ' . htmlspecialchars($query->error));
             }
 

@@ -3,7 +3,7 @@
 include __DIR__ . '/res/init.php';
 
 /**
- * Compare max views with current views-
+ * Compare max views with current views.
  * @param int $currentviews Current views.
  * @param int $maxviews Maximum allowed views.
  * @param string $id ID.
@@ -20,18 +20,16 @@ function compareViews($currentviews, $maxviews, string $id) {
     return false;
 }
 
-/** 
+/**
  * Only used to get legacy variables.
  * If the client uses the old link/variable method it will be redirected to the new one.
  * @since 1.0
  * @since 2.2 Moved to own function.
- * @deprecated 2.0 Use <PROTOCOL>://<DOMAIN>/DOWNLOAD/<ID>/?p=<PASSWORD> instead.
+ * @deprecated 2.0 Use `<PROTOCOL>://<DOMAIN>/DOWNLOAD/<ID>/?p=<PASSWORD>` instead.
  */
 function getVariables() {
-    if (Misc::getVar('f') != false && Misc::getVar('p') != false) {
-        $f = Misc::getVar('f');
-        $p = Misc::getVar('p');
-        header('Location: /download/' . $f . '/?p=' . $p);
+    if (isset(Misc::getVar('f')) && isset(Misc::getVar('p'))) {
+        header('Location: /download/' . Misc::getVar('f') . '/?p=' . Misc::getVar('p'));
         die();
     }
 }
@@ -58,7 +56,7 @@ if (isset($file)) {
 } else {
     $css = filter_input(INPUT_POST, 'css');
     header(filter_input(INPUT_SERVER, 'SERVER_PROTOCOL') . " 404 File Not Found");
-    if (Misc::getVar("raw") == NULL) {
+    if (!isset(Misc::getVar("raw"))) {
         header('Location: /download-404');
     }
     exit;
