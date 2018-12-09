@@ -26,7 +26,9 @@ class DataStorage {
             error_log('bind_param() failed: ' . htmlspecialchars($query->error));
             return false;
         }
-        return $query->execute();
+        $result = $query->execute();
+        $query->close();
+        return $result;
     }
 
     /**
@@ -58,7 +60,7 @@ class DataStorage {
         $query = $mysql_connection->prepare("DELETE FROM `files` WHERE `time` < DATE_SUB(NOW(), INTERVAL 1 DAY)");
         $result = $query->execute();
         $query->close();
-        return($result);
+        return $result;
     }
 
     /**
@@ -81,6 +83,7 @@ class DataStorage {
         $query->store_result();
         $query->bind_result($iv_encoded, $enc_filedata, $enc_content, $enc_maxviews);
         $query->fetch();
+        $query->close();
 
         $file = new File(NULL, $id);
         $iv = explode(",", base64_decode($iv_encoded));
@@ -90,15 +93,15 @@ class DataStorage {
                 $views = explode(",", base64_decode($enc_maxviews));
 
         if (isset($views)) {
-            $file->setCurrentViews($views[0]);
-            $file->setMaxViews($views[1]);
+            $file->setCurrentViews((int) $views[0]);
+            $file->setMaxViews((int) $views[1]);
         }
 
         if ($enc_content !== NULL) {
             $metadata_string = Encryption::decrypt(base64_decode($enc_filedata), $password, $iv[1]);
-
             $metadata_array = explode(' ', $metadata_string);
             $metadata = ['name' => $metadata_array[0], 'size' => $metadata_array[1], 'type' => $metadata_array[2]];
+
             $file->setDeletionPassword(base64_decode($metadata_array[3]));
             $file->setMetaData($metadata);
             $file->setContent(Encryption::decrypt(base64_decode($enc_content), $password, $iv[0]));
@@ -135,25 +138,21 @@ class DataStorage {
 
         try {
             $query = $mysql_connection->prepare("INSERT INTO `" . $conf['mysql-table'] . "` (id, iv, metadata, content, maxviews) VALUES (?, ?, ?, ?, ?)");
-            if (!$query) {
-                throw new Exception('prepare() failed: ' . htmlspecialchars($mysql_connection->error));
-            }
+            if (!$query)
+                    throw new Exception('prepare() failed: ' . htmlspecialchars($mysql_connection->error));
 
             $id = $file->getID();
 
             $bp = $query->bind_param("sssbs", $id, $enc_iv, $enc_filemetadata, $null, $enc_maxviews);
-            if (!$bp) {
-                throw new Exception('bind_param() failed: ' . htmlspecialchars($query->error));
-            }
+            if (!$bp)
+                    throw new Exception('bind_param() failed: ' . htmlspecialchars($query->error));
 
             //send content blob to query
-            if (!$query->send_long_data(3, $enc_filecontent)) {
-                throw new Exception('bind_param() failed: ' . htmlspecialchars($query->error));
-            }
+            if (!$query->send_long_data(3, $enc_filecontent))
+                    throw new Exception('bind_param() failed: ' . htmlspecialchars($query->error));
 
-            if (!$query->execute()) {
-                throw new Exception('execute() failed: ' . htmlspecialchars($query->error));
-            }
+            if (!$query->execute())
+                    throw new Exception('execute() failed: ' . htmlspecialchars($query->error));
 
             $query->close();
             return true;
@@ -161,8 +160,6 @@ class DataStorage {
             error_log($e);
             return false;
         }
-
-        $query->close();
     }
 
 }
