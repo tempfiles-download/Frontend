@@ -59,19 +59,22 @@ $(document).ready(function(e) {
       cache: false,
       data: form_data,
       success: function(data) {
-        if (data['success'] === true) { //valid login
+        if (data['success'] === true) { //successful upload
           $('#upload-form').hide();
           $('#error').hide();
           $('#upload_success').removeAttr('hidden');
           $('#url').val(data['url']);
           $('#id').val(data['id']);
           $('#deletionpass').val(data['deletepassword']);
-        } else { //invalid login.
-          console.log(data);
+        } else { //unsuccessful upload
           $('#error').fadeIn('slow');
           $('#error-msg').text('Error: ' + data['error']);
         }
-      }
+      },
+      error: function(data){
+          $('#error').fadeIn('slow');
+          $('#error-msg').text('Error: ' + data['responseText']);
+        }
     });
   }
 });
