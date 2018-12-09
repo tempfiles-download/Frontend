@@ -115,7 +115,7 @@ class File {
      */
     public function setCurrentViews(int $views) {
         if ($views > $this->_maxViews) return $this->_currentViews = $views;
-        elseif ($views <= $this->maxViews)
+        elseif ($views <= $this->_maxViews)
                 return DataStorage::deleteFile($this->_id);
     }
 
