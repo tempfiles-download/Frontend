@@ -16,14 +16,11 @@ class File {
      * @param string $id ID if one is already set.
      */
     public function __construct($file, string $id = NULL) {
-        if ($id === NULL) {
-            $this->generateID();
-        } else {
-            $this->setID($id);
-        }
-        if ($file !== NULL) {
-            $this->_metadata = ['name' => $file['name'], 'size' => $file['size'], 'type' => $file['type']];
-        }
+        if ($id === NULL) $this->generateID();
+        else $this->setID($id);
+
+        if ($file !== NULL)
+                $this->_metadata = ['name' => $file['name'], 'size' => $file['size'], 'type' => $file['type']];
     }
 
     /**
@@ -65,7 +62,7 @@ class File {
     /**
      * Gets the max available views/downloads before the file gets deleted.
      * @since 2.2
-     * @return mixed Returns maxs views of the file if supplied, otherwise NULL.
+     * @return mixed Returns max views of the file if supplied, otherwise NULL.
      */
     public function getMaxViews() {
         return $this->_maxViews;
@@ -107,8 +104,7 @@ class File {
      * @return boolean Returns TRUE if the action was successfully executed, otherwise FALSE.
      */
     private function generateID() {
-        $id = strtoupper(uniqid("d"));
-        return $this->_id = $id;
+        return $this->_id = strtoupper(uniqid("d"));
     }
 
     /**
@@ -118,22 +114,18 @@ class File {
      * @return boolean Returns TRUE if the action was successfully executed, otherwise FALSE.
      */
     public function setCurrentViews(int $views) {
-        if ($views > $this->_maxViews) {
-            // DataStorage::setViews($this->_maxViews, $views, $this->getID());
-            return $this->_currentViews = $views;
-        } elseif ($views <= $this->maxViews) {
-            DataStorage::deleteFile($this->_id);
-        }
+        if ($views > $this->_maxViews) return $this->_currentViews = $views;
+        elseif ($views <= $this->maxViews) DataStorage::deleteFile($this->_id);
     }
 
     /**
      * Sets the max views of the file.
      * @since 2.2
-     * @param int $views New maxs views of the file.
+     * @param int $views New max views of the file.
      * @return boolean Returns TRUE if the action was successfully executed, otherwise FALSE.
      */
     public function setMaxViews(int $views) {
-        $this->_maxViews;
+        return $this->_maxViews = $views;
     }
 
     /**
@@ -143,7 +135,7 @@ class File {
      * @return boolean Returns TRUE if the action was successfully executed, otherwise FALSE.
      */
     public function setMetaData(array $metadata) {
-        $this->_metaData = $metadata;
+        return $this->_metaData = $metadata;
     }
 
     /**
@@ -153,7 +145,7 @@ class File {
      * @return boolean Returns TRUE if the action was successfully executed, otherwise FALSE.
      */
     public function setDeletionPassword(string $deletionpassword) {
-        $this->_deletionPassword = $deletionpassword;
+        return $this->_deletionPassword = $deletionpassword;
     }
 
     /**
@@ -163,7 +155,7 @@ class File {
      * @return boolean Returns TRUE if the action was successfully executed, otherwise FALSE.
      */
     public function setContent($content) {
-        $this->_content = $content;
+        return $this->_content = $content;
     }
 
 }
