@@ -9,6 +9,7 @@ $(document).ready(function(e) {
     var body = document.body;
     body.classList.add("dark");
     $("#logo").attr("src", "/img/logo.svg");
+    $(".form-control").addClass("dark");
     $("#upload-password").addClass("dark");
     $(".navbar").addClass("dark");
   }
