@@ -1,6 +1,5 @@
 ---
 ---
-
 html {
   height: 100%;
   box-sizing: border-box;
@@ -25,6 +24,11 @@ body.dark {
   margin: 0 auto;
   left: 0;
   right: 0;
+  display: none;
+}
+
+#upload_success {
+  display: none;
 }
 
 .main_container {
@@ -212,6 +216,10 @@ footer {
 }
 
 .nocolor {
+  color: #9d9d9d;
+}
+
+.nocolor:hover {
   color: #9d9d9d;
 }
 

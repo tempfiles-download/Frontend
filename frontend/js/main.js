@@ -15,7 +15,7 @@ ondrop = function (e) {
 
 $(document).ready(function (e) {
     bsCustomFileInput.init();
-    $('error').hide();
+    $('error').alert('close');
 
     $('#upload-submit').click(function () {
         upload_file();
@@ -71,14 +71,13 @@ $(document).ready(function (e) {
                     $('#id').val(data['id']);
                     $('#deletionpass').val(data['deletepassword']);
                 } else { //unsuccessful upload
-                    $('#error').fadeIn('slow');
-                    $('#error').removeAttr('hidden');
                     $('#error-msg').text('Error: ' + data['error']);
+                    $('#error').fadeIn('slow');
                 }
             },
             error: function (data) {
-                $('#error').fadeIn('slow');
                 $('#error-msg').text('Error: ' + data['responseText']);
+                $('#error').show('slow');
             }
         });
     }
