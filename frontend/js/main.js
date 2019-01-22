@@ -15,7 +15,7 @@ ondrop = function (e) {
 
 $(document).ready(function () {
     bsCustomFileInput.init();
-    $('error').alert('close');
+    //$('error').alert('close');
 
     $('#upload-submit').click(function () {
         upload_file();
