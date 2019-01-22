@@ -13,6 +13,13 @@ ondrop = function (e) {
     file.dispatchEvent(new Event('change'));
 }
 
+$('#back-btn').click(function () {
+    location.reload();
+});
+
+$('#dark_button').click(function () {
+    switch_style();
+});
 $(document).ready(function () {
     bsCustomFileInput.init();
     //$('error').alert('close');
