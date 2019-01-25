@@ -1,9 +1,12 @@
 $(document).ready(function () {
     const d = new Date();
     const hour = d.getHours();
-    const button = $("#dark_button");
-    if (button.is(":checked") || (hour >= 21 || hour <= 8)) {
-        switch_style("dark");
+    const cookie = Cookies.get('theme');
+    if (cookie === undefined) {
+        if ($("#dark_button").is(":checked") || (hour >= 21 || hour <= 8))
+            switch_style("dark");
+    } else if (cookie === 'dark' || cookie === 'light') {
+        switch_style(cookie);
     }
 });
 
