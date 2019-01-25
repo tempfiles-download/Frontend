@@ -17,7 +17,7 @@ function exceptions_error_handler($severity, $message, $filename, $lineno) {
  * Converts $output to JSON format and prints to client.
  * Example:
  * sendOutput(['message' => 'A message to output.']);
- * 
+ *
  * @since 2.0
  * @param array $output Messages to output. ID of the cells should be the same as the desired tag in the JSON output.
  * @return boolean Returns TRUE if the action was successfully executed, otherwise FALSE.
@@ -78,9 +78,13 @@ function upload($conf) {
 
         if ($file->getMetaData('size') <= Misc::convertToBytes($conf['max-file-size'])) {
             if ($password !== NULL) {
-                $file->setContent(file_get_contents($fileContent['tmp_name']));
-                if (!($upload = DataStorage::uploadFile($file, $password))) {
-                    throw new Exception("Connection to our database failed.");
+                if($fileContent['error'] === 0) {
+                    $file->setContent(file_get_contents($fileContent['tmp_name']));
+                    if (!($upload = DataStorage::uploadFile($file, $password))) {
+                        throw new Exception("Connection to our database failed.");
+                    }
+                }else{
+                    throw new Exception($fileContent['error']);
                 }
             } else {
                 throw new Exception("Password not set.");
@@ -130,19 +134,18 @@ function delete() {
     $deletionpass = Misc::getVar('delete');
 
     if ($file = DataStorage::getFile($id, $password))
-            $delpass = $file->getDeletionPassword();
+            $db_deletionpass = $file->getDeletionPassword();
     else throw new Exception("Bad ID or Password.");
 
-    if ($delpass == $deletionpass)
+    if (password_verify($deletionpass, $db_deletionpass))
             $output['success'] = DataStorage::deleteFile($id);
-
     sendOutput($output);
 }
 
 /**
  * Gets the binary data for a file stored on the server.
  * @since 2.0
- * 
+ *
  */
 function download() {
     require_once __DIR__ . '/res/ID.php';

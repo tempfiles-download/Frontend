@@ -33,6 +33,7 @@ class Encryption {
      */
     public static function encryptFileDetails(array $file, string $deletionpass, string $password, string $iv) {
         global $conf;
+        $deletionpass = password_hash($deletionpass, PASSWORD_BCRYPT);
         $dataarray = array(base64_encode($file['name']), base64_encode($file['size']), base64_encode($file['type']), base64_encode($deletionpass));
         $filedata = implode(" ", $dataarray);
         $enc_data = openssl_encrypt($filedata, $conf['Encryption-Method'], $password, OPENSSL_RAW_DATA, $iv);
