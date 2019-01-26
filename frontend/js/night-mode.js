@@ -1,12 +1,12 @@
 $(document).ready(function () {
     const d = new Date();
     const hour = d.getHours();
-    const cookie = Cookies.get('theme');
-    if (cookie === undefined) {
+    const theme = localStorage.getItem('theme');
+    if (theme === undefined) {
         if ($("#dark_button").is(":checked") || (hour >= 21 || hour <= 8))
             switch_style("dark");
-    } else if (cookie === 'dark' || cookie === 'light') {
-        switch_style(cookie);
+    } else if (theme === 'dark' || theme === 'light') {
+        switch_style(theme);
     }
 });
 
@@ -32,5 +32,4 @@ function switch_style(theme) {
         else
             switch_style('light');
     }
-
 }
