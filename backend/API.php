@@ -10,7 +10,7 @@ function exceptions_error_handler($severity, $message, $filename, $lineno) {
     if (error_reporting() == 0) return;
 
     if (error_reporting() & $severity)
-            throw new ErrorException($message, 0, $severity, $filename, $lineno);
+        throw new ErrorException($message, 0, $severity, $filename, $lineno);
 }
 
 /**
@@ -20,26 +20,28 @@ function exceptions_error_handler($severity, $message, $filename, $lineno) {
  *
  * @since 2.0
  * @param array $output Messages to output. ID of the cells should be the same as the desired tag in the JSON output.
+ * @param int $responseCode Response code to use when outputting the JSON data.
  * @return boolean Returns TRUE if the action was successfully executed, otherwise FALSE.
  */
-function sendOutput(array $output) {
+function sendOutput(array $output, int $responseCode = 200) {
+    http_response_code($responseCode);
     return print(json_encode($output, JSON_PRETTY_PRINT));
 }
 
 $url = explode('/', strtolower(filter_input(INPUT_SERVER, 'REQUEST_URI')));
 
-$success = false;
-$output = array('success' => $success);
+$success = FALSE;
+$output = ['success' => $success];
 try {
 
     if (count($url)) {
         if ($url[2] == 'upload') {
             upload($conf);
-        } elseif ($url[2] == 'delete') {
+        } else if ($url[2] == 'delete') {
             delete();
-        } elseif ($url[2] == 'download') {
+        } else if ($url[2] == 'download') {
             download();
-        } elseif ($url[2] == 'cleanup') {
+        } else if ($url[2] == 'cleanup') {
             cleanup();
         } else {
             $output['error'] = 'Incorrectly formatted URL.';
@@ -50,12 +52,19 @@ try {
         sendOutput($output);
     }
 } catch (Exception $e) {
-    $output['success'] = false;
     $output['error'] = $e->getMessage();
     error_log($e);
-    sendOutput($output);
+    sendOutput($output, 400);
 }
 
+/**
+ * Uploads a file to the database.
+ *
+ * @param $conf config.php array.
+ * @throws Exception Throws and exception in case the upload didn't succeed.
+ * @since 2.0
+ * @since 2.1 Updated to work with v2.1 file handling standard.
+ */
 function upload($conf) {
     require_once __DIR__ . '/res/File.php';
 
@@ -64,7 +73,7 @@ function upload($conf) {
         $file = new File($fileContent);
 
         if (Misc::getVar('maxviews') !== NULL)
-                $file->setMaxViews(Misc::getVar('maxviews'));
+            $file->setMaxViews(Misc::getVar('maxviews'));
         if (Misc::getVar('password') !== NULL) {
             $password = Misc::getVar('password');
         } else {
@@ -73,18 +82,22 @@ function upload($conf) {
 
         $file->setDeletionPassword(Misc::generatePassword(12, 32));
 
-        $metadata = ['size' => $fileContent['size'], 'name' => $fileContent['name'], 'type' => $fileContent['type']];
+        $metadata = [
+            'size' => $fileContent['size'],
+            'name' => $fileContent['name'],
+            'type' => $fileContent['type']
+        ];
         $file->setMetaData($metadata);
 
         if ($file->getMetaData('size') <= Misc::convertToBytes($conf['max-file-size'])) {
             if ($password !== NULL) {
-                if($fileContent['error'] === 0) {
+                if ($fileContent['error'] === 0) {
                     $file->setContent(file_get_contents($fileContent['tmp_name']));
                     if (!($upload = DataStorage::uploadFile($file, $password))) {
                         throw new Exception("Connection to our database failed.");
                     }
-                }else{
-                    throw new Exception($fileContent['error']);
+                } else {
+                    throw new Exception("Upload failed. Either the file is larger than it's supposed to be or the upload was interrupted.");
                 }
             } else {
                 throw new Exception("Password not set.");
@@ -103,7 +116,7 @@ function upload($conf) {
             // Full URI to download the file
             $completeURL = $protocol . "://" . filter_input(INPUT_SERVER, 'HTTP_HOST') . "/download/" . $file->getID() . "/?p=" . urlencode($password);
 
-            $output['success'] = true;
+            $output['success'] = TRUE;
             $output['url'] = $completeURL;
             $output['id'] = $file->getID();
             $output['deletepassword'] = $file->getDeletionPassword();
@@ -117,7 +130,7 @@ function upload($conf) {
             $output['password'] = $password;
 
             if ($file->getMaxViews() !== NULL) {
-                $output['maxviews'] = (int) $file->getMaxViews();
+                $output['maxviews'] = (int)$file->getMaxViews();
             }
         } else {
             throw new Exception($upload);
@@ -125,55 +138,61 @@ function upload($conf) {
     } else {
         throw new Exception('No file supplied.');
     }
-    sendOutput($output);
+    sendOutput($output, 201);
 }
 
+/**
+ * Deletes a file from the database.
+ *
+ * @throws Exception
+ * @since 2.0
+ * @since 2.1 Updated function to work with v2.1 file handling standards.
+ */
 function delete() {
     $id = Misc::getVar('id');
     $password = Misc::getVar('p');
     $deletionpass = Misc::getVar('delete');
 
     if ($file = DataStorage::getFile($id, $password))
-            $db_deletionpass = $file->getDeletionPassword();
+        $db_deletionpass = $file->getDeletionPassword();
     else throw new Exception("Bad ID or Password.");
 
     if (password_verify($deletionpass, $db_deletionpass))
-            $output['success'] = DataStorage::deleteFile($id);
-    sendOutput($output);
+        sendOutput(['success' => (boolean)DataStorage::deleteFile($id)]);
 }
 
 /**
  * Gets the binary data for a file stored on the server.
+ *
  * @since 2.0
+ * @since 2.1 Updated function to work with v2.1 file handling standards.
  *
  */
 function download() {
-    require_once __DIR__ . '/res/ID.php';
-
-    $file = DataStorage::getFile(new ID(Misc::getVar("id")), Misc::getVar("p"));
-    if ($file !== NULL) { //successful decryption
-        $metadata = explode(" ", $e[0]); # Returns [0] = File Name, [1] = File Length, [2] = File Type, [3] = Deletion Password.
+    $id = Misc::getVar('id');
+    $file = DataStorage::getFile($id, Misc::getVar('p'));
+    if (isset($file)) {
+        $metadata = $file->getMetaData();
         $output = [
-            "success" => true,
-            "type" => base64_decode($file->getMetaData('type')),
-            "filename" => base64_decode($file->getMetaData('name')),
-            "length" => base64_decode($file->getMetaData('size')),
+            "success" => TRUE,
+            "type" => base64_decode($metadata['type']),
+            "filename" => base64_decode($metadata['name']),
+            "length" => base64_decode($metadata['size']),
             "data" => $file->getContent()
         ];
-
+        sendOutput($output, 200);
         Misc::compareViews($file->getCurrentViews(), $file->getMaxViews(), $file->getID());
     } else {
-        $output['error'] = "Bad ID or Password.";
+        throw new Exception("File not found");
     }
-    sendOutput($output);
-    exit();
 }
 
 /**
  * Cleans up the database by removing all files older than 24 hours.
+ *
  * @since 2.1
  */
 function cleanup() {
     $output['success'] = filter_var(DataStorage::deleteOldFiles(), FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
-    sendOutput($output);
+    sendOutput($output, 202);
 }
