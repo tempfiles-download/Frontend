@@ -2,11 +2,11 @@ $(document).ready(function () {
     const d = new Date();
     const hour = d.getHours();
     const theme = localStorage.getItem('theme');
-    if (theme === undefined) {
+    if (theme === 'dark' || theme === 'light') {
+        switch_style(theme);
+    } else {
         if ($("#dark_button").is(":checked") || (hour >= 21 || hour <= 8))
             switch_style("dark");
-    } else if (theme === 'dark' || theme === 'light') {
-        switch_style(theme);
     }
 });
 
