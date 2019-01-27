@@ -1,7 +1,7 @@
 title: Tempfiles
 description: ""
 url: "tempfiles.carlgo11.com"
-permalink: default
+permalink: pretty
 markdown: kramdown
 img: img/favicon.png
 sass:
