@@ -2,18 +2,21 @@
 
 /**
  * Encryption handling.
+ *
  * @since 2.0
  */
-class Encryption {
+class Encryption
+{
 
     /**
      * Decrypts data.
+     *
      * @since 2.0
      * @global array $conf Configuration variables.
      * @param string $data Data to decrypt.
      * @param string $password Password used to decrypt.
      * @param string $iv IV for decryption.
-     * @return string Decrypted data.
+     * @return string Returns decrypted data.
      */
     public static function decrypt(string $data, string $password, string $iv) {
         global $conf;
@@ -22,26 +25,37 @@ class Encryption {
 
     /**
      * Encrypts and encodes the metadata (details) of a file.
+     *
      * @since 2.0
      * @since 2.2 Added $deletionpass to the array of things to encrypt.
-     * @global array $conf Configuration variables.
      * @param array $file the $_FILES[] array to use.
      * @param string $deletionpass Deletion password to encrypt along with the metadata.
+     * @param int $currentViews Current views of the file.
+     * @param int $maxViews Max allowable views of the file before deletion.
      * @param string $password Password used to encrypt the data.
      * @param string $iv IV used to encrypt the data.
-     * @return string Returns encoded and encrypted file metadata.
+     * @return string Returns encrypted file metadata encoded with base64.
+     * @global array $conf Configuration variables.
      */
-    public static function encryptFileDetails(array $file, string $deletionpass, string $password, string $iv) {
+    public static function encryptFileDetails(array $file, string $deletionpass, int $currentViews, $maxViews, string $password, string $iv) {
         global $conf;
         $deletionpass = password_hash($deletionpass, PASSWORD_BCRYPT);
-        $dataarray = array(base64_encode($file['name']), base64_encode($file['size']), base64_encode($file['type']), base64_encode($deletionpass));
-        $filedata = implode(" ", $dataarray);
-        $enc_data = openssl_encrypt($filedata, $conf['Encryption-Method'], $password, OPENSSL_RAW_DATA, $iv);
-        return base64_encode($enc_data);
+        $views_string = implode(' ', [$currentViews, $maxViews]);
+        $data_array = [
+            base64_encode($file['name']),
+            base64_encode($file['size']),
+            base64_encode($file['type']),
+            base64_encode($deletionpass),
+            base64_encode($views_string)
+        ];
+        $data_string = implode(" ", $data_array);
+        $data_enc = openssl_encrypt($data_string, $conf['Encryption-Method'], $password, OPENSSL_RAW_DATA, $iv);
+        return base64_encode($data_enc);
     }
 
     /**
      * Encrypts and encodes the content (data) of a file.
+     *
      * @since 2.0
      * @global array $conf Configuration variables.
      * @param string $content Data to encrypt.
@@ -51,13 +65,13 @@ class Encryption {
      */
     public static function encryptFileContent(string $content, string $password, string $iv) {
         global $conf;
-        $enc_content = openssl_encrypt($content, $conf['Encryption-Method'], $password, OPENSSL_RAW_DATA, $iv);
-        return base64_encode($enc_content);
+        return base64_encode(openssl_encrypt($content, $conf['Encryption-Method'], $password, OPENSSL_RAW_DATA, $iv));
     }
 
     /**
      * Create an IV (Initialization Vector) string.
      * IV contains of random data from a "random" source. In this case the source is OPENSSL.
+     *
      * @since 2.0
      * @return string Returns an IV string encoded with base64.
      */

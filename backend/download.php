@@ -5,6 +5,7 @@ include_once __DIR__ . '/res/init.php';
 /**
  * Only used to get legacy variables.
  * If the client uses the old link/variable method it will be redirected to the new one.
+ *
  * @since 1.0
  * @since 2.2 Moved to own function.
  * @deprecated 2.0 Use `<PROTOCOL>://<DOMAIN>/DOWNLOAD/<ID>/?p=<PASSWORD>` instead.
@@ -22,7 +23,8 @@ getVariables();
 
 $url = explode('/', strtolower(filter_input(INPUT_SERVER, 'REQUEST_URI')));
 $id = $url[2];
-$file = DataStorage::getFile($id, Misc::getVar('p'));
+$p = Misc::getVar('p');
+$file = DataStorage::getFile($id, $p);
 if (isset($file)) {
     $metadata = $file->getMetaData();
     header('Content-Description: File Transfer');
@@ -33,7 +35,9 @@ if (isset($file)) {
     header('Content-Length: ' . base64_decode($metadata['size']));
     echo($file->getContent());
 
-    Misc::compareViews($file->getCurrentViews(), $file->getMaxViews(), $file->getID());
+    if ($file->setCurrentViews(($file->getCurrentViews() + 1)))
+        DataStorage::setViews($file->getMaxViews(), ($file->getCurrentViews() + 1), $file, $p);
+
 } else {
     header(filter_input(INPUT_SERVER, 'SERVER_PROTOCOL') . " 404 File Not Found");
     header('Location: /download-404');

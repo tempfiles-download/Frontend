@@ -15,9 +15,8 @@ function exceptions_error_handler($severity, $message, $filename, $lineno) {
 
 /**
  * Converts $output to JSON format and prints to client.
- * Example:
- * sendOutput(['message' => 'A message to output.']);
  *
+ * @example sendOutput(['message' => 'A message to output.']);
  * @since 2.0
  * @param array $output Messages to output. ID of the cells should be the same as the desired tag in the JSON output.
  * @param int $responseCode Response code to use when outputting the JSON data.
@@ -53,7 +52,6 @@ try {
     }
 } catch (Exception $e) {
     $output['error'] = $e->getMessage();
-    error_log($e);
     sendOutput($output, 400);
 }
 
@@ -165,22 +163,24 @@ function delete() {
  * Gets the binary data for a file stored on the server.
  *
  * @since 2.0
- * @since 2.1 Updated function to work with v2.1 file handling standards.
+ * @since 2.2 Updated function to work with v2.2 file handling standards.
  *
  */
 function download() {
     $id = Misc::getVar('id');
-    $file = DataStorage::getFile($id, Misc::getVar('p'));
+    $p = Misc::getVar('p');
+    $file = DataStorage::getFile($id, $p);
     if (isset($file)) {
         $metadata = $file->getMetaData();
-        $output = [
+        $content = base64_encode($file->getContent());
+        sendOutput([
             "success" => TRUE,
             "type" => base64_decode($metadata['type']),
             "filename" => base64_decode($metadata['name']),
             "length" => base64_decode($metadata['size']),
-            "data" => $file->getContent()
-        ];
-        sendOutput($output, 200);
+            "data" => $content
+        ], 200);
+
         Misc::compareViews($file->getCurrentViews(), $file->getMaxViews(), $file->getID());
     } else {
         throw new Exception("File not found");
