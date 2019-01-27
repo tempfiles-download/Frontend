@@ -9,6 +9,7 @@ function mySQLError() {
 /**
  * Checks if a file exists.
  * If it doesn't, the connection dies.
+ *
  * @since 2.2
  * @param Full path of the file.
  */
@@ -22,7 +23,7 @@ function checkFile(string $file) {
 }
 
 if (file_exists(__DIR__ . '/config.php'))
-        $conf = include_once(__DIR__ . '/config.php');
+    $conf = include_once(__DIR__ . '/config.php');
 else {
     http_response_code(500);
     die("Can't find config.php.");
