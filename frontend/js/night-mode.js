@@ -1,35 +1,28 @@
-$(document).ready(function () {
+$(document).ready(() => {
     const d = new Date();
     const hour = d.getHours();
     const theme = localStorage.getItem('theme');
-    if (theme === 'dark' || theme === 'light') {
+    if (theme === 'dark' || theme === 'light')
         switch_style(theme);
-    } else {
-        if ($("#dark_button").is(":checked") || (hour >= 21 || hour <= 8))
-            switch_style("dark");
-    }
+    else if ($("#dark_button").is(":checked") || (hour >= 21 || hour <= 8))
+        switch_style("dark");
 });
 
 function switch_style(theme) {
     if (theme === "light") {
         document.body.classList.remove('dark');
-        $("#logo").attr("src", "/img/logo.svg");
-        $(".form-control").removeClass("dark")
-        $("#upload-password").removeClass("dark");
+        $(".form-control").removeClass("dark");
         $(".navbar").removeClass("dark");
+        $("#upload-password").removeClass("dark");
         $("#dark_button").prop('checked', false);
     } else if (theme === "dark") {
         document.body.classList.add("dark");
-        $("#logo").attr("src", "/img/logo_light.svg");
         $(".form-control").addClass("dark");
-        $("#upload-password").addClass("dark");
         $(".navbar").addClass("dark");
+        $("#upload-password").addClass("dark");
         $("#dark_button").prop('checked', true);
     } else {
-        const button = $("#dark_button");
-        if (button.is(':checked'))
-            switch_style('dark');
-        else
-            switch_style('light');
+        if ($("#dark_button").is(':checked')) switch_style('dark');
+        else switch_style('light');
     }
 }

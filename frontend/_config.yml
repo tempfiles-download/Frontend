@@ -5,4 +5,4 @@ permalink: pretty
 markdown: kramdown
 img: img/favicon.png
 sass:
-    style: compressed
+  style: compressed
