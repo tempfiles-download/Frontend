@@ -15,7 +15,7 @@ ondrop = (e) => {
 
 $('#back-btn').click(() => location.reload());
 
-$('#dark_button').click(() => {
+$('#dark_button').click(function(){
     if ($(this).is(':checked'))
         localStorage.setItem('theme', 'dark');
     else
