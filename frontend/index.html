@@ -50,13 +50,12 @@ layout: default
                 <label class="custom-file-label" for="file">Choose file</label>
             </div>
         </div>
-        <div class='form-group'><input type="password" class="form-control col-12" name="upload-password"
-                                       id="upload-password" placeholder="Password" data-lpignore="true"
-                                       autocomplete="off"/></div>
-        <div class='noselect col-12' id="settings-button"><span class="fa fa-angle-down" id="settings-btn-icon"></span>
+        <div class='form-group'>
+            <input type="password" class="form-control col-12" name="upload-password" id="upload-password" placeholder="Password" data-lpignore="true" autocomplete="off"/></div>
+        <div class='noselect col-12' id="settings-button" data-toggle="collapse" data-target="#advancedsettings" aria-expanded="false" aria-controls="advancedsettings" ><span class="fa fa-angle-down" id="settings-btn-icon"></span>
             Advanced settings
         </div>
-        <div id="advanced-settings">
+        <div class="collapse" id="advancedsettings">
             <label for="max-views" class="noselect">Max viewers </label>
             <input type="number" min="0" max="99" id="max-views" value="0">
             <label for="max-views" class="noselect"><i>(0 for no limit)</i></label>

@@ -37,11 +37,8 @@ $('.select').click(function () {
     this.select()
 });
 
-$('#settings-button').click(function (e) {
-    e.preventDefault();
-    $('#advanced-settings').slideToggle("fast");
+$('#settings-button').click(() => {
     $('#settings-btn-icon').toggleClass('fa-angle-down fa-angle-up');
-    return false;
 });
 
 function upload_file() {
