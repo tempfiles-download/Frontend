@@ -14,7 +14,7 @@ class Encryption
      * @param string $data Data to decrypt.
      * @param string $password Password used to decrypt.
      * @param string $iv IV for decryption.
-     * @param string $tag
+     * @param string $tag AEAD tag from the data encryption.
      * @return string Returns decrypted data.
      * @since 2.0
      * @since 2.3 Added support for AEAD cipher modes.
