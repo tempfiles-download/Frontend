@@ -20,5 +20,5 @@ return array(
     #'mysql-table' => 'files',
     'mysql-table' => getenv('rb421p9wniz81ttj7bdgrg0ub'),
     # Encryption algorithm to use for encrypting uploads.
-    'Encryption-Method' => 'AES-256-CBC'
+    'Encryption-Method' => 'aes-256-gcm'
 );

@@ -12,12 +12,12 @@ class DataStorage
      * Set the current views and max views for a specified file.
      * When the current views are equal or exceeds max views the file will be deleted and the user will get a 404 error.
      *
-     * @since 2.0
-     * @global array $conf Configuration variables.
-     * @global object $mysql_connection MySQL connection.
      * @param string $maxViews The new maximum amount of views to set on a file.
      * @param string $newViews The new current views to set on a file.
      * @return boolean Returns TRUE if the change was successful, otherwise FALSE.
+     * @since 2.0
+     * @global array $conf Configuration variables.
+     * @global object $mysql_connection MySQL connection.
      */
     public static function setViews(string $maxViews, string $newViews, File $file, string $password) {
         global $conf;
@@ -37,11 +37,11 @@ class DataStorage
     /**
      * Delete a specific file.
      *
-     * @since 2.0
-     * @global array $conf Configuration variables.
-     * @global object $mysql_connection MySQL connection.
      * @param string $id The ID for the file.
      * @return boolean Returns TRUE if the deletion was successful, otherwise FALSE.
+     * @global object $mysql_connection MySQL connection.
+     * @since 2.0
+     * @global array $conf Configuration variables.
      */
     public static function deleteFile(string $id) {
         global $conf;
@@ -56,8 +56,8 @@ class DataStorage
     /**
      * Delete all files older than 1 day.
      *
-     * @since 2.1
      * @return boolean Returns TRUE if the query was successful, otherwise FALSE.
+     * @since 2.1
      */
     public static function deleteOldFiles() {
         global $conf;
@@ -71,12 +71,13 @@ class DataStorage
     /**
      * Get the metadata and content of a file.
      *
-     * @since 2.0
-     * @global array $conf Configuration variables.
-     * @global object $mysql_connection MySQL connection.
      * @param string $id The ID for the file.
      * @param string $password Description
      * @return mixed Returns the downloaded and decrypted file (object) if successfully downloaded and decrypted, otherwise NULL (boolean).
+     * @since 2.0
+     * @since 2.3 Add support for AEAD cipher modes.
+     * @global array $conf Configuration variables.
+     * @global object $mysql_connection MySQL connection.
      */
     public static function getFile(string $id, string $password) {
         global $conf;
@@ -96,7 +97,7 @@ class DataStorage
         $file->setIV($iv);
 
         if ($enc_content !== NULL) {
-            $metadata_string = Encryption::decrypt(base64_decode($enc_filedata), $password, $iv[1]);
+            $metadata_string = Encryption::decrypt(base64_decode($enc_filedata), $password, $iv[2], $iv[3]);
 
             /** @var array $metadata_array
              * Array containing the following: [name, size, type, deletionPassword, views_array[ 0 => currentViews, 1 => maxViews]]
@@ -107,7 +108,7 @@ class DataStorage
 
             $file->setDeletionPassword(base64_decode($metadata_array[3]));
             $file->setMetaData($metadata);
-            $file->setContent(Encryption::decrypt(base64_decode($enc_content), $password, $iv[0]));
+            $file->setContent(Encryption::decrypt(base64_decode($enc_content), $password, $iv[0], $iv[1]));
             $file->setMaxViews((int)$views_array[1]);
             $file->setCurrentViews((int)$views_array[0]);
 
@@ -119,20 +120,21 @@ class DataStorage
     /**
      * Upload a file to the database.
      *
-     * @since 2.0
-     * @since 2.2 Removed $enc_content, $iv, $enc_filedata & $maxviews from input parameters. Changed output from $id (string) to $file (object).
-     * @global array $conf Configuration variables.
-     * @global object $mysql_connection MySQL connection.
      * @param File $file File to upload.
      * @param string $password Password to encrypt the file content and metadata with.
      * @return boolean Returns TRUE if the action was successfully executed, otherwise FALSE.
+     * @global object $mysql_connection MySQL connection.
+     * @since 2.0
+     * @since 2.2 Removed $enc_content, $iv, $enc_filedata & $maxviews from input parameters. Changed output from $id (string) to $file (object).
+     * @since 2.3 AAdd support for AEAD cipher modes.
+     * @global array $conf Configuration variables.
      */
     public static function uploadFile(File $file, string $password) {
         global $conf;
         global $mysql_connection;
-        $iv = ['content' => Encryption::getIV(), 'metadata' => Encryption::getIV()];
-        $enc_filecontent = Encryption::encryptFileContent($file->getContent(), $password, $iv['content']);
-        $enc_filemetadata = Encryption::encryptFileDetails($file->getMetaData(), $file->getDeletionPassword(), 0, $file->getMaxViews(), $password, $iv['metadata']);
+        $fileContent = Encryption::encryptFileContent($file->getContent(), $password);
+        $fileMetadata = Encryption::encryptFileDetails($file->getMetaData(), $file->getDeletionPassword(), 0, $file->getMaxViews(), $password);
+        $iv = [$fileContent['iv'], $fileContent['tag'], $fileMetadata['iv'], $fileMetadata['tag']];
         $enc_iv = base64_encode(implode(',', $iv));
         $null = NULL;
 
@@ -143,12 +145,12 @@ class DataStorage
 
             $id = $file->getID();
 
-            $bp = $query->bind_param("sssb", $id, $enc_iv, $enc_filemetadata, $null);
+            $bp = $query->bind_param("sssb", $id, $enc_iv, $fileMetadata['data'], $null);
             if (!$bp)
                 throw new Exception('bind_param() failed: ' . htmlspecialchars($query->error));
 
             // Replace $null with content blob
-            if (!$query->send_long_data(3, $enc_filecontent))
+            if (!$query->send_long_data(3, $fileContent['data']))
                 throw new Exception('bind_param() failed: ' . htmlspecialchars($query->error));
 
             if (!$query->execute())
