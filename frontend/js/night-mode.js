@@ -13,13 +13,17 @@ function switch_style(theme) {
         document.body.classList.remove('dark');
         $(".form-control").removeClass("dark");
         $(".navbar").removeClass("dark");
+        $(".custom-file-label").removeClass("dark");
+        $("#max-views").removeClass("dark");
         $("#upload-password").removeClass("dark");
         $("#dark_button").prop('checked', false);
     } else if (theme === "dark") {
         document.body.classList.add("dark");
         $(".form-control").addClass("dark");
         $(".navbar").addClass("dark");
+        $(".custom-file-label").addClass("dark");
         $("#upload-password").addClass("dark");
+        $("#max-views").addClass("dark");
         $("#dark_button").prop('checked', true);
     } else {
         if ($("#dark_button").is(':checked')) switch_style('dark');

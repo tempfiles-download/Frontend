@@ -99,7 +99,7 @@ body.dark {
 
 #max-views {
   width: 55px;
-  color: #222;
+  color: #ddd;
   text-align: center;
   margin-left: 5px;
   margin-right: 10px;
@@ -184,7 +184,6 @@ footer {
   padding: 0px !important;
   line-height: 20px;
   position: relative;
-
 }
 
 .navbar {
@@ -211,4 +210,30 @@ footer {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+}
+
+.custom-file {
+  background-color: inherit;
+}
+
+.custom-file-input:focus {
+  border-color: initial;
+  box-shadow: 0 3px 8px 0 rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(0, 0, 0, 0.08);
+}
+
+.custom-file-label.dark {
+  color: #6c757d;
+  background-color: #222;
+  border: medium none;
+
+  &::after {
+    height: 100%;
+    color: #a0a3a6;
+    background-color: #444;
+  }
+}
+
+#max-views.dark {
+  color: #6c757d;
+  background-color: #222;
 }
