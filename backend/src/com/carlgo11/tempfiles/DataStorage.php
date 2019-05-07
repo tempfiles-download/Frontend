@@ -1,5 +1,9 @@
 <?php
 
+namespace com\carlgo11\tempfiles;
+
+use Exception;
+
 /**
  * DataStorage handles all MySQL database connecting functions.
  *
@@ -14,6 +18,8 @@ class DataStorage
      *
      * @param string $maxViews The new maximum amount of views to set on a file.
      * @param string $newViews The new current views to set on a file.
+     * @param File $file
+     * @param string $password
      * @return boolean Returns TRUE if the change was successful, otherwise FALSE.
      * @since 2.0
      * @global array $conf Configuration variables.
@@ -22,13 +28,19 @@ class DataStorage
     public static function setViews(string $maxViews, string $newViews, File $file, string $password) {
         global $conf;
         global $mysql_connection;
+
         $id = $file->getID();
-        $enc_filemetadata = Encryption::encryptFileDetails($file->getMetaData(), $file->getDeletionPassword(), $newViews, $maxViews, $password, $file->getIV()[1]);
-        $query = $mysql_connection->prepare("UPDATE `" . $conf['mysql-table'] . "` SET `metadata` = ? WHERE `id` = ?");
-        if (!$query->bind_param("ss", $enc_filemetadata, $id)) {
+        $enc_filemetadata = Encryption::encryptFileDetails($file->getMetaData(), $file->getDeletionPassword(), $newViews, $maxViews, $password);
+        $iv = [$file->getIV()[0], $file->getIV()[1], $enc_filemetadata['iv'], $enc_filemetadata['tag']];
+        $enc_iv = base64_encode(implode(',', $iv));
+
+        $query = $mysql_connection->prepare("UPDATE `" . $conf['mysql-table'] . "` SET `metadata` = ?, `iv` = ? WHERE `id` = ?");
+
+        if (!$query->bind_param("sss", $enc_filemetadata['data'], $enc_iv, $id)) {
             error_log('bind_param() failed: ' . htmlspecialchars($query->error));
             return FALSE;
         }
+        
         $result = $query->execute();
         $query->close();
         return $result;
@@ -97,7 +109,7 @@ class DataStorage
         $file->setIV($iv);
 
         if ($enc_content !== NULL) {
-            $metadata_string = Encryption::decrypt(base64_decode($enc_filedata), $password, $iv[2], $iv[3]);
+            $metadata_string = Encryption::decrypt($enc_filedata, $password, $iv[2], $iv[3]);
 
             /** @var array $metadata_array
              * Array containing the following: [name, size, type, deletionPassword, views_array[ 0 => currentViews, 1 => maxViews]]
@@ -108,7 +120,7 @@ class DataStorage
 
             $file->setDeletionPassword(base64_decode($metadata_array[3]));
             $file->setMetaData($metadata);
-            $file->setContent(Encryption::decrypt(base64_decode($enc_content), $password, $iv[0], $iv[1]));
+            $file->setContent(Encryption::decrypt($enc_content, $password, $iv[0], $iv[1]));
             $file->setMaxViews((int)$views_array[1]);
             $file->setCurrentViews((int)$views_array[0]);
 

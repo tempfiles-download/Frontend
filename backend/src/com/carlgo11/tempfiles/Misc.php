@@ -1,5 +1,6 @@
 <?php
 
+namespace com\carlgo11\tempfiles;
 /**
  * Miscellaneous functions
  *
@@ -39,10 +40,10 @@ class Misc
     /**
      * Convert metric data prefixes to bytes.
      *
-     * @author John V.
-     * @link http://stackoverflow.com/a/11807179
      * @param string $from String to convert.
      * @return int Output of $from in bytes.
+     * @author John V.
+     * @link http://stackoverflow.com/a/11807179
      */
     public static function convertToBytes($from) {
         $number = substr($from, 0, -2);

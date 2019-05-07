@@ -1,0 +1,10 @@
+<phpunit bootstrap="src/com/carlgo11/tempfiles/Autoload.php">
+    <testsuites>
+        <testsuite name="tempfiles">
+            <directory>tests</directory>
+        </testsuite>
+    </testsuites>
+    <php>
+        <env name="phpunit" value="true"/>
+    </php>
+</phpunit>

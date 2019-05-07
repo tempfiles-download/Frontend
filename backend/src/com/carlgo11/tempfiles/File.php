@@ -1,5 +1,6 @@
 <?php
 
+namespace com\carlgo11\tempfiles;
 class File
 {
 
@@ -14,9 +15,9 @@ class File
     /**
      * Main function of File class.
      *
-     * @since 2.2
      * @param array $file $_FILES array if available.
      * @param string $id ID if one is already set.
+     * @since 2.2
      */
     public function __construct($file, string $id = NULL) {
         if ($id === NULL) $this->generateID();
@@ -29,8 +30,8 @@ class File
     /**
      * Gets ID of the file.
      *
-     * @since 2.2
      * @return string Returns the ID of the file.
+     * @since 2.2
      */
     public function __toString() {
         return $this->_id;
@@ -39,8 +40,8 @@ class File
     /**
      * Gets ID of the file.
      *
-     * @since 2.2
      * @return string Returns the ID of the file.
+     * @since 2.2
      */
     public function getID() {
         return $this->_id;
@@ -49,8 +50,8 @@ class File
     /**
      * Gets file content.
      *
-     * @since 2.2
      * @return string Returns file content in clear text.
+     * @since 2.2
      */
     public function getContent() {
         return $this->_content;
@@ -59,8 +60,8 @@ class File
     /**
      * Gets the current views of the file if available.
      *
-     * @since 2.2
      * @return mixed Returns current views/downloads of the file if supplied, otherwise NULL.
+     * @since 2.2
      */
     public function getCurrentViews() {
         return $this->_currentViews;
@@ -69,8 +70,8 @@ class File
     /**
      * Gets the max available views/downloads before the file gets deleted.
      *
-     * @since 2.2
      * @return mixed Returns max views of the file if supplied, otherwise NULL.
+     * @since 2.2
      */
     public function getMaxViews() {
         return $this->_maxViews;
@@ -79,8 +80,8 @@ class File
     /**
      * Gets the deletion password of the file.
      *
-     * @since 2.2
      * @return string Returns deletion password if supplied, otherwise NULL.
+     * @since 2.2
      */
     public function getDeletionPassword() {
         return $this->_deletionPassword;
@@ -89,9 +90,9 @@ class File
     /**
      * Gets the metadata of the file if supplied.
      *
-     * @since 2.2
      * @param string $type Array key of the desired value.
      * @return mixed Returns data of the desired array key if a $type is supplied, otherwise the entire array.
+     * @since 2.2
      */
     public function getMetaData(string $type = NULL) {
         if ($type !== NULL) return $this->_metadata[$type];
@@ -105,34 +106,34 @@ class File
     /**
      * Sets the ID of the file.
      *
-     * @since 2.2
      * @param string $id New ID of the file.
      * @return boolean Returns TRUE if the action was successfully executed, otherwise FALSE.
+     * @since 2.2
      */
     private function setID(string $id) {
-        return $this->_id = $id;
+        return ($this->_id = $id) === $id;
     }
 
     /**
      * Generates a new ID for the file.
      *
-     * @since 2.2
      * @return boolean Returns TRUE if the action was successfully executed, otherwise FALSE.
+     * @since 2.2
      */
     private function generateID() {
-        return $this->_id = strtoupper(uniqid("d"));
+        return is_string($this->_id = strtoupper(uniqid("d")));
     }
 
     /**
      * Sets the current views/downloads of the file.
      *
-     * @since 2.2
      * @param int $views New views/downloads of the file.
      * @return boolean Returns TRUE if the action was successfully executed. Returns FALSE if the file was deleted. Returns NULL if currentsViews wasn't set.
+     * @since 2.2
      */
     public function setCurrentViews(int $views) {
-        if ($this->_maxViews !== 0) {
-            if ($views <= $this->_maxViews) {
+        if ($this->_maxViews != 0) {
+            if ($views < $this->_maxViews) {
                 $this->_currentViews = $views;
                 return TRUE;
             } else if ($views >= $this->_maxViews) {
@@ -145,49 +146,49 @@ class File
     /**
      * Sets the max views of the file.
      *
-     * @since 2.2
      * @param int $views New max views of the file.
      * @return boolean Returns TRUE if the action was successfully executed, otherwise FALSE.
+     * @since 2.2
      */
     public function setMaxViews(int $views) {
-        return $this->_maxViews = $views;
+        return ($this->_maxViews = $views) === $views;
     }
 
     /**
      * Sets the metadata of the file.
      *
-     * @since 2.2
      * @param array New metadata of the file.
      * @return boolean Returns TRUE if the action was successfully executed, otherwise FALSE.
+     * @since 2.2
      */
     public function setMetaData(array $metadata) {
-        return boolval($this->_metaData = $metadata);
+        return ($this->_metaData = $metadata) === $metadata;
     }
 
     /**
      * Sets the deletion password of the file.
      *
-     * @since 2.2
      * @param string $deletionpassword New deletion password of the file.
      * @return boolean Returns TRUE if the action was successfully executed, otherwise FALSE.
+     * @since 2.2
      */
     public function setDeletionPassword(string $deletionpassword) {
-        return $this->_deletionPassword = $deletionpassword;
+        return ($this->_deletionPassword = $deletionpassword) === $deletionpassword;
     }
 
     /**
      * Sets the content of the file.
      *
-     * @since 2.2
      * @param string $content New content of the file. Should be sent as clear text.
      * @return boolean Returns TRUE if the action was successfully executed, otherwise FALSE.
+     * @since 2.2
      */
     public function setContent($content) {
-        return $this->_content = $content;
+        return ($this->_content = $content) === $content;
     }
 
     public function setIV(array $iv) {
-        return $this->_iv = $iv;
+        return ($this->_iv = $iv) === $iv;
     }
 
 }

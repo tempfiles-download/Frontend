@@ -1,6 +1,9 @@
 <?php
 
-include_once __DIR__ . '/res/init.php';
+use com\carlgo11\tempfiles\DataStorage;
+use com\carlgo11\tempfiles\Misc;
+
+include_once __DIR__ . '/src/com/carlgo11/tempfiles/Autoload.php';
 
 /**
  * Only used to get legacy variables.
@@ -37,7 +40,6 @@ if (isset($file)) {
 
     if ($file->setCurrentViews(($file->getCurrentViews() + 1)))
         DataStorage::setViews($file->getMaxViews(), ($file->getCurrentViews() + 1), $file, $p);
-
 } else {
     header(filter_input(INPUT_SERVER, 'SERVER_PROTOCOL') . " 404 File Not Found");
     header('Location: /download-404');

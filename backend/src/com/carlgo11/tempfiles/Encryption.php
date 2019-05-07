@@ -1,5 +1,6 @@
 <?php
 
+namespace com\carlgo11\tempfiles;
 /**
  * Encryption handling.
  *
@@ -22,7 +23,7 @@ class Encryption
      */
     public static function decrypt(string $data, string $password, string $iv, string $tag = NULL) {
         global $conf;
-        return openssl_decrypt($data, $conf['Encryption-Method'], $password, OPENSSL_RAW_DATA, $iv, $tag);
+        return openssl_decrypt($data, $conf['Encryption-Method'], $password, NULL, $iv, $tag);
     }
 
     /**
