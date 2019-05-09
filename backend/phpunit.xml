@@ -1,4 +1,4 @@
-<phpunit bootstrap="src/com/carlgo11/tempfiles/Autoload.php">
+<phpunit bootstrap="src/com/carlgo11/tempfiles/Autoload.php" colors="true">
     <testsuites>
         <testsuite name="tempfiles">
             <directory>tests</directory>
@@ -7,4 +7,9 @@
     <php>
         <env name="phpunit" value="true"/>
     </php>
+    <filter>
+        <whitelist>
+            <directory>src</directory>
+        </whitelist>
+    </filter>
 </phpunit>

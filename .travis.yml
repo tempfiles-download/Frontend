@@ -7,6 +7,8 @@ matrix:
         - nightly
       before_script:
         - cd backend
+      script:
+        - phpunit --configuration phpunit.xml --teamcity
     - language: ruby
       rvm:
         - 2.4.1

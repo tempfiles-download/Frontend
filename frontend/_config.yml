@@ -4,5 +4,6 @@ url: "tempfiles.carlgo11.com"
 permalink: pretty
 markdown: kramdown
 img: img/favicon.png
+exclude: ["Gemfile*", "Rakefile", ".gitignore"]
 sass:
   style: compressed
