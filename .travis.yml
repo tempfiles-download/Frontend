@@ -1,0 +1,16 @@
+matrix:
+  include:
+    - language: php
+      php:
+        - 7.1
+        - 7.2
+        - nightly
+      before_script:
+        - cd backend
+    - language: ruby
+      rvm:
+        - 2.4.1
+      sudo: false
+      cache: bundler
+      before_script:
+        - cd frontend
