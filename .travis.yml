@@ -8,11 +8,11 @@ matrix:
       before_script:
         - cd backend
       script:
-        - phpunit --configuration phpunit.xml --teamcity
+        - phpunit --configuration phpunit.xml
     - language: ruby
       rvm:
         - 2.4.1
       sudo: false
       cache: bundler
-      before_script:
+      before_install:
         - cd frontend
