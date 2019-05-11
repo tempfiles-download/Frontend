@@ -1,4 +1,6 @@
+sudo: false
 matrix:
+  fast_finish: true
   include:
     - language: php
       php:
@@ -13,11 +15,15 @@ matrix:
       cache:
         directories:
           - $HOME/.composer/cache
-      sudo: false
     - language: ruby
       rvm:
         - 2.4.1
-      cache: bundler
+      cache:
+        bundler: true
+        directories: $TRAVIS_BUILD_DIR/tmp/.htmlproofer
       before_install:
         - cd frontend
-      sudo: true
+      script:
+        - bundle exec rake proof build
+notifications:
+  email: false

@@ -3,7 +3,7 @@ description: ""
 url: "tempfiles.carlgo11.com"
 permalink: pretty
 markdown: kramdown
-img: img/favicon.png
+img: /img/favicon.png
 exclude:
   - Gemfile
   - Gemfile.lock

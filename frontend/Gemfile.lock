@@ -263,7 +263,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  diff-lcs
   diffy
   fastimage
   github-pages

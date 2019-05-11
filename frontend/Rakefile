@@ -22,6 +22,15 @@ task :build do
     Jekyll::Commands::Build.build site, config
 end
 
+task proof: 'build' do
+  HTMLProofer.check_directory(
+    './_site', \
+    assume_extension: true, \
+    check_html: true, \
+    disable_external: true
+  ).run
+end
+
 task :clean do
   puts 'Cleaning up _site...'.bold
   Jekyll::Commands::Clean.process({})
