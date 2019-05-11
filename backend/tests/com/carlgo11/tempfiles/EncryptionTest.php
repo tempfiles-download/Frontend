@@ -30,8 +30,6 @@ class EncryptionTest extends TestCase
     }
 
     public function testEncryptFileDetails() {
-        global $conf;
-
         // Setup initial variables
         $file = ['name' => 'testfile.txt', 'size' => '4096', 'type' => 'text/txt'];
         $delpass = 'gzxHJF4MZd3Ul0KsLo8vb7SPDO';
