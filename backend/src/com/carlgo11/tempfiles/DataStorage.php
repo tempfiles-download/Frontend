@@ -40,7 +40,7 @@ class DataStorage
             error_log('bind_param() failed: ' . htmlspecialchars($query->error));
             return FALSE;
         }
-        
+
         $result = $query->execute();
         $query->close();
         return $result;
@@ -72,7 +72,6 @@ class DataStorage
      * @since 2.1
      */
     public static function deleteOldFiles() {
-        global $conf;
         global $mysql_connection;
         $query = $mysql_connection->prepare("DELETE FROM `files` WHERE `time` < DATE_SUB(NOW(), INTERVAL 1 DAY)");
         $result = $query->execute();
@@ -94,7 +93,6 @@ class DataStorage
     public static function getFile(string $id, string $password) {
         global $conf;
         global $mysql_connection;
-        require_once __DIR__ . '/File.php';
 
         $query = $mysql_connection->prepare("SELECT `iv`, `metadata`, `content` FROM `" . $conf['mysql-table'] . "` WHERE `id` = ?");
         $query->bind_param("s", $id);
