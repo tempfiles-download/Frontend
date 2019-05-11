@@ -1,4 +1,6 @@
 # TempFiles
+[![travic-CI](https://api.travis-ci.org/Carlgo11/TempFiles.svg?branch=master)](https://travis-ci.org/Carlgo11/TempFiles/)
+
 Upload files securely over the internet for a set time.
 
 ## Why?
