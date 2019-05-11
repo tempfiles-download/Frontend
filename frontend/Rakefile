@@ -1,4 +1,5 @@
 # coding: utf-8
+require 'html-proofer'
 require 'jekyll'
 
 task default: [:build]
@@ -13,7 +14,12 @@ end
 # Rake Jekyll tasks
 task :build do
   puts 'Building site...'.bold
-  Jekyll::Commands::Build.process(profile: true)
+  config = Jekyll.configuration(
+      'source' => './',
+      'destination' => './_site'
+    )
+    site = Jekyll::Site.new(config)
+    Jekyll::Commands::Build.build site, config
 end
 
 task :clean do
