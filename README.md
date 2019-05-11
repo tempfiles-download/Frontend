@@ -1,7 +1,7 @@
 # TempFiles
 [![travic-CI](https://api.travis-ci.org/Carlgo11/TempFiles.svg?branch=master)](https://travis-ci.org/Carlgo11/TempFiles/)
 
-Upload files securely over the internet for a set time.
+Upload files securely over the internet for a set amount of time.
 
 ## Why?
 I, [@Carlgo11](https://github.com/Carlgo11/), have for a long time been very interested in information security and encryption.  
@@ -70,7 +70,7 @@ _Words surrounded by `{}` are variables that should be changed by the user befor
  URI: `https://tempfiles.carlgo11.com/api/download?id={id}&p={password}`  
  cURL: `curl https://tempfiles.carlgo11.com/api/download?id={id}&p={password} -O {output file name}`
 #### Delete 
- URI: `https://tempfiles.carlgo11.com/api/delete?id={id}&p={password}&delete={deletion password}`
+ URI: `https://tempfiles.carlgo11.com/api/delete?id={id}&p={password}&delete={deletion password}`  
  cURL: `curl https://tempfiles.carlgo11.com/api/delete?id={id}&p={password}&delete={deletion password}`
 
 ## Why not use `X`?
