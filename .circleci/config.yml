@@ -60,8 +60,49 @@ jobs:
           name: "Run PHP Unit Tests"
           command: "cd backend && ./vendor/phpunit/phpunit/phpunit"
 
+  frontend:
+    docker:
+      - image: circleci/ruby:2
+    steps:
+      - checkout
+
+      - restore_cache:
+          keys:
+            - gem-cache-{{ checksum "frontend/Gemfile.lock" }}
+
+      - run:
+          name: Bundle install
+          command: cd frontend && bundle install --path vendor/bundle
+
+      - save_cache:
+        paths:
+          - frontend/vendor/bundle
+        key: gem-cache-{{ checksum "frontend/Gemfile.lock" }}
+
+      - run:
+          name: Build frontend
+          command: bundle exec rake proof build
+
+  # deploy:
+  #   machine:
+  #     enabled: true
+  #   steps:
+  #     - run:
+  #         name: Trigger Webhook
+  #         command: # curl?
+
+
+
 workflows:
   version: 2
   test:
     jobs:
       - backend
+      - frontend
+      # - deploy:
+      #     requires:
+      #       - backend
+      #       - frontend
+      #     filters:
+      #       branches:
+      #         only: master
