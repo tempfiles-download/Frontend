@@ -1,0 +1,108 @@
+version: 2
+
+jobs:
+  backend:
+    docker:
+      - image: circleci/php:7.2-stretch
+        environment:
+          ag44jc7aqs2rsup2bb6cx7utc: '127.0.0.1' # 'mysql-url'
+          hp7wz20wu4qfbfcmqywfai1j4: tempfiles # 'mysql-user'
+          mom8c5hrbn8c1r5lro1imfyax: thisisonlyusedfortestinganyways # 'mysql-password'
+          qb1yi60nrz3tjjjqqb7l2yqra: tempfiles # 'mysql-db'
+          rb421p9wniz81ttj7bdgrg0ub: tempfiles # 'mysql-table'
+      - image: circleci/mariadb:10-bionic-ram
+        environment:
+          MYSQL_DATABASE: tempfiles
+          MYSQL_USER: tempfiles
+          MYSQL_PASSWORD: thisisonlyusedfortestinganyways
+    steps:
+      - checkout
+
+      - restore_cache:
+          key: composer-cache-{{ checksum "backend/composer.lock" }}
+
+      - run:
+          name: Composer install
+          command: "cd backend && composer install"
+
+      - save_cache:
+          paths:
+            - backend/vendor
+          key: composer-cache-{{ checksum "backend/composer.lock" }}
+
+      - run:
+          name: Install PHP extensions
+          command: sudo docker-php-ext-install -j$(nproc) mysqli
+
+      - run:
+          name: Install MySQL Client
+          command: |
+            sudo apt update
+            sudo apt install -y mysql-client
+
+      - run:
+          name: Waiting for Mariadb to be ready
+          command: |
+            for i in `seq 1 10`;
+            do
+              nc -z localhost 3306 && echo Success && exit 0
+              echo -n .
+              sleep 1
+            done
+            echo Failed waiting for Mariadb && exit 1
+
+      - run:
+          name: Create database & table
+          command: mysql --protocol=tcp --host=localhost --port=3306 --user=$hp7wz20wu4qfbfcmqywfai1j4 --password=$mom8c5hrbn8c1r5lro1imfyax < resources/install_mysql.sql
+
+
+      - run:
+          name: "Run PHP Unit Tests"
+          command: "cd backend && ./vendor/phpunit/phpunit/phpunit"
+
+  frontend:
+    docker:
+      - image: circleci/ruby:2
+    steps:
+      - checkout
+
+      - restore_cache:
+          keys:
+            - gem-cache-{{ checksum "frontend/Gemfile.lock" }}
+
+      - run:
+          name: Bundle install
+          command: cd frontend && bundle install --path vendor/bundle
+
+      - save_cache:
+          paths:
+            - frontend/vendor/bundle
+          key: gem-cache-{{ checksum "frontend/Gemfile.lock" }}
+
+      - run:
+          name: Build frontend
+          command: cd frontend && bundle exec rake proof build
+
+  # deploy:
+  #   machine:
+  #     enabled: true
+  #   steps:
+  #     - run:
+  #         name: Trigger Webhook
+  #         command: # curl?
+
+
+
+workflows:
+  version: 2
+  test:
+    jobs:
+      - backend
+      - frontend
+      # - deploy:
+      #     requires:
+      #       - backend
+      #       - frontend
+      #     filters:
+      #       branches:
+      #         only: master
