@@ -9,9 +9,7 @@ class DataStorageTest extends TestCase
 {
 
     public function testGetMariaDBVersion() {
-        $v = DataStorage::getMariaDBVersion();
-        error_log($v);
-        $this->assertIsString($v);
+        $this->assertIsString(DataStorage::getMariaDBVersion());
     }
 
 }
