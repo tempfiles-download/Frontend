@@ -9,7 +9,7 @@ checkFile(__DIR__ . '/Misc.php');
 checkFile(__DIR__ . '/File.php');
 checkFile(__DIR__ . '/API.php');
 
-// Load MySQL connection unless the script is run by PHPUnit.
+// Connect to the database
 $mysql_connection = mysqli_connect($conf['mysql-url'], $conf['mysql-user'], $conf['mysql-password'], $conf['mysql-db'])
 or mySQLError($mysql_connection);
 
