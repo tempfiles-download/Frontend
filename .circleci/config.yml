@@ -5,11 +5,11 @@ jobs:
     docker:
       - image: circleci/php:7
         environment:
-          ag44jc7aqs2rsup2bb6cx7utc: localhost
-          hp7wz20wu4qfbfcmqywfai1j4: tempfiles
-          mom8c5hrbn8c1r5lro1imfyax: thisisonlyusedfortestinganyways
-          qb1yi60nrz3tjjjqqb7l2yqra: tempfiles
-          rb421p9wniz81ttj7bdgrg0ub: tempfiles
+          ag44jc7aqs2rsup2bb6cx7utc: localhost # 'mysql-url'
+          hp7wz20wu4qfbfcmqywfai1j4: tempfiles # 'mysql-user'
+          mom8c5hrbn8c1r5lro1imfyax: thisisonlyusedfortestinganyways # 'mysql-password'
+          qb1yi60nrz3tjjjqqb7l2yqra: tempfiles # 'mysql-db'
+          rb421p9wniz81ttj7bdgrg0ub: tempfiles # 'mysql-table'
       - image: circleci/mariadb:10-bionic-ram
         environment:
           MYSQL_DATABASE: tempfiles
@@ -32,7 +32,7 @@ jobs:
 
       - run:
           name: Install MySQL Client
-          command: sudo apt update && sudo apt install mysql-client
+          command: sudo apt update && sudo apt install mysql-client php-mysql
 
       - run:
           name: Waiting for Mariadb to be ready
@@ -46,7 +46,7 @@ jobs:
             echo Failed waiting for Mariadb && exit 1
 
       - run:
-          name: Create database table
+          name: Create database & table
           command: mysql --protocol=tcp --host=localhost --port=3306 --user=$hp7wz20wu4qfbfcmqywfai1j4 --password=$mom8c5hrbn8c1r5lro1imfyax < resources/install_mysql.sql
 
 
