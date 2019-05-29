@@ -75,9 +75,9 @@ jobs:
           command: cd frontend && bundle install --path vendor/bundle
 
       - save_cache:
-        paths:
-          - frontend/vendor/bundle
-        key: gem-cache-{{ checksum "frontend/Gemfile.lock" }}
+          paths:
+            - frontend/vendor/bundle
+          key: gem-cache-{{ checksum "frontend/Gemfile.lock" }}
 
       - run:
           name: Build frontend
