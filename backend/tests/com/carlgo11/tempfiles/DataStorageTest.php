@@ -8,6 +8,7 @@ use PHPUnit\Framework\TestCase;
 class DataStorageTest extends TestCase
 {
 
+    // TODO: Remove. Just an example.
     public function testGetMariaDBVersion() {
         $this->assertIsString(DataStorage::getMariaDBVersion());
     }

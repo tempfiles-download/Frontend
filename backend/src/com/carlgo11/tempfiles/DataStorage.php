@@ -174,6 +174,7 @@ class DataStorage
         }
     }
 
+    // TODO: Remove. Just an example.
     public static function getMariaDBVersion() {
         global $mysql_connection;
 
