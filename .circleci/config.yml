@@ -3,7 +3,7 @@ version: 2
 jobs:
   backend:
     docker:
-      - image: circleci/php:7.2
+      - image: circleci/php:7
         environment:
           ag44jc7aqs2rsup2bb6cx7utc: localhost # 'mysql-url'
           hp7wz20wu4qfbfcmqywfai1j4: tempfiles # 'mysql-user'
@@ -31,8 +31,8 @@ jobs:
           key: composer-cache-{{ checksum "backend/composer.lock" }}
 
       - run:
-          name: Install MySQL Client
-          command: sudo apt update && sudo apt install mysql-client php7.2-mysql
+          name: Install MySQL Client & php7-mysql
+          command: sudo apt update && sudo apt install mysql-client php7-mysql
 
       - run:
           name: Waiting for Mariadb to be ready
