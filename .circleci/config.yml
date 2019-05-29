@@ -47,7 +47,7 @@ jobs:
 
       - run:
           name: Create database table
-          command: mysql --host=localhost --port=3306 --user=$hp7wz20wu4qfbfcmqywfai1j4 --password=$mom8c5hrbn8c1r5lro1imfyax < resources/install_mysql.sql
+          command: mysql --protocol=tcp --host=localhost --port=3306 --user=$hp7wz20wu4qfbfcmqywfai1j4 --password=$mom8c5hrbn8c1r5lro1imfyax < resources/install_mysql.sql
 
 
       - run:
