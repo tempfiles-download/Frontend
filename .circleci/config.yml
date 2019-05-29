@@ -56,7 +56,7 @@ jobs:
 
       - run:
           name: "Tests with db"
-          command: "exit 0"
+          command: "echo hello && exit 0"
 
 workflows:
   version: 2
