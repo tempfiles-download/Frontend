@@ -60,10 +60,6 @@ jobs:
           name: "Run PHP Unit Tests"
           command: "cd backend && ./vendor/phpunit/phpunit/phpunit"
 
-      - run:
-          name: "Tests with db"
-          command: "echo hello && exit 0"
-
 workflows:
   version: 2
   test:
