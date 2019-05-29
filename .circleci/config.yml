@@ -81,7 +81,7 @@ jobs:
 
       - run:
           name: Build frontend
-          command: bundle exec rake proof build
+          command: cd frontend && bundle exec rake proof build
 
   # deploy:
   #   machine:
