@@ -1,0 +1,59 @@
+version: 2
+
+jobs:
+  backend:
+    docker:
+      - image: circleci/php:7-apache
+        environment:
+          ag44jc7aqs2rsup2bb6cx7utc: localhost
+          hp7wz20wu4qfbfcmqywfai1j4: tempfiles
+          mom8c5hrbn8c1r5lro1imfyax: thisisonlyusedfortestinganyways
+          qb1yi60nrz3tjjjqqb7l2yqra: tempfiles
+          rb421p9wniz81ttj7bdgrg0ub: tempfiles
+      - image: circleci/mariadb:10-bionic-ram
+        environment:
+          MYSQL_DATABASE: tempfiles
+          MYSQL_USER: tempfiles
+          MYSQL_PASSWORD: thisisonlyusedfortestinganyways
+    steps:
+      - checkout
+
+      - restore_cache:
+          key: composer-cache-{{ checksum "backend/composer.lock" }}
+
+      - run:
+          name: Composer install
+          command: "cd server && composer install"
+
+      - save_cache:
+          paths:
+            - backend/vendor
+          key: composer-cache-{{ checksum "backend/composer.lock" }}
+
+      - run:
+          name: Install MySQL Client
+          command: apt update && apt install mysql-client
+
+      - run:
+          name: Waiting for Mariadb to be ready
+          command: |
+            for i in `seq 1 10`;
+            do
+              nc -z localhost 3306 && echo Success && exit 0
+              echo -n .
+              sleep 1
+            done
+            echo Failed waiting for Mariadb && exit 1
+
+      - run:
+          name: Create database table
+          command: mysql -u $hp7wz20wu4qfbfcmqywfai1j4 -p $qb1yi60nrz3tjjjqqb7l2yqra < resources/install_mysql.sql
+
+
+      - run:
+          name: "Run PHP Unit Tests"
+          command: "cd backend && ./vendor/phpunit/phpunit/phpunit"
+
+      - run:
+          name: "Tests with db"
+          command: "exit 0"

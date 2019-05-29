@@ -4,8 +4,8 @@ matrix:
   include:
     - language: php
       php:
-        - 7.2
-        - 7.3
+        - "7.2"
+        - "7.3"
       before_install:
         - cd backend
       install:
@@ -20,7 +20,8 @@ matrix:
         - 2.4.1
       cache:
         bundler: true
-        directories: $TRAVIS_BUILD_DIR/tmp/.htmlproofer
+        directories:
+          - $TRAVIS_BUILD_DIR/tmp/.htmlproofer
       before_install:
         - cd frontend
       script:
