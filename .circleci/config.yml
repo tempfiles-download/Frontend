@@ -23,7 +23,7 @@ jobs:
 
       - run:
           name: Composer install
-          command: "cd server && composer install"
+          command: "cd backend && composer install"
 
       - save_cache:
           paths:
