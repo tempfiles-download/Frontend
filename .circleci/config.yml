@@ -32,7 +32,7 @@ jobs:
 
       - run:
           name: Install MySQL Client
-          command: apt update && apt install mysql-client
+          command: sudo apt update && sudo apt install mysql-client
 
       - run:
           name: Waiting for Mariadb to be ready
