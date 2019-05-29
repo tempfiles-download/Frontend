@@ -174,4 +174,26 @@ class DataStorage
         }
     }
 
+    public static function getMariaDBVersion() {
+        global $mysql_connection;
+
+        try {
+
+            $query = $mysql_connection->prepare('SELECT VERSION()');
+
+            $query->execute();
+            $query->store_result();
+            $query->bind_result($version);
+            $query->fetch();
+            $query->close();
+
+            return $version;
+
+        } catch (Exception $e) {
+            error_log($e);
+            return FALSE;
+        }
+
+    }
+
 }
