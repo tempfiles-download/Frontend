@@ -5,8 +5,7 @@
  * If you'd prefer to just store the credentials in this document then,
  * replace my variables definitions with the ones I've commented.
  */
-
-return array(
+return [
     # Allowed formats <n>MB, <n>GB, <n>TB, <n>PB.
     'max-file-size' => '12MB',
     # 'mysql-url' => 'localhost',
@@ -21,4 +20,4 @@ return array(
     'mysql-table' => getenv('rb421p9wniz81ttj7bdgrg0ub'),
     # Encryption algorithm to use for encrypting uploads.
     'Encryption-Method' => 'aes-256-gcm'
-);
+];

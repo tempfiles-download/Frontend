@@ -1,7 +1,6 @@
 <?php
 
 // Load resources.
-
 $conf = checkFile(__DIR__ . '/config.php');
 checkFile(__DIR__ . '/DataStorage.php');
 checkFile(__DIR__ . '/Encryption.php');
@@ -9,10 +8,9 @@ checkFile(__DIR__ . '/Misc.php');
 checkFile(__DIR__ . '/File.php');
 checkFile(__DIR__ . '/API.php');
 
-// Connect to the database
-$mysql_connection = mysqli_connect($conf['mysql-url'], $conf['mysql-user'], $conf['mysql-password'], $conf['mysql-db'])
-or mySQLError($mysql_connection);
-
+// Connect to the database unless run by test.
+if(!isset($_ENV['ignore-mysql']))
+    $mysql_connection = mysqli_connect($conf['mysql-url'], $conf['mysql-user'], $conf['mysql-password'], $conf['mysql-db']) or mySQLError($mysql_connection);
 
 /**
  * Outputs MySQL error.
