@@ -1,9 +1,13 @@
 <phpunit bootstrap="src/com/carlgo11/tempfiles/Autoload.php" colors="true">
     <testsuites>
-        <testsuite name="tempfiles">
+        <testsuite name="tempfiles-no-mysql">
             <directory>tests</directory>
+            <exclude>tests/com/carlgo11/tempfiles/DataStorageTest.php</exclude>
         </testsuite>
     </testsuites>
+    <php>
+        <env name="ignore-mysql" value="true"/>
+    </php>
     <filter>
         <whitelist>
             <directory>src</directory>

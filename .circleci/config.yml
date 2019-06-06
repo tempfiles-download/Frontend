@@ -57,7 +57,7 @@ jobs:
 
       - run:
           name: "Run PHP Unit Tests"
-          command: "./backend/vendor/phpunit/phpunit/phpunit --configuration ./backend/phpunit.xml --teamcity"
+          command: "./backend/vendor/phpunit/phpunit/phpunit --configuration ./circleci/phpunit.xml --teamcity"
 
   frontend:
     docker:
