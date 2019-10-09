@@ -1,0 +1,12 @@
+<phpunit bootstrap="./backend/src/com/carlgo11/tempfiles/Autoload.php" colors="true">
+    <testsuites>
+        <testsuite name="tempfiles">
+            <directory>./backend/tests</directory>
+        </testsuite>
+    </testsuites>
+    <filter>
+        <whitelist>
+            <directory>./backend/src</directory>
+        </whitelist>
+    </filter>
+</phpunit>
