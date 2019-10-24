@@ -3,13 +3,15 @@
 namespace com\carlgo11\tempfiles\api;
 // Load resources
 
+use Exception;
+
 require_once __DIR__ . '/src/com/carlgo11/tempfiles/Autoload.php';
 
-$url = explode('/', strtolower(filter_input(INPUT_SERVER, 'REQUEST_URI')));
+$url = explode('/', strtolower($_SERVER['REQUEST_URI']));
 
 
 try {
-    switch ($url[2]) {
+    switch ($url[1]) {
         case 'cleanup':
             require_once __DIR__ . '/src/com/carlgo11/tempfiles/api/Cleanup.php';
             new Cleanup();
@@ -31,7 +33,7 @@ try {
             break;
     }
 } catch (Exception $ex) {
-    error_log($ex); //Spews out the error to log. Maybe not so good for production env?
+//    error_log($ex); //Spews out the error to log. Maybe not so good for production env?
     $api = new API();
     $api->addMessage('error', $ex->getMessage());
     $api->outputJSON(500);

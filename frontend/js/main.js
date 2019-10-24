@@ -15,14 +15,6 @@ ondrop = (e) => {
 
 $('#back-btn').click(() => location.reload());
 
-$('#dark_button').click(function(){
-    if ($(this).is(':checked'))
-        localStorage.setItem('theme', 'dark');
-    else
-        localStorage.setItem('theme', 'light');
-    switch_style();
-});
-
 $('#upload-submit').click(() => {
     upload_file();
     return false;
@@ -53,10 +45,11 @@ function upload_file() {
 
     $.ajax({
         type: 'POST',
-        url: '/api/upload',
+        url: 'https://api.tempfiles.carlgo11.com/upload',
         dataType: false,
         processData: false,
         contentType: false,
+        crossDomain: true,
         cache: false,
         data: form_data,
         beforeSend: () => $('.upload-btn').toggle(),

@@ -24,8 +24,8 @@ function getVariables() {
 getVariables();
 
 
-$url = explode('/', strtolower(filter_input(INPUT_SERVER, 'REQUEST_URI')));
-$id = $url[2];
+$url = explode('/', strtolower($_SERVER['REQUEST_URI']));
+$id = $url[1];
 $p = Misc::getVar('p');
 $file = DataStorage::getFile($id, $p);
 if (isset($file)) {
@@ -41,7 +41,7 @@ if (isset($file)) {
     if ($file->setCurrentViews(($file->getCurrentViews() + 1)))
         DataStorage::setViews($file->getMaxViews(), ($file->getCurrentViews() + 1), $file, $p);
 } else {
-    header(filter_input(INPUT_SERVER, 'SERVER_PROTOCOL') . " 404 File Not Found");
+    header($_SERVER['SERVER_PROTOCOL'] . " 404 File Not Found");
     header('Location: /download-404');
 }
 

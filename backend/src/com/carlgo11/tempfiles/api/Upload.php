@@ -64,7 +64,7 @@ class Upload extends API
                 }
 
                 // Full URI to download the file
-                $completeURL = $protocol . "://" . filter_input(INPUT_SERVER, 'HTTP_HOST') . "/download/" . $file->getID() . "/?p=" . urlencode($password);
+                $completeURL = $protocol . "://d.carlgo11.com" . $file->getID() . "/?p=" . urlencode($password);
 
                 $output['success'] = TRUE;
                 $output['url'] = $completeURL;
