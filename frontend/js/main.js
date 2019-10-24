@@ -45,11 +45,10 @@ function upload_file() {
 
     $.ajax({
         type: 'POST',
-        url: 'https://api.tempfiles.carlgo11.com/upload',
+        url: 'https://api.tempfiles.carlgo11.com/upload/',
         dataType: false,
         processData: false,
         contentType: false,
-        crossDomain: true,
         cache: false,
         data: form_data,
         beforeSend: () => $('.upload-btn').toggle(),
