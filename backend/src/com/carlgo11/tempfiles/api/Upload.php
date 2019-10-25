@@ -37,7 +37,12 @@ class Upload extends API
                 'name' => $fileContent['name'],
                 'type' => $fileContent['type']
             ];
-            $file->setMetaData($metadata);
+
+            if (!in_array(NULL, $metadata)) {
+                $file->setMetaData($metadata);
+            } else {
+                throw new \UnexpectedValueException("Incomplete file transfer");
+            }
 
             if ($file->getMetaData('size') <= Misc::convertToBytes($conf['max-file-size'])) {
                 if ($password !== NULL) {
