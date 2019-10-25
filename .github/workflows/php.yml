@@ -8,15 +8,15 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-
-    - name: Move to backend directory
-      run: cd backend
       
     - name: Validate composer.json and composer.lock
       run: composer validate
+      working-directory: backend
 
     - name: Install dependencies
       run: composer install --prefer-dist --no-progress --no-suggest
+      working-directory: backend
 
     - name: Run PHPUnit tests
       run: composer exec phpunit --configuration phpunit.xml --teamcity
+      working-directory: backend
