@@ -1,6 +1,12 @@
 name: PHPUnit
 
-on: [push]
+on:
+  push:
+    paths:
+      - 'backend/*'
+  pull_request:
+    paths:
+      - 'backend/*'
 
 jobs:
   build:
