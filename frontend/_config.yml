@@ -1,9 +1,8 @@
 title: Tempfiles
-description: ""
+description: "Upload files securely over the internet for 24 hours."
 url: "tempfiles.carlgo11.com"
 permalink: pretty
 markdown: kramdown
-img: /img/favicon.png
 exclude:
   - Gemfile
   - Gemfile.lock
