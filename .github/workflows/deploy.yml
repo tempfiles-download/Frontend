@@ -15,6 +15,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_REPOSITORY: ${{ secrets.GITHUB_REPOSITORY }}
           GITHUB_ACTOR: ${{ secrets.GITHUB_ACTOR }}
+          SITE_NAME: "tempfiles.carlgo11.com"
         run: |
           cd frontend/
           remote_repo="https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" && \
@@ -22,6 +23,7 @@ jobs:
           git init && \
           git config user.name "bot" && \
           git config user.email "bot@users.noreply.github.com" && \
+          echo "${SITE_NAME}" > CNAME
           git add . && \
           echo -n 'Files to Commit:' && ls -l | wc -l && \
           git commit -m'Push to GitHub Pages' > /dev/null 2>&1 && \
