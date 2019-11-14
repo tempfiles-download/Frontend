@@ -6,12 +6,12 @@ on:
     branches:
       - master
     paths:
-      - ./frontend
+      - 'frontend/*'
   push:
     branches:
       - master
     paths:
-      - ./frontend
+      - 'frontend/*'
 
 jobs:
   build:
