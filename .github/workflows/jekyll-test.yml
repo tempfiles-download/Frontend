@@ -1,0 +1,28 @@
+# Test Jekyll frontend site. Only run when tthe commit contains changes to the directory '/frontend'.
+name: Test Frontend
+
+on:
+  pull_request:
+    branches: 
+      - master
+    paths:
+      - ./frontend
+  push:
+    branches:
+      - master
+    paths: 
+      - ./frontend
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Build the site in the jekyll container
+      working-directory: ./frontend
+      run: |
+        docker run \
+        -v ${{ github.workspace }}:/srv/jekyll -v ${{ github.workspace }}/_site:/srv/jekyll/_site \
+        jekyll/builder:latest /bin/bash -c "chmod 777 /srv/jekyll && jekyll build --future"
