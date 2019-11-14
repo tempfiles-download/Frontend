@@ -1,21 +1,21 @@
 # Test Jekyll frontend site. Only run when tthe commit contains changes to the directory '/frontend'.
-name: Test Frontend
+name: Test Jekyll
 
 on:
   pull_request:
-    branches: 
+    branches:
       - master
     paths:
       - ./frontend
   push:
     branches:
       - master
-    paths: 
+    paths:
       - ./frontend
 
 jobs:
   build:
-
+    name: Jekyll - Test & Build
     runs-on: ubuntu-latest
 
     steps:

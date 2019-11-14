@@ -1,4 +1,4 @@
-name: PHPUnit
+name: Test PHPUnit
 
 on:
   push:
@@ -10,6 +10,7 @@ on:
 
 jobs:
   build:
+    name: PHPUnit - Build & Test
     runs-on: ubuntu-latest
 
     steps:

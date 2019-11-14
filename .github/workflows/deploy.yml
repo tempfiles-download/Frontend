@@ -7,7 +7,7 @@ on:
 
 jobs:
    build:
-    name: Build and Deploy
+    name: GitHub Pages - Build & Deploy
     timeout-minutes: 1
     runs-on: ubuntu-latest
     steps:
@@ -24,7 +24,7 @@ jobs:
           git config user.email "bot@users.noreply.github.com"
           echo "${SITE_NAME}" > CNAME
           git add .
-          echo -n 'Files to Commit:' && ls -l | wc -l 
+          echo -n 'Files to Commit:' && ls -l | wc -l
           git commit -m'Push to GitHub Pages' > /dev/null 2>&1
           git push --force $remote_repo master:$remote_branch > /dev/null 2>&1
           rm -fr .git
