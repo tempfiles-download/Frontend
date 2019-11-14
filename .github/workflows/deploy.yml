@@ -1,4 +1,4 @@
-﻿name: Deploy to GitHub Pages
+name: Deploy to GitHub Pages
 
 on:
   push:
@@ -14,17 +14,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-      # Copy all files from /frontend to gh-pages branch
+        # Fetch all files in the repository
       - uses: actions/checkout@v1
+        name: Fetch code
+
+        # Add CNAME file to the /frontend directory
+      - name: Add CNAME
+        run: echo "${SITE_NAME}" > CNAME
+
+        # Push files from /frontend to gh-pages branch
       - name: Build and push commits
+        working-directory: frontend
         run: |
-          cd frontend/
           remote_repo="https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
           remote_branch="gh-pages"
           git init
           git config user.name "bot"
           git config user.email "bot@users.noreply.github.com"
-          echo "${SITE_NAME}" > CNAME
           git add .
           echo -n 'Files to Commit:' && ls -l | wc -l
           git commit -m'Push to GitHub Pages' > /dev/null 2>&1
