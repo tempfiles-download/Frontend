@@ -1,35 +1,45 @@
-﻿name: Jekyll Deploy
+﻿name: Deploy to GitHub Pages
 
 on:
   push:
     branches:
       - master
-    paths:
-      - 'frontend/*'
 
 jobs:
-  build_and_deploy:
+   build:
+    name: Build and Deploy
+    timeout-minutes: 1
     runs-on: ubuntu-latest
     steps:
+
+      # Copy all files from /frontend to gh-pages branch
       - uses: actions/checkout@v1
-      - name: Build & Deploy to GitHub Pages
+      - name: Build and push commits
+        run: |
+          cd frontend/
+          remote_repo="https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          remote_branch="gh-pages"
+          git init
+          git config user.name "bot"
+          git config user.email "bot@users.noreply.github.com"
+          echo "${SITE_NAME}" > CNAME
+          git add .
+          echo -n 'Files to Commit:' && ls -l | wc -l 
+          git commit -m'Push to GitHub Pages' > /dev/null 2>&1
+          git push --force $remote_repo master:$remote_branch > /dev/null 2>&1
+          rm -fr .git
+          cd ../
+          echo 'Success!'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_REPOSITORY: ${{ secrets.GITHUB_REPOSITORY }}
           GITHUB_ACTOR: ${{ secrets.GITHUB_ACTOR }}
           SITE_NAME: "tempfiles.carlgo11.com"
-        run: |
-          cd frontend/
-          remote_repo="https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" && \
-          remote_branch="gh-pages" && \
-          git init && \
-          git config user.name "bot" && \
-          git config user.email "bot@users.noreply.github.com" && \
-          echo "${SITE_NAME}" > CNAME
-          git add . && \
-          echo -n 'Files to Commit:' && ls -l | wc -l && \
-          git commit -m'Push to GitHub Pages' > /dev/null 2>&1 && \
-          git push --force $remote_repo master:$remote_branch > /dev/null 2>&1 && \
-          rm -fr .git && \
-          cd ../
-          echo 'Success!'
+
+      # Manually request GitHub Pages to build from gh-pages
+      - uses: octokit/request-action@v1.x
+        name: Deploy to GitHub Pages
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+        with:
+          route: POST /repos/:owner/:repo/pages/builds
