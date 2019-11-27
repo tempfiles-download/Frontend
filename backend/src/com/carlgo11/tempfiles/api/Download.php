@@ -12,9 +12,12 @@ class Download extends API
     /**
      * Download constructor.
      *
-     * @throws Exception
+     * @param string $method HTTP method.
+     * @throws Exception Throws exception if HTTP method is invalid.
      */
-    public function __construct() {
+    public function __construct(string $method) {
+        if ($method !== 'GET') throw new Exception("Bad method. Use GET.");
+
         $id = Misc::getVar('id');
         $p = Misc::getVar('p');
         $file = DataStorage::getFile($id, $p);
