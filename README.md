@@ -63,15 +63,17 @@ Below are a list of public API calls, available for everyone to use, along with 
   
 _Words surrounded by `{}` are variables that should be changed by the user before the command is sent._
 
+More documentation on the API calls are available on [Postman](https://documenter.getpostman.com/view/1675224/SW7ezkZn).
+
 #### Upload
- URI: `https://tempfiles.carlgo11.com/api/upload?p={password}`  
- cURL: `curl -F file=@{file name} https://tempfiles.carlgo11.com/api/upload?p={password}`
+ URI: `https://api.tempfiles.carlgo11.com/upload?p={password}`  
+ cURL: `curl -F file=@{file name} https://api.tempfiles.carlgo11.com/upload?p={password}`
 #### Download
- URI: `https://tempfiles.carlgo11.com/api/download?id={id}&p={password}`  
- cURL: `curl https://tempfiles.carlgo11.com/api/download?id={id}&p={password} -O {output file name}`
+ URI: `https://api.tempfiles.carlgo11.com/download?id={id}&p={password}`  
+ cURL: `curl https://api.tempfiles.carlgo11.com/download?id={id}&p={password} -O {output file name}`
 #### Delete 
- URI: `https://tempfiles.carlgo11.com/api/delete?id={id}&p={password}&delete={deletion password}`  
- cURL: `curl https://tempfiles.carlgo11.com/api/delete?id={id}&p={password}&delete={deletion password}`
+ URI: `https://api.tempfiles.carlgo11.com/delete?id={id}&p={password}&delete={deletion password}`  
+ cURL: `curl https://api.tempfiles.carlgo11.com/delete?id={id}&p={password}&delete={deletion password}`
 
 ## Why not use `X`?
 
