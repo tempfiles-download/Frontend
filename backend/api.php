@@ -20,15 +20,15 @@ try {
             break;
         case 'delete':
             require_once __DIR__ . '/src/com/carlgo11/tempfiles/api/Delete.php';
-            new Delete();
+            new Delete($method);
             break;
         case 'download':
             require_once __DIR__ . '/src/com/carlgo11/tempfiles/api/Download.php';
-            new Download();
+            new Download($method);
             break;
         case 'upload':
             require_once __DIR__ . '/src/com/carlgo11/tempfiles/api/Upload.php';
-            new Upload();
+            new Upload($method);
             break;
         default:
             throw new Exception('Unknown or missing function.');
