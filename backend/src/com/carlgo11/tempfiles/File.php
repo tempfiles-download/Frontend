@@ -28,6 +28,27 @@ class File
     }
 
     /**
+     * Generates a new ID for the file.
+     *
+     * @return boolean Returns TRUE if the action was successfully executed, otherwise FALSE.
+     * @since 2.2
+     */
+    private function generateID() {
+        return is_string($this->_id = strtoupper(uniqid("d")));
+    }
+
+    /**
+     * Sets the ID of the file.
+     *
+     * @param string $id New ID of the file.
+     * @return boolean Returns TRUE if the action was successfully executed, otherwise FALSE.
+     * @since 2.2
+     */
+    private function setID(string $id) {
+        return ($this->_id = $id) === $id;
+    }
+
+    /**
      * Gets ID of the file.
      *
      * @return string Returns the ID of the file.
@@ -58,6 +79,17 @@ class File
     }
 
     /**
+     * Sets the content of the file.
+     *
+     * @param string $content New content of the file. Should be sent as clear text.
+     * @return boolean Returns TRUE if the action was successfully executed, otherwise FALSE.
+     * @since 2.2
+     */
+    public function setContent($content) {
+        return ($this->_content = $content) === $content;
+    }
+
+    /**
      * Gets the current views of the file if available.
      *
      * @return mixed Returns current views/downloads of the file if supplied, otherwise NULL.
@@ -65,63 +97,6 @@ class File
      */
     public function getCurrentViews() {
         return $this->_currentViews;
-    }
-
-    /**
-     * Gets the max available views/downloads before the file gets deleted.
-     *
-     * @return mixed Returns max views of the file if supplied, otherwise NULL.
-     * @since 2.2
-     */
-    public function getMaxViews() {
-        return $this->_maxViews;
-    }
-
-    /**
-     * Gets the deletion password of the file.
-     *
-     * @return string Returns deletion password if supplied, otherwise NULL.
-     * @since 2.2
-     */
-    public function getDeletionPassword() {
-        return $this->_deletionPassword;
-    }
-
-    /**
-     * Gets the metadata of the file if supplied.
-     *
-     * @param string $type Array key of the desired value.
-     * @return mixed Returns data of the desired array key if a $type is supplied, otherwise the entire array.
-     * @since 2.2
-     */
-    public function getMetaData(string $type = NULL) {
-        if ($type !== NULL) return $this->_metadata[$type];
-        return $this->_metaData;
-    }
-
-    public function getIV() {
-        return $this->_iv;
-    }
-
-    /**
-     * Sets the ID of the file.
-     *
-     * @param string $id New ID of the file.
-     * @return boolean Returns TRUE if the action was successfully executed, otherwise FALSE.
-     * @since 2.2
-     */
-    private function setID(string $id) {
-        return ($this->_id = $id) === $id;
-    }
-
-    /**
-     * Generates a new ID for the file.
-     *
-     * @return boolean Returns TRUE if the action was successfully executed, otherwise FALSE.
-     * @since 2.2
-     */
-    private function generateID() {
-        return is_string($this->_id = strtoupper(uniqid("d")));
     }
 
     /**
@@ -144,6 +119,16 @@ class File
     }
 
     /**
+     * Gets the max available views/downloads before the file gets deleted.
+     *
+     * @return mixed Returns max views of the file if supplied, otherwise NULL.
+     * @since 2.2
+     */
+    public function getMaxViews() {
+        return $this->_maxViews;
+    }
+
+    /**
      * Sets the max views of the file.
      *
      * @param int $views New max views of the file.
@@ -155,14 +140,13 @@ class File
     }
 
     /**
-     * Sets the metadata of the file.
+     * Gets the deletion password of the file.
      *
-     * @param array New metadata of the file.
-     * @return boolean Returns TRUE if the action was successfully executed, otherwise FALSE.
+     * @return string Returns deletion password if supplied, otherwise NULL.
      * @since 2.2
      */
-    public function setMetaData(array $metadata) {
-        return ($this->_metaData = $metadata) === $metadata;
+    public function getDeletionPassword() {
+        return $this->_deletionPassword;
     }
 
     /**
@@ -177,14 +161,30 @@ class File
     }
 
     /**
-     * Sets the content of the file.
+     * Gets the metadata of the file if supplied.
      *
-     * @param string $content New content of the file. Should be sent as clear text.
+     * @param string $type Array key of the desired value.
+     * @return mixed Returns data of the desired array key if a $type is supplied, otherwise the entire array.
+     * @since 2.2
+     */
+    public function getMetaData(string $type = NULL) {
+        if ($type !== NULL) return $this->_metadata[$type];
+        return $this->_metaData;
+    }
+
+    /**
+     * Sets the metadata of the file.
+     *
+     * @param array New metadata of the file.
      * @return boolean Returns TRUE if the action was successfully executed, otherwise FALSE.
      * @since 2.2
      */
-    public function setContent($content) {
-        return ($this->_content = $content) === $content;
+    public function setMetaData(array $metadata) {
+        return ($this->_metaData = $metadata) === $metadata;
+    }
+
+    public function getIV() {
+        return $this->_iv;
     }
 
     public function setIV(array $iv) {

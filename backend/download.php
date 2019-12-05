@@ -30,23 +30,23 @@ $curl = getCURL($id, $password);
 $response = json_decode(curl_exec($curl));
 
 $error = curl_error($curl);
-if (isset($error)) {
+if ($error !== "") {
     error_log($error);
     return404();
 }
 
-if (isset($data)) {
+if ($response->success) {
 
     // Set headers
     header("Content-Description: File Transfer");
     header("Expires: 0");
     header("Pragma: public");
-    header("Content-Type: {$response['type']}");
-    header("Content-Disposition: inline; filename={$response['filename']}");
-    header("Content-Length: {$response['length']}");
+    header("Content-Type: {$response->type}");
+    header("Content-Disposition: inline; filename=\"{$response->filename}\"");
+    header("Content-Length: {$response->length}");
 
     // output file contents
-    echo "{$response['data']}";
+    echo base64_decode($response->data);
 
 } else return404();
 exit;
