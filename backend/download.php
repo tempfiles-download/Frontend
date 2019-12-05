@@ -1,48 +1,52 @@
 <?php
 
-use com\carlgo11\tempfiles\DataStorage;
-use com\carlgo11\tempfiles\Misc;
-
-include_once __DIR__ . '/src/com/carlgo11/tempfiles/Autoload.php';
-
-/**
- * Only used to get legacy variables.
- * If the client uses the old link/variable method it will be redirected to the new one.
- *
- * @since 1.0
- * @since 2.2 Moved to own function.
- * @deprecated 2.0 Use `<PROTOCOL>://<DOMAIN>/DOWNLOAD/<ID>/?p=<PASSWORD>` instead.
- */
-function getVariables() {
-    if (Misc::getVar('f') !== NULL && Misc::getVar('p') !== NULL) {
-        header('Location: /download/' . Misc::getVar('f') . '/?p=' . Misc::getVar('p'));
-        exit;
-    }
+function getCURL(string $id, string $password) {
+    $curl = curl_init();
+    curl_setopt_array($curl, [
+        CURLOPT_URL => "https://api.tempfiles.carlgo11.com/download/?id={$id}&p={$password}",
+        CURLOPT_RETURNTRANSFER => TRUE,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_2,
+        CURLOPT_CUSTOMREQUEST => 'GET',
+        CURLOPT_HTTPHEADER => [
+            "cache-control: no-cache"
+        ]
+    ]);
+    return $curl;
 }
 
-// Backwards compatibility
-getVariables();
-
-
-$url = explode('/', strtolower($_SERVER['REQUEST_URI']));
-$id = $url[1];
-$p = Misc::getVar('p');
-$file = DataStorage::getFile($id, $p);
-if (isset($file)) {
-    $metadata = $file->getMetaData();
-    header('Content-Description: File Transfer');
-    header('Content-Type: ' . base64_decode($metadata['type']));
-    header('Content-Disposition: inline; filename="' . base64_decode($metadata['name']) . '"');
-    header('Expires: 0');
-    header('Pragma: public');
-    header('Content-Length: ' . base64_decode($metadata['size']));
-    echo($file->getContent());
-
-    if ($file->setCurrentViews(($file->getCurrentViews() + 1)))
-        DataStorage::setViews($file->getMaxViews(), ($file->getCurrentViews() + 1), $file, $p);
-} else {
+function return404() {
     header($_SERVER['SERVER_PROTOCOL'] . " 404 File Not Found");
     header('Location: /download-404');
+    exit;
 }
 
+$url = explode('/', strtolower($_SERVER['REQUEST_URI']));
+$id = filter_var($url[1]);
+$password = filter_input(INPUT_GET, "p");
+
+$curl = getCURL($id, $password);
+
+// Execute cURL command and get response data
+$response = json_decode(curl_exec($curl));
+
+$error = curl_error($curl);
+if (isset($error)) {
+    error_log($error);
+    return404();
+}
+
+if (isset($data)) {
+
+    // Set headers
+    header("Content-Description: File Transfer");
+    header("Expires: 0");
+    header("Pragma: public");
+    header("Content-Type: {$response['type']}");
+    header("Content-Disposition: inline; filename={$response['filename']}");
+    header("Content-Length: {$response['length']}");
+
+    // output file contents
+    echo "{$response['data']}";
+
+} else return404();
 exit;
