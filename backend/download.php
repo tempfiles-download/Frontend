@@ -16,7 +16,7 @@ function getCURL(string $id, string $password) {
 
 function return404() {
     header($_SERVER['SERVER_PROTOCOL'] . " 404 File Not Found");
-    header('Location: /download-404');
+    header('Location: https://tempfiles.carlgo11.com/download-404');
     exit;
 }
 

@@ -32,7 +32,10 @@ class Download extends API
                 "data" => $content
             ]);
             parent::outputJSON(200);
-            Misc::compareViews($file->getCurrentViews(), $file->getMaxViews(), $file->getID());
+
+            if ($file->setCurrentViews(($file->getCurrentViews() + 1)))
+                DataStorage::setViews($file->getMaxViews(), ($file->getCurrentViews() + 1), $file, $p);
+
         } else {
             throw new Exception("File not found");
         }
