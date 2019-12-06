@@ -1,17 +1,14 @@
-# Test Jekyll frontend site. Only run when tthe commit contains changes to the directory '/frontend'.
+# Test Jekyll frontend site. Only run when the commit contains changes to the directory '/frontend'.
 name: Test Jekyll
 
 on:
   pull_request:
     branches:
       - master
-    paths:
-      - 'frontend/*'
+
   push:
     branches:
       - master
-    paths:
-      - 'frontend/*'
 
 jobs:
   build:
@@ -21,7 +18,6 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: Build the site in the jekyll container
-      working-directory: ./frontend
       run: |
         docker run \
         -v ${{ github.workspace }}:/srv/jekyll -v ${{ github.workspace }}/_site:/srv/jekyll/_site \

@@ -1,0 +1,7 @@
+source 'https://rubygems.org'
+
+# Dependencies are bundled with the github-pages gem
+gem 'jekyll'
+
+gem 'html-proofer'
+gem 'rake'

@@ -1,0 +1,37 @@
+# coding: utf-8
+require 'html-proofer'
+require 'jekyll'
+
+task default: [:build]
+
+# Extend string to allow for bold text.
+class String
+  def bold
+    "\033[1m#{self}\033[0m"
+  end
+end
+
+# Rake Jekyll tasks
+task :build do
+  puts 'Building site...'.bold
+  config = Jekyll.configuration(
+      'source' => './',
+      'destination' => './_site'
+    )
+    site = Jekyll::Site.new(config)
+    Jekyll::Commands::Build.build site, config
+end
+
+task proof: 'build' do
+  HTMLProofer.check_directory(
+    './_site', \
+    assume_extension: true, \
+    check_html: true, \
+    disable_external: true
+  ).run
+end
+
+task :clean do
+  puts 'Cleaning up _site...'.bold
+  Jekyll::Commands::Clean.process({})
+end

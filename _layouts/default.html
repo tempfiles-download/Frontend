@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="author" content="{{ site.github.owner_name }}">
+    <meta name="description" content="{{ site.github.project_tagline }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="supported-color-schemes" content="light dark">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="icon" type="image/png" href="/img/favicon_16.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="/img/favicon_64.png" sizes="64x64">
+    <link rel="icon" type="image/png" href="/img/favicon_128.png" sizes="128x128">
+    <link rel="icon" type="image/png" href="/img/favicon_256.png" sizes="256x256">
+    <link rel="apple-touch-icon" href="/img/apple-touch-icon.png" sizes="192x192">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha512-c8AIFmn4e0WZnaTOCXTOLzR+uIrTELY9AeIuUq6ODGaO619BjqG2rhiv/y6dIdmM7ba+CpzMRkkztMPXfVBm9g==" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw==" crossorigin="anonymous" />
+    <link href="/css/tempfiles.css" rel="stylesheet">
+    <title>{{ site.title }}</title>
+</head>
+
+<body>
+<nav class="navbar navbar-inverse navbar-static-top">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/"><img src="/img/logo.svg" id="logo" alt="logo"></a><a class="navbar-brand nocolor" href="/">TempFiles</a>
+        </div>
+    </div>
+</nav> <!-- /navbar -->
+<div class="container main_container">
+    {{ content }}
+</div> <!-- /container -->
+<footer>
+    <p>Made by <a href="https://carlgo11.com/">Carlgo11</a>. {% if site.github.build_revision != null %} Version: <a id="version" title="{{ site.github.build_revision }}" href="{{ site.github.repository_url }}"></a>{% endif %}</p>
+</footer> <!-- /footer -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha512-+NqPlbbtM1QqiK8ZAo4Yrj2c4lNQoGv8P79DPtKzj++l5jnN39rHA/xsqn8zE9l0uSoxaCdrOgFs6yjyfbBxSg==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha512-9D39OISItQmmaHlgjDXXwRVfk9zsM8qHUIL1nzVVJ0DWXpo0SgRNfsU08CeKa7bw7YEEf3Pc9hX33NduCkggCQ==" crossorigin="anonymous"></script>
+<script src="/js/main.js"></script>
+<script src="/js/bs-custom-file-input.min.js" integrity="sha512-RhC+FPY6kHsFK1jIsBbrvO+vwuTdq0ZsHBfArrvJRV7Abyke4+jl14sEvuHauGff6LJhIdsdBYw6yaODhe5crg==" crossorigin="anonymous"></script>
+</body>
+
+</html>
