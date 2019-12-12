@@ -3,41 +3,78 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="author" content="{{ site.github.owner_name }}">
-    <meta name="description" content="{{ site.github.project_tagline }}">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="supported-color-schemes" content="light dark">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <link rel="icon" type="image/png" href="/img/favicon_16.png" sizes="16x16">
-    <link rel="icon" type="image/png" href="/img/favicon_64.png" sizes="64x64">
-    <link rel="icon" type="image/png" href="/img/favicon_128.png" sizes="128x128">
-    <link rel="icon" type="image/png" href="/img/favicon_256.png" sizes="256x256">
-    <link rel="apple-touch-icon" href="/img/apple-touch-icon.png" sizes="192x192">
-    <link rel="manifest" href="/manifest.json">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha512-c8AIFmn4e0WZnaTOCXTOLzR+uIrTELY9AeIuUq6ODGaO619BjqG2rhiv/y6dIdmM7ba+CpzMRkkztMPXfVBm9g==" crossorigin="anonymous"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw==" crossorigin="anonymous" />
-    <link href="/css/tempfiles.css" rel="stylesheet">
+    <meta content="{{ site.github.owner_name }}" name="author">
+    <meta content="{{ site.github.project_tagline }}" name="description">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <meta content="light dark" name="supported-color-schemes">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <link href="/img/favicon_16.png" rel="icon" sizes="16x16" type="image/png">
+    <link href="/img/favicon_64.png" rel="icon" sizes="64x64" type="image/png">
+    <link href="/img/favicon_128.png" rel="icon" sizes="128x128" type="image/png">
+    <link href="/img/favicon_256.png" rel="icon" sizes="256x256" type="image/png">
+    <link href="/img/apple-touch-icon.png" rel="apple-touch-icon" sizes="192x192">
+    <link href="/manifest.json" rel="manifest">
+    <link crossorigin="anonymous"
+          href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.2.1/css/bootstrap.min.css"
+          integrity="sha512-c8AIFmn4e0WZnaTOCXTOLzR+uIrTELY9AeIuUq6ODGaO619BjqG2rhiv/y6dIdmM7ba+CpzMRkkztMPXfVBm9g=="
+          rel="stylesheet"/>
+    <link crossorigin="anonymous"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+          integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw=="
+          rel="stylesheet"/>
+    <link href="/css/tempfiles.min.css" rel="stylesheet">
+    <link href="/css/navbar.min.css" rel="stylesheet">
+    {%- if page.name == 'index.html' -%}
+    <link href="/css/upload.min.css" rel="stylesheet">
+    {%- endif -%}
+    {%- if page.name == 'delete.html' -%}
+    <link href="/css/delete.min.css" rel="stylesheet">
+    {%- endif -%}
+    {%- if page.name == 'download.html' -%}
+    <link href="/css/download.min.css" rel="stylesheet">
+    {%- endif -%}
+    <script crossorigin="anonymous"
+            integrity="sha512-+NqPlbbtM1QqiK8ZAo4Yrj2c4lNQoGv8P79DPtKzj++l5jnN39rHA/xsqn8zE9l0uSoxaCdrOgFs6yjyfbBxSg=="
+            src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <title>{{ site.title }}</title>
 </head>
 
 <body>
-<nav class="navbar navbar-inverse navbar-static-top">
-    <div class="container">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="/"><img src="/img/logo.svg" id="logo" alt="logo"></a><a class="navbar-brand nocolor" href="/">TempFiles</a>
+<nav class="navbar navbar-static-top">
+    <div class="container" style="justify-content: flex-start;">
+        <a class="navbar-brand nocolor" href="/" style="margin-bottom: -2px">
+            <img alt="logo" id="logo" src="/img/logo.svg" style="margin-right: 1rem; margin-top: -2px">TempFiles</a>
+
+        <div style="margin-left: 2vw">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Upload</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/download/">Download</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/delete/">Delete</a>
+                </li>
+            </ul>
         </div>
     </div>
 </nav> <!-- /navbar -->
-<div class="container main_container">
+<div class="container center" id="main-container">
     {{ content }}
 </div> <!-- /container -->
 <footer>
-    <p>Made by <a href="https://carlgo11.com/">Carlgo11</a>. {% if site.github.build_revision != null %} Version: <a id="version" title="{{ site.github.build_revision }}" href="{{ site.github.repository_url }}"></a>{% endif %}</p>
+    <p>Made by <a href="https://carlgo11.com/">Carlgo11</a>.
+        {% if site.github.build_revision != null %} Version:
+        <a href="{{ site.github.repository_url }}" id="version" title="{{ site.github.build_revision }}"></a>
+        {% endif %}</p>
 </footer> <!-- /footer -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha512-+NqPlbbtM1QqiK8ZAo4Yrj2c4lNQoGv8P79DPtKzj++l5jnN39rHA/xsqn8zE9l0uSoxaCdrOgFs6yjyfbBxSg==" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha512-9D39OISItQmmaHlgjDXXwRVfk9zsM8qHUIL1nzVVJ0DWXpo0SgRNfsU08CeKa7bw7YEEf3Pc9hX33NduCkggCQ==" crossorigin="anonymous"></script>
-<script src="/js/main.js"></script>
-<script src="/js/bs-custom-file-input.min.js" integrity="sha512-RhC+FPY6kHsFK1jIsBbrvO+vwuTdq0ZsHBfArrvJRV7Abyke4+jl14sEvuHauGff6LJhIdsdBYw6yaODhe5crg==" crossorigin="anonymous"></script>
+<script crossorigin="anonymous"
+        integrity="sha512-9D39OISItQmmaHlgjDXXwRVfk9zsM8qHUIL1nzVVJ0DWXpo0SgRNfsU08CeKa7bw7YEEf3Pc9hX33NduCkggCQ=="
+        src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.2.1/js/bootstrap.min.js"></script>
+<script src="/js/version.js"></script>
+<script crossorigin="anonymous"
+        integrity="sha512-RhC+FPY6kHsFK1jIsBbrvO+vwuTdq0ZsHBfArrvJRV7Abyke4+jl14sEvuHauGff6LJhIdsdBYw6yaODhe5crg=="
+        src="/js/bs-custom-file-input.min.js"></script>
 </body>
-
 </html>

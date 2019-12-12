@@ -1,0 +1,13 @@
+﻿#delete-form {
+    margin-top: 7vh;
+}
+
+#delete-id {
+    width: 100%;
+    margin-top: 1vh;
+}
+
+#delete-form > .form-control,
+#delete-form > .btn {
+    margin-top: 1vh;
+}

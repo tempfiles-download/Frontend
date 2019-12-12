@@ -1,0 +1,21 @@
+---
+layout: default
+---
+    {% include description.html %}
+    <h2>Delete a file</h2>
+    <form class="form-download col-12 col-sm-11 col-md-8 col-lg-7 col-xl-7 center" id="delete-form">
+
+        <input type="text" class="form-control" id="delete-id" maxlength="14"
+               minlength="14"
+               pattern="^D+[A-Za-z0-9]{13}$" placeholder="ID" required>
+
+        <input type="password" class="form-control" id="delete-password" autocomplete="current-password"
+               placeholder="Password" required>
+
+        <input type="password" class="form-control" id="delete-deletion-password" autocomplete="current-password"
+               placeholder="Deletion Password" required>
+
+        <button type="submit" class="btn btn-lg btn-danger col-8">Permanently delete</button>
+
+    </form>
+<script src="/js/delete.min.js"></script>

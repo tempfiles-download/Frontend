@@ -1,74 +1,41 @@
 ---
 layout: default
 ---
-<div class="description noselect">
-    <h1 id="display-3 description-head">Temp File Storage</h1>
-    <p class="lead">Store files to share with your friends and family for <strong>24 hours</strong>.</p>
-</div> <!-- /description -->
+{% include description.html %}
 
-<div class="upload_file" id="upload_file">
-    <div class="center">
+<div class="upload_file center" id="upload_file">
 
-        <div id="error" class="upload_failed alert alert-danger col-12 col-md-6">
-            <h3>Upload Failed</h3>
-            <p id="error-msg"></p>
-        </div><!-- /upload_failed -->
+    <h2 id="title-upload-file">Upload a File</h2>
 
-        <h2 id="title-upload-file" class="noselect">Upload File</h2>
+    {% include upload_failed.html %}
 
-        <div id="upload_success">
-            <h3 class="text-success">Success! <span class="fa fa-check"></span></h3>
-            <div class="form-group row text-success">
-                <label class="col-form-label col-md-2 col-sm-12 col-success" for="url">Link</label>
-                <div class="col-md-7 col-sm-11">
-                    <input class="form-control select" type="text" readonly="" id="url">
-                </div>
-            </div>
-            <div class="form-group row text-success">
-                <label class="col-form-label col-md-2 col-sm-12" for="id">ID</label>
-                <div class="col-md-2 col-sm-11">
-                    <input class="form-control select" type="text" readonly="" id="id">
-                </div>
-            </div>
-            <div class="form-group row text-success">
+    {% include upload_success.html %}
 
-                <label class="col-form-label col-md-2 col-sm-12" for="deletionpass">Deletion Password</label>
-                <div class="col-md-4 col-sm-11">
-                    <input class="form-control select" type="text" readonly="" id="deletionpass">
-                </div>
-            </div>
-            <div class="btn btn-success " id="back-btn"><span class="fa fa-arrow-left"></span> Back</div>
-        </div> <!-- /upload_success -->
+    <form class="upload-form center col-12 col-sm-11 col-md-8 col-lg-7 col-xl-7" id="upload-form">
 
-    </div> <!-- /center -->
-
-    <form class="form-horizontal center upload-form col-lg-5 col-md-6 col-sm-9 col-xs-11" enctype="multipart/form-data"
-          method="POST" accept-charset="UTF-8" name="upload-form" id="upload-form">
         <div class='form-group'>
             <div class="custom-file">
                 <input type="file" id="file" name="file" required="" class="custom-file-input">
                 <label class="custom-file-label" for="file">Choose file</label>
             </div>
         </div>
+
         <div class='form-group'>
-            <input type="password" class="form-control col-12" name="upload-password" id="upload-password" placeholder="Password" data-lpignore="true" autocomplete="off"/></div>
-        <div class='noselect col-12' id="settings-button" data-toggle="collapse" data-target="#advancedsettings" aria-expanded="false" aria-controls="advancedsettings" ><span class="fa fa-angle-down" id="settings-btn-icon"></span>
-            Advanced settings
-        </div>
-        <div class="collapse" id="advancedsettings">
-            <label for="max-views" class="noselect">Max viewers </label>
-            <input type="number" min="0" max="99" id="max-views" value="0">
-            <label for="max-views" class="noselect"><i>(0 for no limit)</i></label>
+            <input type="password" class="form-control" id="upload-password" placeholder="Password"
+                   autocomplete="new-password"/>
         </div>
 
-        <div class='form-group center'>
-            <button class="btn btn-lg btn-success upload-btn" type="button" id="upload-submit">
-                Upload File
-            </button>
-            <button class="btn btn-lg btn-success upload-btn" type="button" id="uploading-btn">
+        {% include advanced_settings.html %}
+
+        <div class='form-group'>
+            <div class="btn btn-lg btn-success upload-btn col-8 center" id="upload-submit">Upload File</div>
+            <div class="btn btn-lg btn-success upload-btn col-8 center" id="uploading-btn">
                 Uploading
                 <div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div>
-            </button>
+            </div>
         </div>
+
     </form> <!-- upload_form -->
+
 </div> <!-- /upload_file -->
+<script src="/js/upload.min.js"></script>
