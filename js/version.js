@@ -2,7 +2,6 @@
 ---
 
 $(document).ready(() => {
-    bsCustomFileInput.init();
     const longhash = '{{ site.github.build_revision }}';
     if (longhash.length > 0) {
         const shorthash = longhash.slice(0, 7);
