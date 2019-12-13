@@ -2,14 +2,14 @@
 layout: default
 ---
 
-    {% include description.html %}
+{% include description.html %}
 
-    <h2>Download a file</h2>
-    <form class="form-download col-12 col-sm-11 col-md-8 col-lg-7 col-xl-7 center" id="download-form" method="GET">
-        <input type="text" id="id" class="form-control" placeholder="ID" maxlength="14"
-               minlength="14"
-               pattern="^D+[A-Za-z0-9]{13}$" required>
-        <input type="password" id="password" name="p" class="form-control" placeholder="Password" required>
-        <button class="btn btn-lg btn-success col-8" type="submit" id="download-btn">Download</button>
-    </form>
+<h2>Download a file</h2>
+<form class="form-download col-12 col-sm-11 col-md-8 col-lg-7 col-xl-7 center" id="download-form" method="GET">
+    <input type="text" id="id" class="form-control" placeholder="ID" maxlength="14"
+           minlength="14"
+           pattern="^D+[A-Za-z0-9]{13}$" required>
+    <input type="password" id="password" name="p" class="form-control" placeholder="Password" required>
+    <button class="btn btn-lg btn-success col-8" type="submit" id="download-btn">Download</button>
+</form>
 <script src="/js/download.min.js"></script>

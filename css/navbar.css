@@ -11,9 +11,6 @@
     position: relative;
 }
 
-.navbar {
-    height: 50px;
-}
 
 .navbar-nav {
     display: flex;
@@ -40,6 +37,7 @@
 .navbar-brand {
     height: 40px;
     padding-bottom: 0;
+    margin-bottom: -2px;
 }
 
 .navbar {
@@ -54,6 +52,24 @@
 #logo {
     color: #eee;
     width: 50px;
+    margin-right: 1rem;
+    margin-top: -2px;
+}
+
+#nav-body {
+    margin-left: 2vw;
+}
+
+@media screen and (min-width: 577px) {
+    .navbar {
+        height: 50px;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .navbar-nav {
+        justify-content: space-around;
+    }
 }
 
 /* Dark theme */

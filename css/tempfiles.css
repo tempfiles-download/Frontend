@@ -4,6 +4,7 @@ html {
 }
 
 body {
+    min-width: 360px;
     position: relative;
     margin: 0;
     padding-bottom: 6rem;
