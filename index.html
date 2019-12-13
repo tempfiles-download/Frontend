@@ -13,11 +13,9 @@ layout: default
 
     <form class="upload-form center col-12 col-sm-11 col-md-8 col-lg-7 col-xl-7" id="upload-form">
 
-        <div class='form-group'>
-            <div class="custom-file">
-                <input type="file" id="file" name="file" required="" class="custom-file-input">
-                <label class="custom-file-label" for="file">Choose file</label>
-            </div>
+        <div class='form-group custom-file'>
+            <input type="file" id="file" name="file" required="" class="custom-file-input form-control d-none">
+            <label class="custom-file-label form-control" for="file">Choose file</label>
         </div>
 
         <div class='form-group'>
@@ -39,3 +37,6 @@ layout: default
 
 </div> <!-- /upload_file -->
 <script src="/js/upload.min.js"></script>
+<script crossorigin="anonymous"
+        integrity="sha512-RhC+FPY6kHsFK1jIsBbrvO+vwuTdq0ZsHBfArrvJRV7Abyke4+jl14sEvuHauGff6LJhIdsdBYw6yaODhe5crg=="
+        src="/js/bs-custom-file-input.min.js"></script>
