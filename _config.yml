@@ -1,7 +1,5 @@
 title: Tempfiles
 description: "Upload files securely over the internet for 24 hours."
-url: "tempfiles.carlgo11.com"
-download_url: "https://d.carlgo11.com/"
 permalink: pretty
 markdown: kramdown
 exclude:
@@ -10,5 +8,4 @@ exclude:
   - vendor
   - .gitignore
   - .idea
-sass:
-  style: compressed
+  - README.md

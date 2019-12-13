@@ -8,7 +8,7 @@
 
     $.ajax({
         type: 'GET',
-        url: 'http://10.0.44.203/delete/',
+        url: 'http://api.carlgo11.com/delete/',
         data: {
             "id": id,
             "p": p,

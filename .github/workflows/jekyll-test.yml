@@ -18,6 +18,8 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: Build the site in the jekyll container
+      env:
+        PAGES_REPO_NWO: ${{ GITHUB_REPOSITORY }}
       run: |
         docker run \
         -v ${{ github.workspace }}:/srv/jekyll -v ${{ github.workspace }}/_site:/srv/jekyll/_site \
