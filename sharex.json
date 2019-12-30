@@ -1,0 +1,9 @@
+{
+  "Name": "TempFiles",
+  "DestinationType": "ImageUploader, TextUploader, FileUploader",
+  "RequestType": "POST",
+  "RequestURL": "https://api.tempfiles.carlgo11.com/upload",
+  "FileFormName": "file",
+  "URL": "$json:url$",
+  "DeletionURL": "https://api.tempfiles.carlgo11.com/delete/?delete=$json:deletepassword$&id=$json:id$&p=$json:password$"
+}
