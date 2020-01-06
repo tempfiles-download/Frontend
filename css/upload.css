@@ -34,9 +34,17 @@
     background-color: #222;
 }
 
+.custom-file-label {
+    margin-top: 0 !important;
+}
+
 .custom-file-label::after {
     height: 100%;
     border-radius: 0;
+}
+
+#upload-password {
+    margin-top: 3px !important;
 }
 
 /* Dark theme */
