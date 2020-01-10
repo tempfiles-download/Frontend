@@ -28,7 +28,7 @@ The file is also given a unique ID using the uniqid() function of PHP.
 All Unique IDs start with a `D`. This is to make it easier to debug when something doesn't work.  
 
 After the file has been encrypted and sent to the database it looks like this:
-![database](https://user-images.githubusercontent.com/3535780/31801145-5ca27740-b546-11e7-9f31-f4f837ffc93a.png)
+![database](https://user-images.githubusercontent.com/3535780/72116323-3d769700-334a-11ea-9fd0-78b455a773f6.png)
 
 For the deletion of old files I chose MySQLs event scheduler just because it's easy to use.
 It's set to delete files older than 24 hours.
