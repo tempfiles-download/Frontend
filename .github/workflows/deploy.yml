@@ -39,6 +39,6 @@ jobs:
           build_dir: _site
           committer_name: Octocat
           committer_email: octocat@users.noreply.github.com
-          fqdn: carlgo11.com
+          fqdn: tempfiles.carlgo11.com
         env:
           GITHUB_PAT: ${{ secrets.GH_TOKEN }}
