@@ -6,6 +6,13 @@ exclude:
   - Gemfile
   - Gemfile.lock
   - vendor
+  - .github
   - .gitignore
+  - .editorconfig
   - .idea
+  - LICENSE
+  - CNAME
   - README.md
+sass:
+  sass_dir: css
+  style: compressed
