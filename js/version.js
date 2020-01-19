@@ -1,6 +1,3 @@
----
----
-
 $(document).ready(() => {
     const longhash = '{{ site.github.build_revision }}';
     if (longhash.length > 0) {
