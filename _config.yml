@@ -2,6 +2,10 @@ title: Tempfiles
 description: "Upload files securely over the internet for 24 hours."
 permalink: pretty
 markdown: kramdown
+defaults:
+  -
+    values:
+      layout: "default"
 exclude:
   - Gemfile
   - Gemfile.lock

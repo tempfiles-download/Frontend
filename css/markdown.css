@@ -1,0 +1,15 @@
+﻿.content {
+    margin: auto;
+    width: min-content;
+}
+
+.content p {
+    text-align: left;
+    margin-bottom: 3rem;
+
+}
+
+.content p > img {
+    display: block;
+    margin: 0 auto;
+}
