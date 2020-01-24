@@ -32,7 +32,7 @@ After the file has been encrypted and sent to the database it looks like this:
 For the deletion of old files I chose MySQLs event scheduler just because it's easy to use.
 It's set to delete files older than 24 hours.
 
-## What is in the database?
+## What is in the database? :mag:
 I will in this part of the text go through every part collected in the database.  
 Please see the above mentioned image for reference.
 
@@ -50,18 +50,47 @@ This data is stored in base64 encoded AES 256 CBC.
 * **time** - The is the time and date of when the file was uploaded to the system. Every hour the database is crawled and if a file is older than 24 hours it get's deleted.  
 This data is stored in plain text as it needs to be readable by the crawler in order to be deleted.  
 
-## API calls
+## API calls :mega:
 If you'd rather use your own program to upload files to TempFiles that's fine.  
-Below are a list of public API calls, available for everyone to use, along with cURL usage templates.  
-  
-_Words surrounded by `{}` are variables that should be changed by the user before the command is sent._
+A list of available API calls can be found at [Postman](https://documenter.getpostman.com/view/1675224/SW7ezkZn).
 
-More a complete list of API calls, have a look over at [Postman](https://documenter.getpostman.com/view/1675224/SW7ezkZn).
-
-## Why not use `X`?
+## Why not use...
 * **Public key encryption**: While this is a nice way of encrypting things I couldn't find an easy implementation of public key encryption that at the same time was easy to use for the users.
 
 ## Current Weaknesses
 1. **Lack of client side encryption**: Files uploaded to TempFiles is currently sent in an unencrypted form over TLS _(Yes this is encryption but it's decrypted as the packages arrive at the web server)_ to the server. This means that the users don't have any way to make sure the host really encrypts their data.  
 
 2. **Lack of _better_ encryption algorithms**: While AES 256 still is more than good enough for most activities, sometimes people seek safer encryption algorithms. While this will be fixed in the future, current users can choose to encrypt their files before sending them to TempFiles if they seek stronger encryption algorithms.
+
+## Local installation :desktop_computer:
+If you'd rather run TempFiles on your own server that's totally fine.
+Here's how to install and run the frontend part of TempFiles.  
+Instructions on installing the backend can be found over at [Carlgo11/Tempfiles-backend](https://github.com/Carlgo11/Tempfiles-backend).
+
+1.  Download the code
+    ```BASH
+    git clone https://github.com/Carlgo11/TempFiles.git
+    ```
+
+2. Install Ruby
+    ```BASH
+    sudo snap install ruby --classic
+    ```
+
+3. Install the required Ruby gems :gem:
+    ```BASH
+    bundle install --path vendor/bundle
+    ```
+
+4. Build the site
+    ```BASH
+    bundle exec jekyll build
+    ```
+
+5. Point your web server or reverse proxy server to the newly generated `_site/` directory.
+
+## Contributing
+See something missing in TempFiles? Contributions are appreciated!  
+Before doing changes to the code of TempFiles make sure you write in a program that complies with our [EditorConfig](https://editorconfig.org/#download). 
+
+You can also create a [new issue](https://github.com/Carlgo11/Tempfiles-backend/issues/new). 
