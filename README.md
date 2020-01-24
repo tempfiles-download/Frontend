@@ -82,12 +82,19 @@ Instructions on installing the backend can be found over at [Carlgo11/Tempfiles-
     bundle install --path vendor/bundle
     ```
 
-4. Build the site
+4. Run minification and cleanup scripts
+    ```BASH
+    ./_scripts/*.sh
+    ```
+
+5. Build the site
     ```BASH
     bundle exec jekyll build
     ```
 
-5. Point your web server or reverse proxy server to the newly generated `_site/` directory.
+6. Point your web server or reverse proxy server to the newly generated `_site/` directory.
+
+7. If you're going to use your own backend, remember to change the URL values in `_config.yml`.
 
 ## Contributing
 See something missing in TempFiles? Contributions are appreciated!  

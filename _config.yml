@@ -2,10 +2,6 @@ title: Tempfiles
 description: "Upload files securely over the internet for 24 hours."
 permalink: pretty
 markdown: kramdown
-defaults:
-  -
-    values:
-      layout: "default"
 exclude:
   - Gemfile
   - Gemfile.lock
@@ -20,3 +16,7 @@ exclude:
 sass:
   sass_dir: css
   style: compressed
+urls:
+  upload: "https://api.tempfiles.carlgo11.com/upload/"
+  download: "https://d.carlgo11.com/"
+  delete: "http://api.carlgo11.com/delete/"
