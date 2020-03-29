@@ -8,7 +8,7 @@
 
     $.ajax({
         type: 'GET',
-        url: 'http://api.carlgo11.com/delete/',
+        url: 'http://api.tempfiles.download/delete/',
         data: {
             "id": id,
             "p": p,

@@ -1,6 +1,6 @@
 ﻿$('#download-btn').click(function () {
     const id = $("#id").val();
-    $("#download-form").attr('action', 'https://d.carlgo11.com/' + id + '/');
+    $("#download-form").attr('action', 'https://d.tempfiles.download/' + id + '/');
 });
 
 const fourofourParam = new RegExp('[\?&]404=([^&#]*)').exec(window.location.href);

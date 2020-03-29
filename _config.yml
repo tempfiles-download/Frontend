@@ -17,6 +17,6 @@ sass:
   sass_dir: css
   style: compressed
 urls:
-  upload: "https://api.tempfiles.carlgo11.com/upload/"
-  download: "https://d.carlgo11.com/"
-  delete: "http://api.carlgo11.com/delete/"
+  upload: "https://api.tempfiles.download/upload/"
+  download: "https://d.tempfiles.download/"
+  delete: "http://api.tempfiles.download/delete/"
