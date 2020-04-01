@@ -1,4 +1,8 @@
-﻿ondragover = ondragenter = (e) => {
+﻿$(document).ready(function () {
+    bsCustomFileInput.init()
+});
+
+ondragover = ondragenter = (e) => {
     e.stopPropagation();
     e.preventDefault();
 };
