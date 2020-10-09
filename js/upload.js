@@ -54,7 +54,7 @@ function upload_file() {
     $.ajax({
         type: 'POST',
         url: 'https://api.tempfiles.download/upload/',
-        dataType: false,
+        dataType: "json",
         processData: false,
         contentType: false,
         cache: false,
@@ -62,7 +62,7 @@ function upload_file() {
         beforeSend: () => $('.upload-btn').toggle(),
         success: (data) => {
             $('.upload-btn').toggle();
-            if (data['success'] === true) { //successful upload
+            if (data.status === 201) { //successful upload
                 $('#upload-form').hide();
                 $('#title-upload-file').hide();
                 $('#error').hide();
@@ -71,18 +71,20 @@ function upload_file() {
                 $('#deletionpass').val(data['deletepassword']);
                 $('#upload_success').show();
             } else { //unsuccessful upload
-                $('#error-msg').text('Error: ' + data['error']);
-                $('#error').slideDown();
+                handleError({'responseText': 'Failed to upload file.'});
             }
         },
         error: (data) => {
-            $('#upload-submit').show();
-            $('#uploading-btn').hide();
-            if (typeof data['responseJSON']['error'] !== 'undefined')
-                $('#error-msg').text('Error: ' + data['responseJSON']['error']);
-            else
-                $('#error-msg').text('Error: ' + data['responseText']);
-            $('#error').slideDown();
+            handleError(data);
         }
     });
+}
+function handleError(data){
+    $('#upload-submit').show();
+    $('#uploading-btn').hide();
+    if (typeof data['responseJSON']['error'] !== 'undefined')
+        $('#error-msg').text('Error: ' + data['responseJSON']['error']);
+    else
+        $('#error-msg').text('Error: ' + data['responseText']);
+    $('#error').slideDown();
 }
