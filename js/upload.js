@@ -60,9 +60,9 @@ function upload_file() {
         cache: false,
         data: form_data,
         beforeSend: () => $('.upload-btn').toggle(),
-        success: (data) => {
+        success: (data, textStatus, xhr) => {
             $('.upload-btn').toggle();
-            if (data.status === 201) { //successful upload
+            if (xhr.status === 201) { //successful upload
                 $('#upload-form').hide();
                 $('#title-upload-file').hide();
                 $('#error').hide();
@@ -82,7 +82,7 @@ function upload_file() {
 function handleError(data){
     $('#upload-submit').show();
     $('#uploading-btn').hide();
-    if (typeof data['responseJSON']['error'] !== 'undefined')
+    if (typeof data['responseJSON'] !== 'undefined' && typeof data['responseJSON']['error'] !== 'undefined')
         $('#error-msg').text('Error: ' + data['responseJSON']['error']);
     else
         $('#error-msg').text('Error: ' + data['responseText']);
