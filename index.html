@@ -1,40 +1,39 @@
 ---
-layout: default
+layout: actions
+title: upload
 ---
-{% include description.html %}
+<form id="upload-form">
+	<div class="input-group mb-3">
+		<label for="file" aria-hidden="false" class="visually-hidden">File</label>
+		<input class="form-control" type="file" id="file" required>
+	</div>
+	<div class="row">
+		<div class="input-group mb-3">
+			<label class="input-group-text" for="password">Password</label>
+			<input class="form-control" type="password" id="password" autocomplete="new-password" minlength="4"
+				aria-label="password" placeholder="Optional">
+		</div>
+		<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+			<button class="btn btn-success btn-lg" type="submit">Upload</button>
+		</div>
+	</div>
+</form>
 
-<div class="upload_file center" id="upload_file">
+<div id="success">
+	<form>
+		<div class="input-group mb-3">
+			<label class="input-group-text" for="url">URL</label>
+			<input class="form-control" id="url" readonly autofocus />
+		</div>
+		<div class="input-group mb-3">
+			<label class="input-group-text" for="deletion-password">Deletion Password</label>
+			<input class="form-control" id="deletion-password" readonly />
+		</div>
+		<div class="input-group mb-3">
+			<label class="input-group-text" for="server-password">Password</label>
+			<input class="form-control" id="server-password" readonly />
+		</div>
+		<button class="btn btn-success btn-lg" type="reset" onclick="location.reload()">Back</button>
+	</form>
+</div>
 
-    <h2 id="title-upload-file">Upload a File</h2>
-
-    {% include upload_failed.html %}
-
-    {% include upload_success.html %}
-
-    <form class="upload-form center col-12 col-sm-11 col-md-8 col-lg-7 col-xl-7" id="upload-form">
-
-        <div class='form-group custom-file'>
-            <input type="file" id="file" name="file" required="" class="custom-file-input form-control d-none">
-            <label class="custom-file-label form-control" for="file">Choose file</label>
-        </div>
-
-        <div class='form-group'>
-            <input type="password" class="form-control" id="upload-password" placeholder="Password"
-                   autocomplete="new-password"/>
-        </div>
-
-        {% include advanced_settings.html %}
-
-        <div class='form-group'>
-            <div class="btn btn-lg btn-success upload-btn col-8 center" id="upload-submit">Upload File</div>
-            <div class="btn btn-lg btn-success upload-btn col-8 center" id="uploading-btn">
-                Uploading
-                <div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div>
-            </div>
-        </div>
-
-    </form> <!-- upload_form -->
-
-</div> <!-- /upload_file -->
-<script src="/js/bs-custom-file-input.js"></script>
-<script src="/js/upload.js"></script>

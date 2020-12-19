@@ -1,22 +1,9 @@
-title: Tempfiles
-description: "Upload files securely over the internet for 24 hours."
+title: TempFiles
 permalink: pretty
-markdown: kramdown
-exclude:
-  - Gemfile
-  - Gemfile.lock
-  - vendor
-  - .github
-  - .gitignore
-  - .editorconfig
-  - .idea
-  - LICENSE
-  - CNAME
-  - README.md
+author:
+  name: "Carlgo11"
+  url: "https://carlgo11.com/"
 sass:
   sass_dir: css
   style: compressed
-urls:
-  upload: "https://api.tempfiles.download/upload/"
-  download: "https://d.tempfiles.download/"
-  delete: "http://api.tempfiles.download/delete/"
+repository: carlgo11/tempfiles

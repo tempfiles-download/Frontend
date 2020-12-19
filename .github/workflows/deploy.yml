@@ -10,26 +10,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v1
-
-      - name: Get Cache
-        id: cache
-        uses: actions/cache@v1
-        with:
-          path: vendor/bundle
-          key: ${{ runner.os }}-bundler
-
-      - name: Install dependencies
-        run: |
-          sudo snap install ruby --classic
-          sudo npm i babel-minify -g
-          bundle install --path vendor/bundle
+      - uses: actions/checkout@v2
 
       - name: Build the site
+        run: docker-compose up
+
+      - name: Minify JS
         run: |
-          ./_scripts/js-minify.sh
-          ./_scripts/css-convert.sh
-          bundle exec jekyll build
+        sudo npm i babel-minify -g
+        ./_scripts/js-minify.sh
 
       - name: Deploy to GH Pages
         if: success()
@@ -37,8 +26,6 @@ jobs:
         with:
           target_branch: gh-pages
           build_dir: _site
-          committer_name: Octocat
-          committer_email: octocat@users.noreply.github.com
           fqdn: tempfiles.download
         env:
           GITHUB_PAT: ${{ secrets.GH_TOKEN }}

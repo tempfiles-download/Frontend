@@ -1,21 +1,25 @@
 ---
-layout: default
+layout: actions
+title: delete
 ---
-{% include description.html %}
-<h2>Delete a file</h2>
-<form class="form-download col-12 col-sm-11 col-md-8 col-lg-7 col-xl-7 center" id="delete-form">
-
-    <input type="text" class="form-control" id="delete-id" maxlength="14"
-           minlength="14"
-           pattern="^D+[A-Za-z0-9]{13}$" placeholder="ID" required>
-
-    <input type="password" class="form-control" id="delete-password" autocomplete="current-password"
-           placeholder="Password" required>
-
-    <input type="password" class="form-control" id="delete-deletion-password" autocomplete="current-password"
-           placeholder="Deletion Password" required>
-
-    <button type="submit" class="btn btn-lg btn-danger col-8">Permanently delete</button>
-
+<form id="delete-form">
+  <div class="input-group mb-3">
+    <label class="input-group-text" for="id">ID</label>
+    <input class="form-control" id="id" type="text" minlength="14" maxlength="14" pattern="^D+[A-Za-z0-9]{13}$" required/>
+  </div>
+  <div class="input-group mb-3">
+    <label class="input-group-text" for="password">Password</label>
+    <input class="form-control" id="password" type="password" autocomplete="current-password" required/>
+  </div>
+  <div class="input-group mb-3">
+    <label class="input-group-text" for="del-pass">Deletion Password</label>
+    <input class="form-control" id="del-pass" type="password" autocomplete="current-password" required/>
+  </div>
+  <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+    <button type="submit" class="btn btn-lg btn-danger">Delete</button>
+  </div>
 </form>
-<script src="/js/delete.js"></script>
+<div id="success">
+  <p class="lead">Want to upload something else?</p>
+  <a class="btn btn-lg btn-success" href="/">Go back</a>
+</div>

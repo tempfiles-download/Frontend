@@ -1,27 +1,13 @@
-﻿$('#delete-form').submit((e) => {
-    e.stopPropagation();
-    e.preventDefault();
+$('#delete-form').submit((e) => {
+  e.preventDefault();
 
-    const id = $("#id").val();
-    const p = $("#p").val();
-    const del = $("#delete").val();
-
-    $.ajax({
-        type: 'GET',
-        url: 'http://api.tempfiles.download/delete/',
-        data: {
-            "id": id,
-            "p": p,
-            "delete": del,
-        },
-        cache: false,
-        dataType: false,
-        contentType: false,
-        timeoutSeconds: 1,
-        success: (response) => {
-            console.log(response);
-        }
-
-    });
+  $.ajax({
+    type: "DELETE",
+    url: 'https://api.tempfiles.download/delete/?' + $.param({'id': $('#id').val(), 'p': $('#password').val(), 'delete': $('#del-pass').val()}),
+    success: (data, textStatus, xhr) => {
+      $('#delete-form').hide();
+      $('#success').show();
+      $('#title').text("File Deleted");
+    }
+  });
 });
-

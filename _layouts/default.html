@@ -2,86 +2,69 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta content="{{ site.github.owner_name }}" name="author">
-    <meta content="{{ site.github.project_tagline }}" name="description">
-    <meta content="width=device-width, initial-scale=1" name="viewport">
-    <meta content="light dark" name="supported-color-schemes">
-    <meta content="IE=edge" http-equiv="X-UA-Compatible">
-    <link href="/img/favicon_16.png" rel="icon" sizes="16x16" type="image/png">
-    <link href="/img/favicon_64.png" rel="icon" sizes="64x64" type="image/png">
-    <link href="/img/favicon_128.png" rel="icon" sizes="128x128" type="image/png">
-    <link href="/img/favicon_256.png" rel="icon" sizes="256x256" type="image/png">
-    <link href="/img/apple-touch-icon.png" rel="apple-touch-icon icon" sizes="192x192">
-    <link href="/manifest.json" rel="manifest">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.min.css"
-          integrity="sha512-znmTf4HNoF9U6mfB6KlhAShbRvbt4CvCaHoNV0gyssfToNQ/9A0eNdUbvsSwOIUoJdMjFG2ndSvr0Lo3ZpsTqQ=="
-          crossorigin="anonymous"/>
-    <link crossorigin="anonymous"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
-          integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw=="
-          rel="stylesheet"/>
-    <link href="/css/tempfiles.css" rel="stylesheet">
-    <link href="/css/navbar.css" rel="stylesheet">
-    {%- if page.name == 'index.html' -%}
-    <link href="/css/upload.css" rel="stylesheet">
-    {%- endif -%}
-    {%- if page.name == 'delete.html' -%}
-    <link href="/css/delete.css" rel="stylesheet">
-    {%- endif -%}
-    {%- if page.name == 'download.html' -%}
-    <link href="/css/download.css" rel="stylesheet">
-    {%- endif -%}
-    <script crossorigin="anonymous"
-            integrity="sha512-+NqPlbbtM1QqiK8ZAo4Yrj2c4lNQoGv8P79DPtKzj++l5jnN39rHA/xsqn8zE9l0uSoxaCdrOgFs6yjyfbBxSg=="
-            src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <title>{{ site.title }}</title>
+	<meta charset="UTF-8">
+	<meta name="description" content="{{ site.github.project_tagline }}">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="author" content="{{ site.author.name}}">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="supported-color-schemes" content="light dark">
+	<meta property="og:type" content="website">
+	<title>{{ site.title }}</title>
+	<link rel="stylesheet"
+		href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.0-alpha3/css/bootstrap.min.css"
+		integrity="sha512-fjZwDJx4Wj5hoFYRWNETDlD7zty6PA+dUfdRYxe463OBATFHyx7jYs2mUK9BZ2WfHQAoOvKl6oYPCZHd1+t7Qw=="
+		crossorigin="anonymous" />
+	<link rel="stylesheet" href="/css/main.css">
+	{% if page.title == 'upload' %}
+	<link rel="stylesheet" href="/css/upload.css">
+	{% endif %}
+	<link rel="icon" href="/img/favicon.svg" type="image/svg+xml">
+	<link rel="icon alternative" href="/img/favicon.png" type="image/png">
+	<link rel="apple-touch-icon" sizes="180x180" href="/img/apple-touch-icon.png">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+		integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
+		crossorigin="anonymous"></script>
 </head>
 
 <body>
+	<nav class="navbar navbar-static-top navbar-expand-sm">
+		<div class="container">
+			<a class="navbar-brand nocolor d-none d-lg-block" href="/">
+				<img alt="logo" id="logo" src="/img/logo.svg">TempFiles</a>
+			<ul class="navbar-nav col-12 col-md-4">
+				<li class="nav-item">
+					<a class="nav-link" href="/" accesskey="U">Upload</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/download/" accesskey="D">Download</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/delete/" accesskey="R">Delete</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/sharex/">ShareX</a>
+				</li>
+			</ul>
+		</div>
+	</nav>
 
-<nav class="navbar navbar-static-top navbar-expand-sm">
-    <div class="container">
-        <a class="navbar-brand nocolor" href="/">
-            <img alt="logo" id="logo" src="/img/logo.svg">TempFiles</a>
-
-        <button class="navbar-toggler navbar-light float-right" type="button" data-toggle="collapse"
-                data-target="#nav-body" aria-controls="nav-body" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="nav-body">
-            <ul class="navbar-nav col-12 col-md-4">
-                <li class="nav-item">
-                    <a class="nav-link" href="/">Upload</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/download/">Download</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/delete/">Delete</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/sharex/">ShareX</a>
-                </li>
-            </ul>
-        </div>
-
-    </div>
-</nav> <!-- /navbar -->
-
-<div class="container center" id="main-container">
-    {{ content }}
-</div> <!-- /container -->
-<footer>
-    <p>Made by <a href="https://carlgo11.com/">Carlgo11</a>.
-        {% if site.github.build_revision != "" %} Version:
-        <a href="{{ site.github.repository_url }}" id="version" title="{{ site.github.build_revision }}"></a>
-        {% endif %}</p>
-</footer> <!-- /footer -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap.min.js"
-        integrity="sha512-jCaU0Dp3IbMDlZ6f6dSEQSnOrSsugG6F6YigRWnagi7HoOLshF1kwxLT4+xCZRgQsTNqpUKj6WmWOxsu9l3URA=="
-        crossorigin="anonymous"></script>
-<script src="/js/version.js"></script>
+	<div id="main" class="center col-12 col-md-11 col-xl-5">
+		{{ content }}
+	</div>
+	<div class="footer">
+		<p>Created by <a href="{{ site.author.url }}">@{{ site.author.name }}</a></p>
+	</div>
+	{% if page.title == 'upload' %}
+	<div id="popup"></div>
+	<script async src="/js/dragdrop.js"></script>
+	<script async src="js/upload.js"></script>
+	{% endif %}
+	{% if page.title == 'download' %}
+	<script async src="/js/download.js"></script>
+	{% endif %}
+	{% if page.title == 'delete' %}
+	<script async src="/js/delete.js"></script>
+	{% endif %}
 </body>
+
 </html>

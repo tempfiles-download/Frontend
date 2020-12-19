@@ -1,9 +1,11 @@
 {
+  "Version": "13.3.0",
   "Name": "TempFiles",
   "DestinationType": "ImageUploader, TextUploader, FileUploader",
   "RequestType": "POST",
   "RequestURL": "https://api.tempfiles.download/upload",
   "FileFormName": "file",
   "URL": "$json:url$",
-  "DeletionURL": "https://api.tempfiles.download/delete/?delete=$json:deletepassword$&id=$json:id$&p=$json:password$"
+  "DeletionURL": "https://api.tempfiles.download/delete/?delete=$json:deletepassword$&p=$json:password$&id=$json:id$",
+  "ErrorMessage": "$json:error$"
 }

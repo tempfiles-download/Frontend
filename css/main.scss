@@ -1,0 +1,132 @@
+---
+---
+body {
+  background: linear-gradient(90deg, red, cyan) no-repeat center fixed;
+  min-height: 100vh;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    mask-image: linear-gradient(to bottom, transparent, black);
+	-webkit-mask-image: linear-gradient(to bottom, transparent, black);
+    background: linear-gradient(90deg, hotpink, rebeccapurple) no-repeat center fixed;
+  }
+}
+
+#main {
+  background-color: rgba(255, 255, 255, 0.8);
+  color: rgba(0, 0, 0, 0.7);
+  padding: 2em;
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  box-shadow: 0 3px 8px 0 rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(0, 0, 0, 0.08);
+}
+
+.lead {
+  font-size: 1.5em;
+}
+
+.center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.btn-success {
+  background-color: #188831;
+  border: 0;
+}
+
+.btn, input, label {
+  border-radius: 1px !important;
+}
+
+.navbar {
+  background-color: #eee;
+  color: #272727;
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+  -webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+}
+
+a {
+  color: inherit !important;
+  text-decoration: none;
+  background-color: transparent;
+}
+
+#logo {
+  width: 58px;
+  height: 31.328px;
+  margin: -2px 1rem 0 0;
+}
+
+.nav-item {
+  margin-left: 0.5vw;
+  margin-right: 0.5vw;
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.navbar-nav {
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.nav-link {
+  color: #272727;
+  display: block;
+
+  &:hover {
+    background: #3d3d3d;
+    color: #eee !important;
+  }
+}
+
+#title {
+  text-align: center;
+  margin: 0 0 0.7em 0;
+}
+
+.footer {
+  right: 0;
+  bottom: 0;
+  left: 0;
+  position: absolute;
+  text-align: center;
+}
+
+#success {
+  display: none;
+}
+
+@media(prefers-color-scheme:dark){
+  body {
+    background: linear-gradient(90deg, rgb(114, 8, 8), rgb(6, 104, 104)) no-repeat center fixed;
+    &::before {
+      mask-image: linear-gradient(to bottom, transparent, black);
+	-webkit-mask-image: linear-gradient(to bottom, transparent, black);
+    background: linear-gradient(90deg, rgb(100, 18, 59), rgb(44, 6, 85)) no-repeat center fixed;
+    }
+  }
+  .navbar {
+    background: #272727;
+    color: #eee;
+  }
+  .nav-link {
+    color: #eee;
+  }
+  .footer {
+    color: #ccc;
+  }
+  #main {
+    background-color: rgba(51, 51, 51, 0.8);
+    color: #eee;
+  }
+}

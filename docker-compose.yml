@@ -1,0 +1,7 @@
+version: '3'
+services: 
+  tempfiles:
+    image: jekyll/jekyll
+    volumes:
+      - ./:/srv/jekyll
+    command: jekyll build

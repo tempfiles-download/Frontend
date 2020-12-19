@@ -1,5 +1,3 @@
 ﻿[*]
 end_of_line = lf
 insert_final_newline = true
-[CNAME]
-insert_final_newline = false
