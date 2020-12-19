@@ -18,7 +18,7 @@ jobs:
           ./_scripts/js-minify.sh
 
       - name: Build the site
-        run: JEKYLL_UID=$UID docker-compose up
+        run: docker-compose up
 
       - name: Deploy to GH Pages
         if: success()
