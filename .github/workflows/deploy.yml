@@ -17,8 +17,8 @@ jobs:
 
       - name: Minify JS
         run: |
-        sudo npm i babel-minify -g
-        ./_scripts/js-minify.sh
+          sudo npm i babel-minify -g
+          ./_scripts/js-minify.sh
 
       - name: Deploy to GH Pages
         if: success()
