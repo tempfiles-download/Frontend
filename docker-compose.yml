@@ -5,3 +5,5 @@ services:
     volumes:
       - ./:/srv/jekyll
     command: jekyll build
+    environment:
+      - VERBOSE="true"

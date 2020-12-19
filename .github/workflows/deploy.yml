@@ -12,13 +12,13 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Build the site
-        run: docker-compose up
-
       - name: Minify JS
         run: |
           sudo npm i babel-minify -g
           ./_scripts/js-minify.sh
+
+      - name: Build the site
+        run: JEKYLL_UID=$UID docker-compose up
 
       - name: Deploy to GH Pages
         if: success()

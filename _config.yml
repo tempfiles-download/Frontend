@@ -7,3 +7,9 @@ sass:
   sass_dir: css
   style: compressed
 repository: carlgo11/tempfiles
+exclude:
+  - LICENSE
+  - README.md
+  - .*
+  - Gemfile*
+  - docker-compose.yml
