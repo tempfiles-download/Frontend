@@ -1,20 +1,16 @@
 {
-  "short_name": "TempFiles",
+  "short_name": "/tmp",
   "name": "TempFiles",
   "icons": [
     {
-      "src": "/img/favicon_256.png",
+      "src": "/img/apple-touch-icon.png",
       "type": "image/png",
-      "sizes": "256x256"
-    },
-    {
-      "src": "/img/favicon_128.png",
-      "type": "image/png",
-      "sizes": "128x128"
+      "sizes": "180x180"
     }
   ],
-  "start_url": "/",
+  "start_url": ".",
   "background_color": "#EEEEEE",
-  "display": "minimal-ui",
-  "scope": "/"
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#272727"
 }
