@@ -53,6 +53,7 @@ body {
   -webkit-backdrop-filter: blur(5px);
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
   -webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+  z-index: 2000;
 }
 
 a {
@@ -128,5 +129,19 @@ a {
   #main {
     background-color: rgba(51, 51, 51, 0.8);
     color: #eee;
+  }
+}
+
+@media screen and (orientation:landscape) and (max-width: 900px){
+  .navbar {
+    position: fixed;
+    left: 0;
+    right: 0;
+  }
+  #main {
+    position: fixed;
+    margin: 10vh 0 0 0;
+    height: 90vh;
+    width: 100vw;
   }
 }
