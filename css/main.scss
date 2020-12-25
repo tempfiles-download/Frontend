@@ -1,5 +1,6 @@
 ---
 ---
+
 body {
   background: linear-gradient(90deg, red, cyan) no-repeat center fixed;
   min-height: 100vh;
@@ -12,7 +13,7 @@ body {
     bottom: 0;
     right: 0;
     mask-image: linear-gradient(to bottom, transparent, black);
-	-webkit-mask-image: linear-gradient(to bottom, transparent, black);
+    -webkit-mask-image: linear-gradient(to bottom, transparent, black);
     background: linear-gradient(90deg, hotpink, rebeccapurple) no-repeat center fixed;
   }
 }
@@ -42,7 +43,9 @@ body {
   border: 0;
 }
 
-.btn, input, label {
+.btn,
+input,
+label {
   border-radius: 1px !important;
 }
 
@@ -52,7 +55,8 @@ body {
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
-  -webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+  -webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2),
+    0 1px 5px 0 rgba(0, 0, 0, 0.12);
   z-index: 2000;
 }
 
@@ -83,7 +87,6 @@ a {
 .nav-link {
   color: #272727;
   display: block;
-
   &:hover {
     background: #3d3d3d;
     color: #eee !important;
@@ -107,13 +110,17 @@ a {
   display: none;
 }
 
-@media(prefers-color-scheme:dark){
+#file {
+  margin: 0;
+}
+
+@media (prefers-color-scheme: dark) {
   body {
     background: linear-gradient(90deg, rgb(114, 8, 8), rgb(6, 104, 104)) no-repeat center fixed;
     &::before {
       mask-image: linear-gradient(to bottom, transparent, black);
-	-webkit-mask-image: linear-gradient(to bottom, transparent, black);
-    background: linear-gradient(90deg, rgb(100, 18, 59), rgb(44, 6, 85)) no-repeat center fixed;
+      -webkit-mask-image: linear-gradient(to bottom, transparent, black);
+      background: linear-gradient(90deg, rgb(100, 18, 59), rgb(44, 6, 85)) no-repeat center fixed;
     }
   }
   .navbar {
@@ -132,7 +139,7 @@ a {
   }
 }
 
-@media screen and (orientation:landscape) and (max-width: 900px){
+@media screen and (orientation: landscape) and (max-width: 900px) {
   .navbar {
     position: fixed;
     left: 0;
