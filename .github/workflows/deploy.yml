@@ -14,7 +14,7 @@ jobs:
 
       - name: Minify JS
         run: |
-          npm i babel-minify -g
+          sudo npm i babel-minify -g
           ./_scripts/js-minify.sh
 
         # Azure/GH-Actions only works with UID 1001 and I can't get ${UID} in docker-compose for some reason.
