@@ -18,7 +18,9 @@ jobs:
           ./_scripts/js-minify.sh
 
       - name: Build the site
-        run: docker-compose up
+        run: |
+          UID=`id -u`
+          docker-compose up
 
       - name: Deploy to GH Pages
         if: success()
