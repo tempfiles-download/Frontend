@@ -6,6 +6,6 @@
   "RequestURL": "https://api.tempfiles.download/upload",
   "FileFormName": "file",
   "URL": "$json:url$",
-  "DeletionURL": "https://api.tempfiles.download/delete/?delete=$json:deletepassword$&p=$json:password$&id=$json:id$",
+  "DeletionURL": "https://tempfiles.download/delete/?id=$json:id$&p=$json:password$&delete=$json:deletepassword$",
   "ErrorMessage": "$json:error$"
 }
