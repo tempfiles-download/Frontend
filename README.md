@@ -52,7 +52,7 @@ This data is stored in plain text as it needs to be readable by the crawler in o
 
 ## API calls :mega:
 If you'd rather use your own program to upload files to TempFiles that's fine.  
-A list of available API calls can be found at [Postman](https://documenter.getpostman.com/view/1675224/SW7ezkZn).
+A list of available API calls can be found at [Postman](https://documenter.getpostman.com/view/TzK2bEsi).
 
 ## Why not use...
 * **Public key encryption**: While this is a nice way of encrypting things I couldn't find an easy implementation of public key encryption that at the same time was easy to use for the users.
