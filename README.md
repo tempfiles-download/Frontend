@@ -1,7 +1,5 @@
 # TempFiles
-**Upload files securely over the internet for a set amount of time.**  
-
-[![build status](https://img.shields.io/github/workflow/status/Carlgo11/TempFiles/Test%20Jekyll?style=for-the-badge)](https://github.com/Carlgo11/TempFiles/actions)
+**Upload files securely over the internet for a set amount of time.**
 
 ## Why?
 I, [@Carlgo11](https://github.com/Carlgo11/), have for a long time been very interested in information security and encryption.  
@@ -14,10 +12,9 @@ I however never stopped thinking about the idea. TempFiles is a remastered versi
 Now with updated encryption methods and storage principles.  
 
 ## How?
-When a file is uploaded to TempFiles it is sent over HTTPS(TLS) to the server where it is encrypted using `AES 256 CBC` and then stored as a blob on MySQL.  
-All metadata is also encrypted and stored there until someone requests to download it.  
+When a file is uploaded to TempFiles it is sent over HTTPS(TLS) to the server where it is encrypted using `AES-256-GCM` and then stored either in a JSON-file on the filesystem or as a blob in a MySQL database.  
 
-The metadata is stored separately to the file content in an array. The array looks like this:
+The encrypted metadata is stored separately to the file content in an array. The array looks like this:
 
 File Name | File Size | File Type | Deletion Password
  -------- | --------- | --------- | -----------------
@@ -26,11 +23,7 @@ File Name | File Size | File Type | Deletion Password
 The file is also given a unique ID using the uniqid() function of PHP.  
 All Unique IDs start with a `D`. This is to make it easier to debug when something doesn't work.  
 
-After the file has been encrypted and sent to the database it looks like this:
-![database](https://user-images.githubusercontent.com/3535780/72116323-3d769700-334a-11ea-9fd0-78b455a773f6.png)
-
-For the deletion of old files I chose MySQLs event scheduler just because it's easy to use.
-It's set to delete files older than 24 hours.
+A cronjob is run every hour to delete files older than 24 hours.
 
 ## What is in the database? :mag:
 I will in this part of the text go through every part collected in the database.  
@@ -42,12 +35,12 @@ Please see the above mentioned image for reference.
 This data is stored in base64 encoded plain text as it needs to be readable in order for the actual decryption to work.  
 
 * **metadata** - Metadata is everything around the file that needs to be stored. This includes the name of the file, size and what type the file is (image, video, text file etc.).  
-This data is stored in base64 encoded AES 256 CBC.  
+This data is stored in base64 encoded AES 256 GCM.  
 
 * **content** - Content is what's in the actual file. For efficiency purposes it's stored as a "blob" in the database.  
-This data is stored in base64 encoded AES 256 CBC.  
+This data is stored in base64 encoded AES 256 GCM.  
 
-* **time** - The is the time and date of when the file was uploaded to the system. Every hour the database is crawled and if a file is older than 24 hours it get's deleted.  
+* **time** - The is the time and date of when the file was uploaded to the system. Every hour the database is crawled and if a file is older than 24 hours it is deleted.  
 This data is stored in plain text as it needs to be readable by the crawler in order to be deleted.  
 
 ## API calls :mega:
@@ -62,14 +55,28 @@ A list of available API calls can be found at [Postman](https://documenter.getpo
 
 2. **Lack of _better_ encryption algorithms**: While AES 256 still is more than good enough for most activities, sometimes people seek safer encryption algorithms. While this will be fixed in the future, current users can choose to encrypt their files before sending them to TempFiles if they seek stronger encryption algorithms.
 
-## Local installation :desktop_computer:
-If you'd rather run TempFiles on your own server that's totally fine.
-Here's how to install and run the frontend part of TempFiles.  
-Instructions on installing the backend can be found over at [Carlgo11/Tempfiles-backend](https://github.com/Carlgo11/Tempfiles-backend).
+## Installation
+
+### Docker
+
+To run the frontend site for your own TempFiles instance using Docker, do the following:
+
+1. Download this repository.
+2. Edit the URIs in [upload.js](js/upload.js), [download.js](js/download.js), [delete.js](js/delete.js) to reflect your backend server's address.
+3. (Optionally) change the repository value in [_config.yml](_config.yml).
+4. Open docker-compose.yml and forward port `4000` to your desired outgoing port.
+5. Run `docker-compose up -d`
+6. The frontend should now be reachable on the outgoing port you selected in step 4. A reverse proxy is recommended for TLS.
+
+### Jekyll
+
+Here's how to install and run the frontend part of TempFiles without Docker.  
+Instructions on installing the backend can be found over at [tempfiles-download/Backend](https://github.com/tempfiles-download/Backend).
 
 1.  Download the code
     ```BASH
-    git clone https://github.com/Carlgo11/TempFiles.git
+    git clone https://github.com/tempfiles-download/Frontend.git
+    cd Frontend
     ```
 
 2. Install Ruby
@@ -100,4 +107,4 @@ Instructions on installing the backend can be found over at [Carlgo11/Tempfiles-
 See something missing in TempFiles? Contributions are appreciated!  
 Before doing changes to the code of TempFiles make sure you write in a program that complies with our [EditorConfig](https://editorconfig.org/#download). 
 
-You can also create a [new issue](https://github.com/Carlgo11/Tempfiles-backend/issues/new). 
+You can also create a [new issue](https://github.com/tempfiles-download/Frontend/issues/new). 
