@@ -1,3 +1,5 @@
+---
+---
 $('#upload-form').submit((e) => {
   e.preventDefault();
 
@@ -7,7 +9,7 @@ $('#upload-form').submit((e) => {
 
   $.ajax({
     type: 'POST',
-    url: 'https://api.tempfiles.download/upload/',
+    url: '{{ site.urls.upload }}',
     dataType: 'JSON',
     cache: false,
     processData: false,

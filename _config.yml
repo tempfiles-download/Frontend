@@ -7,9 +7,17 @@ sass:
   sass_dir: css
   style: compressed
 repository: carlgo11/tempfiles
+include:
+  - .well-known
 exclude:
   - LICENSE
   - README.md
-  - .*
   - Gemfile*
   - docker-compose.yml
+  - vendor
+theme: null
+
+urls:
+  delete: "https://api.tempfiles.download/delete/"
+  download: "https://d.tempfiles.download"
+  upload: "https://api.tempfiles.download/upload/"
