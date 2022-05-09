@@ -1,17 +1,7 @@
 # TempFiles Frontend
 **Share files securely over the internet for a day.**
 
-## Why?
-
-I, [@Carlgo11](https://github.com/Carlgo11/), have for a long time been very interested in information security and encryption.  
-Back in 2014 I set up a site called [UploadMe](https://github.com/Carlgo11/UploadMe).  
-
-The main goal of the site was to help people securely share files with their friends without the NSA or any other spying eyes seeing the information.  
-The concept was to store the files with the same level of safety regardless of whether it was cat pictures or state secrets.  
-
-Due to the lack of resources I had to stop hosting UploadMe.  
-I however never stopped thinking about the idea. TempFiles is a remastered version of UploadMe.  
-Now with updated encryption methods, improved storage mechanisms and better resource management resulting in a lower hosting bill.  
+See more information about TempFiles [here](https://github.com/tempfiles-download/.github/blob/master/profile/README.md).
 
 ## Installation
 
@@ -45,8 +35,8 @@ Here's how to install and run the Frontend of TempFiles locally without Docker:
 
 1.  Download the code
     ```BASH
-    git clone https://github.com/tempfiles-download/Frontend.git
-    cd Frontend
+    git clone https://github.com/tempfiles-download/Frontend.git Frontend
+    cd $_
     ```
 
 1. Install Ruby
