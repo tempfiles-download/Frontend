@@ -18,6 +18,6 @@ exclude:
 theme: null
 
 urls:
-  delete: "https://api.tempfiles.download/delete/"
+  delete: "https://api.tempfiles.download/"
   download: "https://d.tempfiles.download"
-  upload: "https://api.tempfiles.download/upload/"
+  upload: "https://api.tempfiles.download/"
