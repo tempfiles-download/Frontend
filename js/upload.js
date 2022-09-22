@@ -16,8 +16,6 @@ $('#upload-form').submit((e) => {
     contentType: false,
     data: data,
     success: (data, textStatus, xhr) => {
-      //console.log(data);
-      //console.log(xhr);
       $('#upload-form').hide();
       $('#title').text("File uploaded");
       $('#success').show();
