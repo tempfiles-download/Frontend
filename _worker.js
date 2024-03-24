@@ -7,19 +7,19 @@ export default {
       const params = url.pathname.split('/')
       switch (method) {
         case 'GET':
-          return download(params, env)
+          return await download(params, env)
         case 'DELETE':
-          return remove(params)
+          return await remove(params)
         default:
           return new Response(JSON.stringify({
             error: 'Method unsupported or expected parameters not found.'
           }), {
-            status: 404, headers: {'content-type': 'Application/JSON'}
+            status: 400, headers: {'content-type': 'Application/JSON'}
           })
       }
     }
     if (method === 'POST') {
-      return upload(request, env)
+      return await upload(request, env)
     }
     return env.ASSETS.fetch(request);
   },
@@ -34,8 +34,7 @@ async function download(params, env) {
 }
 
 async function upload(request, env) {
-  const rand = Math.floor(Math.random() * n_max) + 1;
-  const base = `https://${rand}.tmpfil.es`;
+  const base = `https://1.tmpfil.es`;
   const init = {
     body: await request.formData(), method: 'POST'
   };
