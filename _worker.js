@@ -3,11 +3,11 @@ export default {
   async fetch(request, env) {
     const url = new URL(request.url);
     const {method} = request
-    const params = url.pathname.split('/')
     if (url.pathname.startsWith('/D')) {
+      const params = url.pathname.split('/')
       switch (method) {
         case 'GET':
-          return download(params)
+          return download(params, env)
         case 'DELETE':
           return remove(params)
         default:
@@ -19,13 +19,13 @@ export default {
       }
     }
     if (method === 'POST') {
-      return upload(request)
+      return upload(request, env)
     }
     return env.ASSETS.fetch(request);
   },
 }
 
-async function download(params,env) {
+async function download(params, env) {
   const id = params[0];
   const password = params[1];
   const server = id.charAt(1); // Get server ID from 2nd letter of file ID
@@ -33,7 +33,7 @@ async function download(params,env) {
   return await env.API.fetch(`${base}/${id}/${password}`);
 }
 
-async function upload(request,env) {
+async function upload(request, env) {
   const rand = Math.floor(Math.random() * n_max) + 1;
   const base = `https://${rand}.tmpfil.es`;
   const init = {
