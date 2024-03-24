@@ -1,1 +1,1 @@
-/D[^/]*    https://api.tmpfil.es/:splat    301
+/D*    https://api.tmpfil.es/:splat    301
