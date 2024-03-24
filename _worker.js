@@ -26,8 +26,8 @@ export default {
 }
 
 async function download(params, env) {
-  const id = params[0];
-  const password = params[1];
+  const id = params[1];
+  const password = params[2];
   const server = id.charAt(1); // Get server ID from 2nd letter of file ID
   const base = `https://${server}.tmpfil.es`;
   return await env.API.fetch(`${base}/${id}/${password}`);
@@ -48,8 +48,8 @@ async function upload(request, env) {
 }
 
 async function remove(params) {
-  const id = params[0];
-  const password = params[1];
+  const id = params[1];
+  const password = params[2];
   const server = id.charAt(1); // Get server ID from 2nd letter of file ID
   const base = `https://${server}.tmpfil.es`;
   return await fetch(`${base}/delete/?p=${password}`, {method: 'DELETE'});
