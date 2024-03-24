@@ -9,6 +9,7 @@ sass:
 repository: carlgo11/tempfiles
 include:
   - .well-known
+  - _redirects
 exclude:
   - LICENSE
   - README.md
