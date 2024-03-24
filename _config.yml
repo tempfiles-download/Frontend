@@ -10,6 +10,7 @@ repository: carlgo11/tempfiles
 include:
   - .well-known
   - _redirects
+  - _worker.js
 exclude:
   - LICENSE
   - README.md
@@ -19,6 +20,6 @@ exclude:
 theme: null
 
 urls:
-  delete: "https://api.tempfil.es/"
-  download: "https://api.tempfil.es/"
-  upload: "https://api.tempfil.es/"
+  delete: "https://tempfil.es/"
+  download: "https://tempfil.es/"
+  upload: "https://tempfil.es/"
