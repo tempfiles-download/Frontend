@@ -11,6 +11,7 @@ include:
   - .well-known
   - _redirects
   - _worker.js
+  - _headers
 exclude:
   - LICENSE
   - README.md

@@ -1,0 +1,11 @@
+/
+    Access-Control-Allow-Origin: *
+    Access-Control-Allow-Methods: GET,POST,OPTIONS
+
+/D*
+    X-Robots-Tag: noindex
+    X-Frame-Options: DENY
+    X-Content-Type-Options: nosniff
+    Referrer-Policy: no-referrer
+    Access-Control-Allow-Origin: *
+    Access-Control-Allow-Methods: GET,DELETE,OPTIONS
