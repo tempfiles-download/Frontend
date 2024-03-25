@@ -36,11 +36,14 @@ async function download(params, env) {
 async function upload(request, env) {
   const base = `https://1.tmpfil.es`;
   const init = {
-    body: await request.formData(), method: 'POST'
+    body: await request.formData(),
+    method: 'POST'
   };
   try {
+    console.log(JSON.stringify(init))
     const result = await env.API.fetch(base, init);
     if (result.status === 201) return result;
+    return new Response(JSON.stringify({error: "No host available"}), {status: 502})
   } catch (e) {
     return new Request(e.message, {status: e.status})
   }
