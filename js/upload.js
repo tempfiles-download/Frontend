@@ -2,7 +2,7 @@ const form = document.getElementById('upload-form')
 
 form.addEventListener("submit", async (e) => {
   e.preventDefault()
-  const res = await fetch('/', {
+  const res = await fetch('https://1.tmpfil.es/', {
     method: 'POST',
     body: new FormData(form),
     cache: "no-cache"
