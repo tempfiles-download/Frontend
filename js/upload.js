@@ -1,30 +1,36 @@
----
----
-$('#upload-form').submit((e) => {
+const form = document.getElementById('upload-form')
+
+form.addEventListener("submit", async (e) => {
+  e.preventDefault()
+  const res = await fetch('/', {
+    method: 'POST',
+    body: new FormData(form),
+    cache: "no-cache"
+  })
+  if (res.status === 201) {
+    const data = await res.json()
+    form.style.display = 'none'
+    document.getElementById('title').innerHTML = 'File uploaded'
+    document.getElementById('success').style.display = 'block'
+    document.getElementById('url').value = data.url
+    document.getElementById('server-password').value = data.password
+    document.getElementById('deletion-password').value = data.deletepassword
+  }else{
+    console.error((await res.json()).error)
+  }
+})
+
+const popup = document.getElementById('popup')
+ondragover = ondragenter = (e) => {
+  e.stopPropagation();
   e.preventDefault();
+  popup.style.display = 'block'
+};
 
-  let data = new FormData()
-  if ($('#password').val() !== '') data.append('password', $('#password').val());
-  data.append('file', $('input[type=file]')[0].files[0]);
-
-  $.ajax({
-    type: 'POST',
-    url: '{{ site.urls.upload }}',
-    dataType: 'JSON',
-    cache: false,
-    processData: false,
-    contentType: false,
-    data: data,
-    success: (data, textStatus, xhr) => {
-      $('#upload-form').hide();
-      $('#title').text("File uploaded");
-      $('#success').show();
-      $('#url').val(data['url']);
-      $('#deletion-password').val(data['deletepassword']);
-      if ('password' in data) $('#server-password').val(data['password']);
-      else $('#server-password').parent().hide();
-      $('#url').select();
-      document.execCommand("copy");
-    }
-  });
-});
+ondrop = (e) => {
+  e.stopPropagation();
+  e.preventDefault();
+  file.files = e.dataTransfer.files;
+  file.dispatchEvent(new Event('change'));
+  popup.style.display = 'none'
+};

@@ -1,6 +1,0 @@
-{
-  "upload url": "https://api.tempfiles.download/upload/",
-  "screenshot path": "~/Pictures/Screenshots",
-  "notify": true,
-  "copy": false
-}

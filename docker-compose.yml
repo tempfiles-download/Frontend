@@ -1,8 +1,0 @@
-version: '3'
-services: 
-  tempfiles:
-    image: tempfiles/frontend
-    ports:
-      - 4000:4000
-    volumes:
-      - ./_config.yml:/srv/jekyll/_config.yml

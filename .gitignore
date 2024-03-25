@@ -1,3 +1,6 @@
 _site
 .jekyll*
 *.lock
+.wrangler
+css/*.css
+css/*.map

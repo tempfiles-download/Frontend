@@ -1,38 +1,73 @@
----
-layout: actions
-title: upload
----
-<form id="upload-form">
-	<div class="input-group mb-3">
-		<label for="file" aria-hidden="false" class="visually-hidden">File</label>
-		<input class="form-control" type="file" id="file" required>
-	</div>
-	<div class="row">
-		<div class="input-group mb-3">
-			<label class="input-group-text" for="password">Password</label>
-			<input class="form-control" type="password" id="password" autocomplete="new-password" minlength="4"
-				maxlength="500" aria-label="password" placeholder="Optional">
-		</div>
-		<div class="d-grid gap-2 d-md-flex justify-content-md-end">
-			<button class="btn btn-success btn-lg" type="submit">Upload</button>
-		</div>
-	</div>
-</form>
+<!DOCTYPE html>
+<html lang="en">
 
-<div id="success">
-	<form>
-		<div class="input-group mb-3">
-			<label class="input-group-text" for="url">URL</label>
-			<input class="form-control" id="url" readonly autofocus />
-		</div>
-		<div class="input-group mb-3">
-			<label class="input-group-text" for="deletion-password">Deletion Password</label>
-			<input class="form-control" id="deletion-password" readonly />
-		</div>
-		<div class="input-group mb-3">
-			<label class="input-group-text" for="server-password">Password</label>
-			<input class="form-control" id="server-password" readonly />
-		</div>
-		<button class="btn btn-success btn-lg" type="reset" onclick="location.reload()">Back</button>
-	</form>
-</div>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <title>TmpFiles</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css"
+        integrity="sha512-jnSuA4Ss2PkkikSOLtYs8BlYIeeIK1h99ty4YfvRPAlzr377vr3CXDb7sb7eEEBYjDtcYj+AjBH3FLv5uSJuXg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"/>
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/upload.css">
+  <link rel="icon" href="/img/favicon.svg" type="image/svg+xml"/>
+  <link rel="manifest" href="manifest.json" type="application/manifest+json"/>
+</head>
+
+<body>
+<nav class="navbar navbar-static-top navbar-expand-sm">
+  <div class="container">
+    <a class="navbar-brand d-none d-lg-block" href="/">
+      <img alt="" id="logo" src="/img/logo.svg">
+    </a>
+    <ul class="navbar-nav col-12 col-md-4">
+      <!--      <li class="nav-item"><a class="nav-link" href="/" accesskey="U">Upload</a></li>-->
+      <!--      <li class="nav-item"><a class="nav-link" href="/download/" accesskey="D">Download</a></li>-->
+      <!--      <li class="nav-item"><a class="nav-link" href="/delete/" accesskey="R">Delete</a></li>-->
+      <!--      <li class="nav-item d-none d-md-block"><a class="nav-link" href="/sharex/">ShareX</a></li>-->
+    </ul>
+  </div>
+</nav>
+
+<main class="center col-12 col-md-11 col-xl-5">
+  <h1 class="display-4 col" id="title">Upload</h1>
+  <form id="upload-form">
+    <div class="input-group mb-3">
+      <label for="file" aria-hidden="false" class="visually-hidden">File</label>
+      <input name="file" class="form-control" type="file" id="file" required>
+    </div>
+    <div class="row">
+      <div class="input-group mb-3">
+        <label class="input-group-text" for="password">Password</label>
+        <input class="form-control" name="password" type="password" id="password" autocomplete="new-password"
+               minlength="4"
+               maxlength="500" aria-label="password" placeholder="Optional">
+      </div>
+      <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        <button class="btn btn-success btn-lg" type="submit">Upload</button>
+      </div>
+    </div>
+  </form>
+
+  <div id="success">
+    <form>
+      <div class="input-group mb-3">
+        <label class="input-group-text" for="url">URL</label>
+        <input class="form-control" id="url" readonly autofocus/>
+      </div>
+      <div class="input-group mb-3">
+        <label class="input-group-text" for="deletion-password">Deletion Password</label>
+        <input class="form-control" id="deletion-password" readonly/>
+      </div>
+      <div class="input-group mb-3">
+        <label class="input-group-text" for="server-password">Password</label>
+        <input class="form-control" id="server-password" readonly/>
+      </div>
+      <button class="btn btn-success btn-lg" type="reset" onclick="location.reload()">Back</button>
+    </form>
+  </div>
+</main>
+<div id="popup"></div>
+<script defer src="js/upload.js"></script>
+</body>

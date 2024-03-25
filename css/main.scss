@@ -1,9 +1,5 @@
----
----
-
 body {
   background: linear-gradient(90deg, red, cyan) no-repeat center fixed;
-  min-height: 100vh;
 
   &::before {
     content: '';
@@ -12,23 +8,16 @@ body {
     left: 0;
     bottom: 0;
     right: 0;
-    mask-image: linear-gradient(to bottom, transparent, black);
-    -webkit-mask-image: linear-gradient(to bottom, transparent, black);
-    background: linear-gradient(90deg, hotpink, rebeccapurple) no-repeat center fixed;
+    margin: 0 !important;
   }
 }
 
-#main {
+main {
   background-color: rgba(255, 255, 255, 0.8);
   color: rgba(0, 0, 0, 0.7);
   padding: 2em;
   backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
   box-shadow: 0 3px 8px 0 rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(0, 0, 0, 0.08);
-}
-
-.lead {
-  font-size: 1.5em;
 }
 
 .center {
@@ -43,7 +32,7 @@ body {
   border: 0;
 }
 
-.btn,
+button,
 input,
 label {
   border-radius: 1px !important;
@@ -114,12 +103,30 @@ a {
   margin: 0;
 }
 
+#popup {
+  display: none;
+  position: absolute;
+  top:0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #272727c0;
+
+  &::before {
+    content: 'Drop files to upload';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #eee;
+    font-size: 2.5em;
+  }
+}
 @media (prefers-color-scheme: dark) {
   body {
     background: linear-gradient(90deg, rgb(114, 8, 8), rgb(6, 104, 104)) no-repeat center fixed;
     &::before {
       mask-image: linear-gradient(to bottom, transparent, black);
-      -webkit-mask-image: linear-gradient(to bottom, transparent, black);
       background: linear-gradient(90deg, rgb(100, 18, 59), rgb(44, 6, 85)) no-repeat center fixed;
     }
   }
@@ -133,7 +140,7 @@ a {
   .footer {
     color: #ccc;
   }
-  #main {
+  main {
     background-color: rgba(51, 51, 51, 0.8);
     color: #eee;
   }
@@ -145,7 +152,7 @@ a {
     left: 0;
     right: 0;
   }
-  #main {
+  main {
     position: fixed;
     margin: 10vh 0 0 0;
     height: 90vh;
