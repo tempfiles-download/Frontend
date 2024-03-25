@@ -21,6 +21,6 @@ exclude:
 theme: null
 
 urls:
-  delete: "https://tempfil.es/"
-  download: "https://tempfil.es/"
-  upload: "https://tempfil.es/"
+  delete: "https://tmpfil.es/"
+  download: "https://tmpfil.es/"
+  upload: "https://1.tmpfil.es/"
