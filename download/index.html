@@ -28,44 +28,21 @@
 </nav>
 
 <main class="center col-12 col-md-7 col-xl-5">
-  <h1 class="display-4 col" id="title">Upload</h1>
-  <form id="upload-form">
+  <h1 class="display-4 col" id="title">Download</h1>
+  <form id="download-form">
     <div class="input-group mb-3">
-      <label for="file" aria-hidden="false" class="visually-hidden">File</label>
-      <input name="file" class="form-control" type="file" id="file" required>
+      <label class="input-group-text" for="id">ID</label>
+      <input class="form-control" id="id" type="text" minlength="14" maxlength="14" pattern="^D+[A-Za-z0-9]{13}$" required/>
     </div>
-    <div class="row">
-      <div class="input-group mb-3">
-        <label class="input-group-text" for="password">Password</label>
-        <input class="form-control" name="password" type="password" id="password" autocomplete="new-password"
-               minlength="4"
-               maxlength="500" aria-label="password" placeholder="Optional">
-      </div>
-      <div class="d-grid gap-2 d-md-flex justify-content-between">
-        <div id="failure" class="text-danger"></div>
-        <button class="btn btn-success btn-lg" type="submit">Upload</button>
-      </div>
+    <div class="input-group mb-3">
+      <label class="input-group-text" for="password">Password</label>
+      <input class="form-control" id="password" type="password" autocomplete="current-password" required/>
+    </div>
+    <div class="d-grid gap-2 d-md-flex justify-content-between">
+      <div id="failure" class="text-danger"></div>
+      <button type="submit" class="btn btn-lg btn-success">Download</button>
     </div>
   </form>
-
-  <div id="success">
-    <form>
-      <div class="input-group mb-3">
-        <label class="input-group-text" for="url">URL</label>
-        <input class="form-control" id="url" readonly autofocus/>
-      </div>
-      <div class="input-group mb-3">
-        <label class="input-group-text" for="deletion-password">Deletion Password</label>
-        <input class="form-control" id="deletion-password" readonly/>
-      </div>
-      <div class="input-group mb-3">
-        <label class="input-group-text" for="server-password">Password</label>
-        <input class="form-control" id="server-password" readonly/>
-      </div>
-      <button class="btn btn-success btn-lg" type="reset" onclick="location.reload()">Back</button>
-    </form>
-  </div>
 </main>
-<div id="popup"></div>
-<script defer src="/js/upload.js"></script>
+<script defer src="/js/download.js"></script>
 </body>

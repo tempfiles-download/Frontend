@@ -2,22 +2,28 @@ const form = document.getElementById('upload-form')
 
 form.addEventListener("submit", async (e) => {
   e.preventDefault()
-  const res = await fetch('https://1.tmpfil.es/', {
+  fetch('https://1.tmpfil.es/', {
     method: 'POST',
     body: new FormData(form),
     cache: "no-cache"
-  })
-  if (res.status === 201) {
-    const data = await res.json()
-    form.style.display = 'none'
-    document.getElementById('title').innerHTML = 'File uploaded'
-    document.getElementById('success').style.display = 'block'
-    document.getElementById('url').value = data.url
-    document.getElementById('server-password').value = data.password
-    document.getElementById('deletion-password').value = data.deletepassword
-  }else{
-    console.error((await res.json()).error)
-  }
+  }).then(async (res) => {
+      if (res.status === 201) {
+        const data = await res.json()
+        form.style.display = 'none'
+        document.getElementById('title').innerHTML = 'File uploaded'
+        document.getElementById('success').style.display = 'block'
+        document.getElementById('url').value = data.url
+        document.getElementById('server-password').value = data.password
+        document.getElementById('deletion-password').value = data.deletepassword
+      } else {
+        if(res.ok)
+          throw new Error((await res.json()).error)
+        if(res.statusText !== "")
+          throw new Error(res.statusText)
+        throw new Error('Unable to upload file')
+      }
+    }
+  ).catch(e => document.getElementById('failure').innerHTML = e.message)
 })
 
 const popup = document.getElementById('popup')
