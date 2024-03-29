@@ -46,6 +46,7 @@
         <button class="btn btn-success btn-lg" type="submit">Upload</button>
       </div>
     </div>
+    <div id="captcha"></div>
   </form>
 
   <div id="success">
@@ -68,4 +69,5 @@
 </main>
 <div id="popup"></div>
 <script defer src="/js/upload.js"></script>
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onloadTurnstileCallback" defer></script>
 </body>

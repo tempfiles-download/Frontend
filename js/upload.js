@@ -7,8 +7,8 @@ form.addEventListener("submit", async (e) => {
     body: new FormData(form),
     cache: "no-cache"
   }).then(async (res) => {
-      if (res.status === 201) {
-        const data = await res.json()
+    const data = await res.json()
+    if (res.status === 201) {
         form.style.display = 'none'
         document.getElementById('title').innerHTML = 'File uploaded'
         document.getElementById('success').style.display = 'block'
@@ -16,7 +16,7 @@ form.addEventListener("submit", async (e) => {
         document.getElementById('server-password').value = data.password
         document.getElementById('deletion-password').value = data.deletepassword
       } else {
-        if(res.ok)
+      if ('error' in data)
           throw new Error((await res.json()).error)
         if(res.statusText !== "")
           throw new Error(res.statusText)
@@ -39,4 +39,8 @@ ondrop = (e) => {
   file.files = e.dataTransfer.files;
   file.dispatchEvent(new Event('change'));
   popup.style.display = 'none'
+};
+
+window.onloadTurnstileCallback = () => {
+  turnstile.render('#captcha', {sitekey: '0x4AAAAAAAV3ZLwfyLkohb7z'});
 };
