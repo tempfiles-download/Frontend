@@ -1,5 +1,5 @@
 const form = document.getElementById('upload-form')
-
+let file = null
 form.addEventListener("submit", async (e) => {
   e.preventDefault()
   fetch('https://1.tmpfil.es/', {
@@ -44,3 +44,7 @@ ondrop = (e) => {
 window.onloadTurnstileCallback = () => {
   turnstile.render('#captcha', {sitekey: '0x4AAAAAAAV3ZLwfyLkohb7z'});
 };
+
+document.addEventListener("DOMContentLoaded", () => {
+if ("serviceWorker" in navigator) navigator.serviceWorker.register("/sw.js");
+})
