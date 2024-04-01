@@ -55,7 +55,7 @@ ondrop = (e) => {
 };
 
 window.onloadTurnstileCallback = () => {
-  turnstile.render('#captcha', {sitekey: '1x00000000000000000000BB'});
+  turnstile.render('#captcha', {sitekey: '0x4AAAAAAAV3ZLwfyLkohb7z'});
 };
 
 function generatePassword(minLength, maxLength) {
