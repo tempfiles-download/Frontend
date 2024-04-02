@@ -1,3 +1,8 @@
 ﻿[*]
 end_of_line = lf
 insert_final_newline = true
+ij_javascript_use_double_quotes = false
+ij_scss_use_double_quotes = false
+ij_css_use_double_quotes = false
+ij_html_quote_style = single
+ij_html_enforce_quotes = true

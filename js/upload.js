@@ -1,10 +1,10 @@
 const form = document.getElementById('upload-form')
-form.addEventListener("submit", async (e) => {
+form.addEventListener('submit', async (e) => {
   e.preventDefault()
   const formData = new FormData(form);
+  const file = formData.get('file')
 
   // Modify Form Data
-  const file = formData.get('file')
   const encodedContent = btoa(String.fromCharCode(...new Uint8Array(await file.arrayBuffer())));
   const password = formData.get('password') || generatePassword(6,20)
   const data = await encryptData(JSON.stringify({
@@ -16,12 +16,15 @@ form.addEventListener("submit", async (e) => {
   formData.set('file', data);
 
   // Post formData to upload URL
-  fetch('https://1.tmpfil.es/', {
+  fetch(e.target.action, {
     method: 'POST',
     body: formData,
-    cache: "no-cache"
+    cache: 'no-cache'
   }).then(async (res) => {
-    const data = await res.json()
+    let data = null
+    try {
+      data = await res.json()
+    }catch (e){}
     if (res.status === 201) {
         form.style.display = 'none'
         document.getElementById('title').innerHTML = 'File uploaded'
@@ -29,9 +32,9 @@ form.addEventListener("submit", async (e) => {
         document.getElementById('url').value = `${data.url}${password}`
         document.getElementById('deletion-password').value = data.deletepassword
       } else {
-      if ('error' in data)
-          throw new Error((await res.json()).error)
-        if(res.statusText !== "")
+      if (data !== null && 'error' in data)
+          throw new Error(data.error)
+        if(res.statusText !== '')
           throw new Error(res.statusText)
         throw new Error('Unable to upload file')
       }
@@ -55,8 +58,15 @@ ondrop = (e) => {
 };
 
 window.onloadTurnstileCallback = () => {
-  turnstile.render('#captcha', {sitekey: '0x4AAAAAAAV3ZLwfyLkohb7z'});
-};
+  turnstile.render('#captcha', {sitekey: '0x4AAAAAAAV3ZLwfyLkohb7z', 
+    callback: () => {
+    document.getElementById('submit').disabled = false
+    },
+  'error-callback': (e) => {
+    document.getElementById('submit').disabled = true
+    document.getElementById('failure').innerText = `Unable to verify browser. (Error ${e})`
+  }});
+}
 
 function generatePassword(minLength, maxLength) {
   const characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';

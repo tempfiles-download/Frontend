@@ -3,16 +3,19 @@ form.addEventListener('submit', async (e) => {
   e.preventDefault()
   const id = document.getElementById('id').value
   const password = document.getElementById('password').value
-  fetch(`https://tmpfil.es/${id}/${password}`, {
+  fetch(`${e.target.action}${id}/${password}`, {
     method: 'DELETE',
     cache: 'no-cache'
   }).then(async (res) => {
-    const data = await res.json()
+    let data = null
+    try {
+      data = await res.json()
+    }catch (e){}
     if (res.status === 204) {
       form.style.display = 'none'
       document.getElementById('success').style.display = 'block'
     } else {
-      if ('error' in data)
+      if (data !== null && 'error' in data)
         throw new Error(data.error)
       if (res.statusText !== "")
         throw new Error(res.statusText)

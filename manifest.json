@@ -1,11 +1,22 @@
 {
   "short_name": "/tmp",
-  "name": "TempFiles",
+  "name": "TmpFiles",
   "icons": [
+    {
+      "src": "/img/favicon.svg",
+      "type": "image/svg+xml",
+      "sizes": "any"
+    },
+    {
+      "src": "/img/favicon.png",
+      "type": "image/png",
+      "sizes": "32x32"
+    },
     {
       "src": "/img/apple-touch-icon.png",
       "type": "image/png",
-      "sizes": "180x180"
+      "sizes": "180x180",
+      "purpose": "maskable"
     }
   ],
   "start_url": ".",
