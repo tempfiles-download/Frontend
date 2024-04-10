@@ -2,6 +2,8 @@ const buff_to_base64 = (buff) => btoa(new Uint8Array(buff).reduce((data, byte) =
 
 const getPasswordKey = (password) => crypto.subtle.importKey("raw", enc.encode(password), "PBKDF2", false, ["deriveKey",]);
 
+const enc = new TextEncoder();
+
 const deriveKey = (passwordKey, salt, keyUsage) => crypto.subtle.deriveKey({
   name: "PBKDF2", salt: salt, iterations: 10001, hash: "SHA-256",
 }, passwordKey, {name: "AES-GCM", length: 256}, false, keyUsage);
